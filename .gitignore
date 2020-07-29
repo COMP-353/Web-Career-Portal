@@ -33,3 +33,6 @@ hs_err_pid*
 
 # Node dependencies
 *.node_modules/
+
+# vs code folder
+*.vscode/
