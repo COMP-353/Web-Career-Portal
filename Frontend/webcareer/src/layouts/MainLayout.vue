@@ -30,8 +30,9 @@
                 <q-tab-panel name="seeker">
                   <div>
                     <q-input outlined v-model="text" label="Email Address" />
-
+                    <q-separator></q-separator>
                     <q-input outlined v-model="text" label="Password" />
+                    <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
                   </div>
                 </q-tab-panel>
@@ -39,8 +40,9 @@
                 <q-tab-panel name="employer">
                   <div>
                     <q-input outlined v-model="text" label="Email Address" />
-
+                    <q-separator></q-separator>
                     <q-input outlined v-model="text" label="Password" />
+                    <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
                   </div>
                 </q-tab-panel>
@@ -48,8 +50,9 @@
                 <q-tab-panel name="admin">
                   <div>
                     <q-input outlined v-model="text" label="Email Address" />
-
+                    <q-separator></q-separator>
                     <q-input outlined v-model="text" label="Password" />
+                    <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
                   </div>
                 </q-tab-panel>
