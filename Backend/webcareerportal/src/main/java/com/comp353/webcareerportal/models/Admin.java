@@ -1,4 +1,7 @@
 package com.comp353.webcareerportal.models;
 
-public class Admin {
+import javax.persistence.Entity;
+
+@Entity (name = "admin")
+public class Admin extends User {
 }

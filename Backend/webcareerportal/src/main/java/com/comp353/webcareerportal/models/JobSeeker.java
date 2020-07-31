@@ -1,4 +1,7 @@
 package com.comp353.webcareerportal.models;
 
-public class JobSeeker {
+import javax.persistence.Entity;
+
+@Entity(name = "jobseeker")
+public class JobSeeker extends User{
 }
