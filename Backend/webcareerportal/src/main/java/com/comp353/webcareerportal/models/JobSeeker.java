@@ -7,6 +7,6 @@ import java.util.Set;
 @Entity(name = "jobseeker")
 public class JobSeeker extends User{
 
-    @OneToMany(mappedBy = "createdApplication")
+    @OneToMany //(mappedBy = "createdApplication")
     private Set<Application> applications;
 }

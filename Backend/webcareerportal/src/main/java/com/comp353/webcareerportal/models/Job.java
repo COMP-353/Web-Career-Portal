@@ -13,6 +13,6 @@ public class Job {
     private String category;
     private String description;
 
-    @OneToOne (mappedBy = "createdApplication")
+    @OneToOne //(mappedBy = "createdApplication")
     private Application application;
 }
