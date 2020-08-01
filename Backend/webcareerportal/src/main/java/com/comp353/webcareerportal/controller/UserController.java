@@ -31,7 +31,6 @@ public class UserController {
     }
 
     /**
-     *
      * @param employerId to be put via the url
      * @param password to be put in the body as a simple text
      * @return true if user exists and password matches, false otherwise
@@ -44,6 +43,11 @@ public class UserController {
 
     @PutMapping(path = "updateJobSeekerCategory/{id}/{category}")
     public boolean changeJobSeekerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category){
-        return false;
+        return userService.updateJobSeekerCategory(id, category);
+    }
+
+    @PutMapping(path = "updateEmployerCategory/{id}/{category}")
+    public boolean changeEmployerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category){
+        return userService.updateEmployerCategory(id, category);
     }
 }
