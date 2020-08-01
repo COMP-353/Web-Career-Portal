@@ -24,12 +24,20 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("select case when COUNT (a.email) > 0 then true else false end from admin a where a.email = :email")
     boolean adminExistsWithEmail(@Value("email") String email);
 
+
+
     @Deprecated
     @Query(nativeQuery = true, value = "select case when count(email) > 0 then true else false end from ( (select e.email from employer e where e.email = :email) union (select js.email from jobseeker js where js.email = :email) union (select a.email from admin a where a.email = :email)) as eeje")
     BigInteger userExistsWithEmail(@Value("email") String email);
 
-    @Query("select case when e.password = :password then true else false end from employer e where e.email in (select e.email from employer e where e.email = :email) or e.email in (select js.email from jobseeker js where js.email = :email)or e.email in (select a.email from admin a where a.email = :email)")
-    boolean authenticateUserWithEmail(@Value("email") String email, @Value("password") String password);
+    @Query("select case when e.password = :password then true else false end from employer e where e.email = :email")
+    boolean authenticateEmployerWithEmail(@Value("email") String email, @Value("password") String password);
+
+    @Query("select case when a.password = :password then true else false end from admin a where a.email = :email")
+    boolean authenticateAdminWithEmail(@Value("email") String email, @Value("password") String password);
+
+    @Query("select case when js.password = :password then true else false end from jobseeker js where js.email = :email")
+    boolean authenticateJobSeekerWithEmail(@Value("email") String email, @Value("password") String password);
 
     @Transactional
     @Modifying

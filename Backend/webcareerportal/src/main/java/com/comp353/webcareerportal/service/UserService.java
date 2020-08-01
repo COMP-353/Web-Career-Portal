@@ -5,8 +5,6 @@ import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-
 @Service
 public class UserService {
 
@@ -31,9 +29,18 @@ public class UserService {
         return true;
     }
 
-    public boolean authenticateUser(String employerId, String password) {
-        if (!userRepo.employerExistsWithEmail(employerId)) return false;
-        return userRepo.authenticateUserWithEmail(employerId, password);
+    public boolean authenticateUser(String id, String password) {
+        boolean success = false;
+
+        if (userRepo.employerExistsWithEmail(id)){
+            success = userRepo.authenticateEmployerWithEmail(id, password);
+        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+            success = userRepo.authenticateJobSeekerWithEmail(id, password);
+        }else if (userRepo.adminExistsWithEmail(id)){
+            success = userRepo.authenticateAdminWithEmail(id, password);
+        }
+
+        return success;
     }
 
     public boolean updateJobSeekerCategory(String id, String category) {
