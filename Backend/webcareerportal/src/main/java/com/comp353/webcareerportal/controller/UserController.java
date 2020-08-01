@@ -50,4 +50,16 @@ public class UserController {
     public boolean changeEmployerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category){
         return userService.updateEmployerCategory(id, category);
     }
+
+    /**
+     * @param id to be put via the url
+     * @param newPassword to be put in the body as a simple text
+     * @return true if user exists and password matches, false otherwise
+     */
+    //TODO use more secure way of handling password
+    @PutMapping(path = "updateEmployerCategory/{id}")
+    public boolean updateUserPassword(@PathVariable(name = "id") String id, @RequestBody String newPassword){
+        return userService.updateUserPassword(id, newPassword);
+    }
+}
 }

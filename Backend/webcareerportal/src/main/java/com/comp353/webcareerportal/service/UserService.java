@@ -43,6 +43,23 @@ public class UserService {
         return success;
     }
 
+    public boolean updateUserPassword(String id, String newPassword){
+        boolean success = false;
+
+        if (userRepo.employerExistsWithEmail(id)){
+            userRepo.updateEmployerPasswordWithEmail(id, newPassword);
+            success = true;
+        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+            userRepo.updateJobSeekerPasswordWithEmail(id, newPassword);
+            success = true;
+        }else if (userRepo.adminExistsWithEmail(id)){
+            userRepo.authenticateAdminWithEmail(id, newPassword);
+            success = true;
+        }
+
+        return success;
+    }
+
     public boolean updateJobSeekerCategory(String id, String category) {
         if (userRepo.jobSeekerExistsWithEmail(id)) return false;
         userRepo.updateJobSeekerCategoryWithEmail(id, getJobSeekerCategoryFrom(category));
@@ -65,5 +82,7 @@ public class UserService {
         if (category.equals("Gold") || category.equals("gold")) return EmployerCategory.GOLD;
         else return EmployerCategory.PRIME;
     }
+
+
 
 }
