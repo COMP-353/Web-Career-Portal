@@ -34,6 +34,7 @@
                     <q-input outlined v-model="text" label="Password" />
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
+                    <q-btn color="white" text-color="black" label="Sign-Up" />
                   </div>
                 </q-tab-panel>
 
@@ -44,6 +45,7 @@
                     <q-input outlined v-model="text" label="Password" />
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
+                    <q-btn color="white" text-color="black" label="Sign-Up" />
                   </div>
                 </q-tab-panel>
 
