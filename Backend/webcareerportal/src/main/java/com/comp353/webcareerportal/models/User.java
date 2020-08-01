@@ -2,6 +2,7 @@ package com.comp353.webcareerportal.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ public abstract class User {
     @Id
     private String email;
     private String password;
+    @Column(columnDefinition = "VARCHAR(20) default 'Active'")
     private String status;
+    @Column(columnDefinition = "int default 0")
     private int accountBalance;
 }
