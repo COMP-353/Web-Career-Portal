@@ -17,6 +17,6 @@ public class JobController {
 
     @PostMapping(path = "newJob")
     public String addNewJob(@RequestBody Job job) {
-        return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Employer does notexists";
+        return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";
     }
 }
