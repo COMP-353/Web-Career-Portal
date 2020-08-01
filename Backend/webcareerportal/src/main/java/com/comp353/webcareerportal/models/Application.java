@@ -1,28 +1,27 @@
 package com.comp353.webcareerportal.models;
 
 import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
-@Entity
+@Getter
+@Setter
+@Entity (name = "application")
 public class Application {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int applicationId;
     private Date applicationDate;
     private String applicationStatus;
 
     @ManyToOne
-    @JoinTable(name = "createdApplication",
-            joinColumns =
-                    {@JoinColumn(name = "applicationId")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "jobSeekerId")})
-    private JobSeeker jobSeeker;
-
-    @OneToOne
-    @JoinTable(name = "jobApplication",
-            joinColumns =
-                    {@JoinColumn(name = "applicationId")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "jobId")})
+    @JoinColumn(name="jobseeker_email", nullable=false)
+    private JobSeeker jobseeker;	 
+    
+    @ManyToOne
+    @JoinColumn(name="job_id", nullable=false)
     private Job job;
 }
