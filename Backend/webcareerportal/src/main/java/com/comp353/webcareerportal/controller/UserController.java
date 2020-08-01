@@ -61,4 +61,9 @@ public class UserController {
     public boolean updateUserPassword(@PathVariable(name = "id") String id, @RequestBody String newPassword) {
         return userService.updateUserPassword(id, newPassword);
     }
+
+    @DeleteMapping(path = "deleteUser/{id}")
+    public boolean deleteUser(@PathVariable(name = "id") String id){
+        return userService.deleteUserWithEmail(id);
+    }
 }

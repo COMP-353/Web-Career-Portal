@@ -66,5 +66,21 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Modifying
     @Query("update admin a set a.password = :password where a.email = :email")
     void updateAdminPasswordWithEmail(@Value("email") String email, @Value("password") String password);
+
+    @Transactional
+    @Modifying
+    @Query("delete from jobseeker js where js.email = :email")
+    void deleteJobSeekerWithEmail(@Value("email") String email);
+
+    @Transactional
+    @Modifying
+    @Query("delete from employer e where e.email = :email")
+    void deleteEmployerWithEmail(@Value("email") String email);
+
+    @Transactional
+    @Modifying
+    @Query("delete from admin a where a.email = :email")
+    void deleteAdminWithEmail(@Value("email") String email);
+
 }
 

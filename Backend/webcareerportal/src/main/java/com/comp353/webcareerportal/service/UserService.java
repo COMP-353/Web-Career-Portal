@@ -44,20 +44,20 @@ public class UserService {
     }
 
     public boolean updateUserPassword(String id, String newPassword){
-        boolean success = false;
+        boolean updatedPassword = false;
 
         if (userRepo.employerExistsWithEmail(id)){
             userRepo.updateEmployerPasswordWithEmail(id, newPassword);
-            success = true;
+            updatedPassword = true;
         }else if (userRepo.jobSeekerExistsWithEmail(id)){
             userRepo.updateJobSeekerPasswordWithEmail(id, newPassword);
-            success = true;
+            updatedPassword = true;
         }else if (userRepo.adminExistsWithEmail(id)){
             userRepo.authenticateAdminWithEmail(id, newPassword);
-            success = true;
+            updatedPassword = true;
         }
 
-        return success;
+        return updatedPassword;
     }
 
     public boolean updateJobSeekerCategory(String id, String category) {
@@ -83,6 +83,20 @@ public class UserService {
         else return EmployerCategory.PRIME;
     }
 
+    public boolean deleteUserWithEmail(String id){
+        boolean deleted = false;
 
+        if (userRepo.employerExistsWithEmail(id)){
+            userRepo.deleteEmployerWithEmail(id);
+            deleted = true;
+        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+            userRepo.deleteJobSeekerWithEmail(id);
+            deleted = true;
+        }else if (userRepo.adminExistsWithEmail(id)){
+            userRepo.deleteAdminWithEmail(id);
+            deleted = true;
+        }
+        return deleted;
+    }
 
 }
