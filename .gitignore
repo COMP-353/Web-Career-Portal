@@ -39,3 +39,4 @@ hs_err_pid*
 
 # To each their application properties files
 Backend/webcareerportal/src/main/resources/application.properties
+*/application.properties
