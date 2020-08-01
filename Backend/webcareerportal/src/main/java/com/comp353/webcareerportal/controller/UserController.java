@@ -30,6 +30,13 @@ public class UserController {
         return userService.addNewJobSeeker(jobSeeker)? "JobSeeker added successfully" : "JobSeeker already exists";
     }
 
+    /**
+     *
+     * @param employerId to be put via the url
+     * @param password to be put in the body as a simple text
+     * @return true if user exists and password matches, false otherwise
+     */
+    //TODO use more secure way of handling password
     @GetMapping(path = "authenticateUser/{employerId}")
     public boolean authenticateUser(@PathVariable String employerId, @RequestBody String password){
         return userService.authenticateUser(employerId, password);
