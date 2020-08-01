@@ -13,6 +13,7 @@ import javax.persistence.Table;
 public class Job {
     @Id
     private int jobId;
+    private String title;
     private String jobStatus;
     private String category;
     private String description;
