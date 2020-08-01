@@ -11,18 +11,10 @@ public class Application {
     private String applicationStatus;
 
     @ManyToOne
-    @JoinTable(name = "createdApplication",
-            joinColumns =
-                    {@JoinColumn(name = "applicationId")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "jobSeekerId")})
-    private JobSeeker jobSeeker;
-
-    @OneToOne
-    @JoinTable(name = "jobApplication",
-            joinColumns =
-                    {@JoinColumn(name = "applicationId")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "jobId")})
+    @JoinColumn(name="jobseeker_email", nullable=false)
+    private JobSeeker email;	 
+    
+    @ManyToOne
+    @JoinColumn(name="job_id", nullable=false)
     private Job job;
 }
