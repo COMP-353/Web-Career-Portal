@@ -42,4 +42,8 @@ public class UserController {
         return userService.authenticateUser(employerId, password);
     }
 
+    @PutMapping(path = "updateJobSeekerCategory/{id}/{category}")
+    public boolean changeJobSeekerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category){
+        return false;
+    }
 }
