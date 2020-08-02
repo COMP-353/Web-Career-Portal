@@ -33,7 +33,7 @@ public class CreditCard extends Payment{
         this.setEmployer(employer);
     }
 
-    private void getJobSeekerFromId(JobSeeker js){
+    private void setJobSeekerFromId(JobSeeker js){
         this.setJobSeeker(js);
     }
 }
