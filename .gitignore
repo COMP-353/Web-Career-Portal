@@ -36,3 +36,7 @@ hs_err_pid*
 
 # vs code folder
 *.vscode/
+
+# To each their application properties files
+Backend/webcareerportal/src/main/resources/application.properties
+*/application.properties
