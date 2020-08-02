@@ -6,6 +6,8 @@ import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaymentService {
     @Autowired
@@ -38,5 +40,13 @@ public class PaymentService {
         if (!setAppropriateUser(id, checkingAccount)) return false;
         paymentRepo.save(checkingAccount);
         return true;
+    }
+
+    public List<CheckingAccount> getAllCheckingAccountsForUserWithId(String id){
+        return paymentRepo.getAllCheckingAccountsFromUser(id);
+    }
+
+    public List<CreditCard> getAllCreditCardsForUserWithId(String id){
+        return paymentRepo.getAllCreditCardsFromUser(id);
     }
 }
