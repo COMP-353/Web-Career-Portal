@@ -25,6 +25,6 @@ public class JobStatusController {
     
     @DeleteMapping(path = "deleteJobStatus/{id}")
     public String deleteJobStatus(@PathVariable(name = "id") int id){
-        return jobStatusService.deleteJobStatusWithStatusId(id) ? "Job deleted succesfully" : "Job with given JobId does not exist";
+        return jobStatusService.deleteJobStatusWithStatusId(id) ? "JobStatus deleted succesfully" : "JobStats with given statusId does not exist";
     }
 }
