@@ -12,12 +12,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity (name = "JobCategory")
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"category"})})
-public class JobCategory {
+@Entity (name = "JobStatus")
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"status"})})
+public class JobStatus {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int categoryId;
-    private String category;
+    private int statusId;
+    private String status;
     private String description;
 }
