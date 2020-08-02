@@ -22,9 +22,15 @@ public class Job {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int jobId;
     private String title;
-    private String jobStatus;
-    private String category;
     private String description;
+    
+    @ManyToOne
+    @JoinColumn(name="job_status", nullable=false)
+    private JobStatus jobStatus;
+    
+    @ManyToOne
+    @JoinColumn(name="job_category", nullable=false)
+    private JobCategory jobCategory;
     
     @ManyToOne
     @JoinColumn(name="employer_email", nullable=false)

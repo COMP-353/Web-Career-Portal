@@ -19,4 +19,10 @@ public class JobService {
 		jobRepo.save(job);
 		return true;
 	}
+	
+	public boolean deleteJobWithJobId(int id) {
+		if(!jobRepo.jobExistsWithId(id)) return false;
+		jobRepo.deleteJobWithJobId(id);
+		return true;
+	}
 }
