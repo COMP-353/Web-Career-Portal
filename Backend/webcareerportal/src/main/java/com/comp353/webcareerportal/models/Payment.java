@@ -2,7 +2,6 @@ package com.comp353.webcareerportal.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import sun.util.resources.Bundles;
 
 import javax.persistence.*;
 
@@ -18,10 +17,10 @@ public abstract class Payment {
     private boolean defaultPayment;
 
     @ManyToOne
-    @JoinColumn(name="User")
+    @JoinColumn(name="employer")
     private Employer employer;
 
     @ManyToOne
-    @JoinColumn(name="User")
+    @JoinColumn(name="jobseeker")
     private JobSeeker jobSeeker;
 }
