@@ -49,4 +49,16 @@ public class PaymentService {
     public List<CreditCard> getAllCreditCardsForUserWithId(String id){
         return paymentRepo.getAllCreditCardsFromUser(id);
     }
+
+    public void deleteCheckingAccountWithId(int id){
+        paymentRepo.deleteCheckingAccountWithId(id);
+    }
+
+    public void deleteCreditCardWithId(int id){
+        paymentRepo.deleteCheckingAccountWithId(id);
+    }
+
+    public void deleteAllPaymentsForUser(String id){
+        deleteAllPaymentsForUser(id);
+    }
 }
