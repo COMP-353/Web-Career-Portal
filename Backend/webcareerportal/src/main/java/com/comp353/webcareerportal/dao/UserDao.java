@@ -1,6 +1,7 @@
 package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.EmployerCategory;
+import com.comp353.webcareerportal.models.JobSeeker;
 import com.comp353.webcareerportal.models.JobSeekerCategory;
 import com.comp353.webcareerportal.models.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +68,7 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("update admin a set a.password = :password where a.email = :email")
     void updateAdminPasswordWithEmail(@Value("email") String email, @Value("password") String password);
 
+    // Deleting users
     @Transactional
     @Modifying
     @Query("delete from jobseeker js where js.email = :email")
@@ -82,5 +84,14 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("delete from admin a where a.email = :email")
     void deleteAdminWithEmail(@Value("email") String email);
 
+    // Retrieving Users
+    @Query("select jobseeker from jobseeker js where js.email = :email")
+    JobSeeker getJobSeekerWithEmail(@Value("email") String id);
+
+    // Retrieving Users
+    @Query("select employer from employer e where e.email = :email")
+    JobSeeker getEmployerWithEmail(@Value("email") String id);
+
+    User findByEmail(String email);
 }
 
