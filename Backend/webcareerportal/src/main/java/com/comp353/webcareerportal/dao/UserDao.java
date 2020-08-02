@@ -85,9 +85,39 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query(nativeQuery = true, value = "select * from jobseeker js where js.email = :email")
     JobSeeker getJobSeekerWithEmail(@Value("email") String email);
 
-    // Retrieving Users
     @Query(nativeQuery = true, value = "select * from employer e where e.email = :email")
     Employer getEmployerWithEmail(@Value("email") String email);
+
+    // Changing Status of Users
+    @Modifying
+    @Transactional
+    @Query("update jobseeker js set js.status = 'Active' where js.email = :id")
+    void activateJobSeekerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update employer e set e.status = 'Active' where e.email = :id")
+    void activateEmployerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update admin a set a.status = 'Active' where a.email = :id")
+    void activateAdminWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update jobseeker js set js.status = 'Inactive' where js.email = :id")
+    void deactivateJobSeekerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update employer e set e.status = 'Inactive' where e.email = :id")
+    void deactivateEmployerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update admin a set a.status = 'Inactive' where a.email = :id")
+    void deactivateAdminWithEmail(@Value("id") String id);
 
 }
 

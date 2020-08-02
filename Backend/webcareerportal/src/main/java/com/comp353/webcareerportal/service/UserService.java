@@ -99,4 +99,38 @@ public class UserService {
         return deleted;
     }
 
+    public boolean activateUserWithId(String id){
+        boolean activated = false;
+
+        if(userRepo.jobSeekerExistsWithEmail(id)){
+            userRepo.activateJobSeekerWithEmail(id);
+            activated = true;
+        }else if (userRepo.employerExistsWithEmail(id)){
+            userRepo.activateEmployerWithEmail(id);
+            activated = true;
+        }else if (userRepo.adminExistsWithEmail(id)){
+            userRepo.activateAdminWithEmail(id);
+            activated = true;
+        }
+
+        return activated;
+    }
+
+    public boolean deactivateUserWithId(String id){
+        boolean deactivated = false;
+
+        if(userRepo.jobSeekerExistsWithEmail(id)){
+            userRepo.deactivateJobSeekerWithEmail(id);
+            deactivated = true;
+        }else if (userRepo.employerExistsWithEmail(id)){
+            userRepo.deactivateEmployerWithEmail(id);
+            deactivated = true;
+        }else if (userRepo.adminExistsWithEmail(id)){
+            userRepo.deactivateAdminWithEmail(id);
+            deactivated = true;
+        }
+
+        return deactivated;
+    }
+
 }
