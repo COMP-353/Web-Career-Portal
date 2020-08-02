@@ -24,4 +24,10 @@ public class ApplicationService {
 		applicationRepo.save(application);
 		return true;
 	}
+	
+	public boolean deleteApplicationWithApplicationId(int id) {
+		if(!applicationRepo.applicationExistsWithId(id)) return false;
+		applicationRepo.deleteApplicationWithApplicationId(id);
+		return true;
+	}
 }
