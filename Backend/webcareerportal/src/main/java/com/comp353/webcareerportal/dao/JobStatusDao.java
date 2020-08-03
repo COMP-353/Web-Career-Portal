@@ -1,5 +1,7 @@
 package com.comp353.webcareerportal.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,4 +27,7 @@ public interface JobStatusDao extends JpaRepository<JobStatus, Long> {
 	
 	@Query(nativeQuery = true, value = "select * from jobStatus j where j.statusId= :status_id")
 	JobStatus getJobStatusWithId(@Value("statusId") int status_id);
+	
+	@Query(nativeQuery = true, value = "select * from jobStatus")
+	List<JobStatus> getAllJobStatuses();
 }
