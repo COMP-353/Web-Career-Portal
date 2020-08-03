@@ -4,6 +4,7 @@ import com.comp353.webcareerportal.dao.PaymentDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,23 +43,42 @@ public class PaymentService {
         return true;
     }
 
-    public List<CheckingAccount> getAllCheckingAccountsForUserWithId(String id){
+    public List<CheckingAccount> getAllCheckingAccountsForUserWithId(String id) {
         return paymentRepo.getAllCheckingAccountsFromUser(id);
     }
 
-    public List<CreditCard> getAllCreditCardsForUserWithId(String id){
+    public List<CreditCard> getAllCreditCardsForUserWithId(String id) {
         return paymentRepo.getAllCreditCardsFromUser(id);
     }
 
-    public void deleteCheckingAccountWithId(int id){
+    public void deleteCheckingAccountWithId(int id) {
         paymentRepo.deleteCheckingAccountWithId(id);
     }
 
-    public void deleteCreditCardWithId(int id){
+    public void deleteCreditCardWithId(int id) {
         paymentRepo.deleteCheckingAccountWithId(id);
     }
 
-    public void deleteAllPaymentsForUser(String id){
+    public void deleteAllPaymentsForUser(String id) {
         deleteAllPaymentsForUser(id);
+    }
+
+    //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
+    @Scheduled(cron = "0 0 0 1 * ? ")
+    private void getAllMyMoney() {
+        makeEmployersPay();
+        makeJobSeekersPay();
+    }
+
+    private void makeEmployersPay() {
+        List<String> employers = paymentRepo.getEmployersWithAutomaticPaymentsAndCheckingAccountAsDefault();
+        employers.addAll(paymentRepo.getEmployersWithAutomaticPaymentsAndCreditCardAsDefault());
+        userRepo.chargeAllEmployersWithAutomaticPayments(employers);
+    }
+
+    private void makeJobSeekersPay() {
+        List<String> js = paymentRepo.getEmployersWithAutomaticPaymentsAndCheckingAccountAsDefault();
+        js.addAll(paymentRepo.getJobSeekersWithAutomaticPaymentsAndCreditCardsAsDefault());
+        userRepo.chargeAllJobSeekersWithoutAutomaticPayments(js);
     }
 }

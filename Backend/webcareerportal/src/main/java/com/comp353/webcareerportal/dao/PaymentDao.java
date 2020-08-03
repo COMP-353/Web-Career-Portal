@@ -19,6 +19,18 @@ public interface PaymentDao extends JpaRepository<Payment, Long> {
     @Query(nativeQuery = true, value = "select * from CreditCard cc where cc.employer = :id or cc.jobSeeker = :id")
     List<CreditCard> getAllCreditCardsFromUser(@Value("id")String id);
 
+    @Query(nativeQuery = true, value = "select ca.employer from CheckingAccount ca group by ca.employer having (count(automaticWithdrawal = true and defaultPayment = true) = 1) and not null")
+    List<String> getEmployersWithAutomaticPaymentsAndCheckingAccountAsDefault();
+
+    @Query(nativeQuery = true, value = "select cc.employer from CreditCard cc group by cc.employer having (count(automaticWithdrawal = true and defaultPayment = true) = 1) and not null")
+    List<String> getEmployersWithAutomaticPaymentsAndCreditCardAsDefault();
+
+    @Query(nativeQuery = true, value = "select ca.jobseeker from CheckingAccount ca group by ca.jobseeker having (count(automaticWithdrawal = true and defaultPayment = true) = 1) and not null")
+    List<String> getJobSeekersWithAutomaticPaymentsAndCheckingAccountAsDefault();
+
+    @Query(nativeQuery = true, value = "select cc.jobseeker from CreditCard cc group by cc.jobseeker having (count(automaticWithdrawal = true and defaultPayment = true) = 1) and not null")
+    List<String> getJobSeekersWithAutomaticPaymentsAndCreditCardsAsDefault();
+
     @Transactional
     @Modifying
     @Query("delete from CreditCard cc where cc.id = :id")
