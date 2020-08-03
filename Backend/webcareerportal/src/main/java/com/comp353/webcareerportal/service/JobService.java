@@ -27,7 +27,7 @@ public class JobService {
 	public boolean deleteJobWithJobId(int id) {
 		if(!jobRepo.jobExistsWithId(id)) return false;
 		Job job = jobRepo.getJobWithJobId(id);
-		applicationRepo.deleteApplicationWithJobId(job);
+		applicationRepo.deleteApplicationWithJob(job);
 		jobRepo.deleteJobWithJobId(id);
 		return true;
 	}
