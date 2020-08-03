@@ -44,4 +44,9 @@ public class JobService {
 			this.deleteJobWithJobId(jobId);
 		}
 	}
+	
+	public List<Job> getAllJobsForEmployerWithId(String id){
+		Employer employer = userRepo.getEmployerWithEmail(id);
+		return jobRepo.getJobsWithEmployer(employer);
+	}
 }
