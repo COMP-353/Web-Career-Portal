@@ -2,6 +2,7 @@ package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
+import com.comp353.webcareerportal.models.JobCategory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,4 +33,7 @@ public interface JobDao extends JpaRepository<Job, Long> {
 	
     @Query(nativeQuery = true, value = "select * from job j where j.employer_email= :employer group by j.jobId")
     List<Job> getJobsWithEmployer(@Value("employer") Employer employer);
+    
+    @Query(nativeQuery = true, value = "select * from job j where j.job_category= :jobCategory group by j.jobId")
+    List<Job> getJobsWithjobCategory(@Value("job_category") JobCategory jobCategory);
 }

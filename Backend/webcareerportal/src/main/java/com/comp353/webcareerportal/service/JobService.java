@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.comp353.webcareerportal.models.Application;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
+import com.comp353.webcareerportal.models.JobCategory;
 import com.comp353.webcareerportal.models.JobSeeker;
 import com.comp353.webcareerportal.dao.ApplicationDao;
+import com.comp353.webcareerportal.dao.JobCategoryDao;
 import com.comp353.webcareerportal.dao.JobDao;
 import com.comp353.webcareerportal.dao.UserDao;
 
@@ -24,6 +26,10 @@ public class JobService {
 	
 	@Autowired
     private UserDao userRepo;
+
+	@Autowired
+	JobCategoryDao jobCategoryRepo;
+
 	
 	public boolean addNewJob(Job job) {
 		if (!userRepo.employerExistsWithEmail(job.getEmployer().getEmail())) return false;
@@ -67,5 +73,10 @@ public class JobService {
 			jobs.add(jobRepo.getJobWithJobId(application.getJob().getJobId()));
 		}
 		return jobs;
+	}
+	
+	public List<Job> getAllJobsForJobCategoryWithId(int id){
+		JobCategory jobCategory = jobCategoryRepo.getJobCategoryWithId(id);
+		return jobRepo.getJobsWithjobCategory(jobCategory);
 	}
 }

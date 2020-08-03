@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobCategory;
 
 public interface JobCategoryDao extends JpaRepository<JobCategory, Long> {
@@ -21,4 +22,7 @@ public interface JobCategoryDao extends JpaRepository<JobCategory, Long> {
     @Modifying
     @Query("delete from JobCategory j where j.categoryId= :category_id")
     void deleteJobCategoryWithCategoryId(@Value("categoryId") int category_id);
+	
+	@Query(nativeQuery = true, value = "select * from jobCategory j where j.categoryId= :category_id")
+	JobCategory getJobCategoryWithId(@Value("categoryId") int category_id);
 }
