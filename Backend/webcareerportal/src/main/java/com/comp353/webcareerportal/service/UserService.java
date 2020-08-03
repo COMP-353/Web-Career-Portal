@@ -147,4 +147,21 @@ public class UserService {
         return paymentMade;
     }
 
+    public boolean updateJobSeekerName(JobSeeker jobSeeker){
+        if(!userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
+        userRepo.updateJobSeekerName(jobSeeker.getEmail(), jobSeeker.getFirstName(),jobSeeker.getLastName());
+        return true;
+    }
+
+    public boolean checkIdAvailability(String id){
+        boolean legit = true;
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            legit = false;
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            legit = false;
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            legit = false;
+        }
+        return legit;
+    }
 }

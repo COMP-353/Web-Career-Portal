@@ -139,5 +139,10 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Transactional
     @Query(nativeQuery = true, value = "update jobseeker js set js.accountBalance =  js.accountBalance - :amount where js.email = :id")
     void jobSeekerMadePayment(@Value("id") String id, int amount);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update jobseeker js set js.firstName =  :firstName, js.lastName = :lastName where js.email = :id")
+    void updateJobSeekerName(@Value("id") String id,@Value("firstName") String firstName,@Value("lastName") String lastName);
 }
 

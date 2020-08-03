@@ -81,4 +81,14 @@ public class UserController {
     public boolean userMakePayment(@PathVariable(name = "id") String id, @PathVariable(name = "amount") int amount){
         return userService.makePayment(id, amount);
     }
+
+    @GetMapping(path = "check/{id}")
+    public boolean checkAvailablityOfUserId(@PathVariable(name = "id") String id){
+        return userService.checkIdAvailability(id);
+    }
+
+    @PutMapping(path = "update/")
+    public boolean updateJobSeekerName(@RequestBody JobSeeker jobSeeker){
+        return userService.updateJobSeekerName(jobSeeker);
+    }
 }
