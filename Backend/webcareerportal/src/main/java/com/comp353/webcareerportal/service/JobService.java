@@ -1,12 +1,15 @@
 package com.comp353.webcareerportal.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.comp353.webcareerportal.models.Application;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
+import com.comp353.webcareerportal.models.JobSeeker;
 import com.comp353.webcareerportal.dao.ApplicationDao;
 import com.comp353.webcareerportal.dao.JobDao;
 import com.comp353.webcareerportal.dao.UserDao;
@@ -52,5 +55,17 @@ public class JobService {
 	
 	public List<Job> getAllJobs(){
 		return jobRepo.getAllJobs();
+	}
+	
+	public List<Job> getAllJobsForJobSeekerWithId(String id){
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
+		
+		List<Job> jobs = new ArrayList<>();
+		
+		for(Application application : applications) {
+			jobs.add(jobRepo.getJobWithJobId(application.getJob().getJobId()));
+		}
+		return jobs;
 	}
 }
