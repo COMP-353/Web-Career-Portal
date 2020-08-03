@@ -147,13 +147,13 @@ public class UserService {
         return paymentMade;
     }
 
-    public boolean updateJobSeekerName(JobSeeker jobSeeker){
-        if(!userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
-        userRepo.updateJobSeekerName(jobSeeker.getEmail(), jobSeeker.getFirstName(),jobSeeker.getLastName());
+    public boolean updateJobSeekerName(JobSeeker jobSeeker) {
+        if (!userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
+        userRepo.updateJobSeekerName(jobSeeker.getEmail(), jobSeeker.getFirstName(), jobSeeker.getLastName());
         return true;
     }
 
-    public boolean checkIdAvailability(String id){
+    public boolean checkIdAvailability(String id) {
         boolean legit = true;
         if (userRepo.jobSeekerExistsWithEmail(id)) {
             legit = false;
@@ -163,5 +163,31 @@ public class UserService {
             legit = false;
         }
         return legit;
+    }
+
+    public boolean updateUserEmailWithId(String oldId, String newId) {
+        //new id is not available
+        if (!checkIdAvailability(newId)) return false;
+            //old id is not available
+        else {
+            updateUserId(oldId, newId);
+            return true;
+        }
+    }
+
+    private boolean updateUserId(String id, String newId) {
+        boolean changed = false;
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            userRepo.updateJobSeekerEmail(id, newId);
+            changed = true;
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            userRepo.updateEmployerEmail(id, newId);
+            changed = true;
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            userRepo.updateAdminEmail(id, newId);
+            changed = true;
+        }
+        return changed;
+
     }
 }
