@@ -41,6 +41,11 @@ public class JobController {
 			return jobService.getAllJobsForJobCategoryWithId(id);
 	}
 
+	@GetMapping(path = "jobstatus/{id}")
+	public List<Job> getAllJobsByJobStatusId(@PathVariable(name = "id") int id){
+			return jobService.getAllJobsForJobStatusWithId(id);
+	}
+	
     @PostMapping(path = "newJob")
     public String addNewJob(@RequestBody Job job) {
         return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";

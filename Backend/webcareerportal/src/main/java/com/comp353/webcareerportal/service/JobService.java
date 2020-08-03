@@ -11,9 +11,11 @@ import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobCategory;
 import com.comp353.webcareerportal.models.JobSeeker;
+import com.comp353.webcareerportal.models.JobStatus;
 import com.comp353.webcareerportal.dao.ApplicationDao;
 import com.comp353.webcareerportal.dao.JobCategoryDao;
 import com.comp353.webcareerportal.dao.JobDao;
+import com.comp353.webcareerportal.dao.JobStatusDao;
 import com.comp353.webcareerportal.dao.UserDao;
 
 @Service
@@ -29,6 +31,9 @@ public class JobService {
 
 	@Autowired
 	JobCategoryDao jobCategoryRepo;
+	
+	@Autowired
+	JobStatusDao jobStatusRepo;
 
 	
 	public boolean addNewJob(Job job) {
@@ -78,5 +83,10 @@ public class JobService {
 	public List<Job> getAllJobsForJobCategoryWithId(int id){
 		JobCategory jobCategory = jobCategoryRepo.getJobCategoryWithId(id);
 		return jobRepo.getJobsWithjobCategory(jobCategory);
+	}
+	
+	public List<Job> getAllJobsForJobStatusWithId(int id){
+		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(id);
+		return jobRepo.getJobsWithjobStatus(jobStatus);
 	}
 }
