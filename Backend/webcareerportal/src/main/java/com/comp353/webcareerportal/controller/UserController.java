@@ -87,7 +87,7 @@ public class UserController {
         return userService.checkIdAvailability(id);
     }
 
-    @PutMapping(path = "update/")
+    @PutMapping(path = "update")
     public boolean updateJobSeekerName(@RequestBody JobSeeker jobSeeker){
         return userService.updateJobSeekerName(jobSeeker);
     }
