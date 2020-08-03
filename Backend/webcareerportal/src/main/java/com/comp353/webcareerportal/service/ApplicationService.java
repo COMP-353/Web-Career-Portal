@@ -48,4 +48,9 @@ public class ApplicationService {
 	public List<Application> getAllApplications(){
 		return applicationRepo.getAllApplications();
 	}
+	
+	public List<Application> getAllApplicationsForJobSeekerWithId(String id){
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		return applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
+	}
 }

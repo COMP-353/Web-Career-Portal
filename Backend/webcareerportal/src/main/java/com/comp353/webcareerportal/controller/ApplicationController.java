@@ -27,6 +27,11 @@ public class ApplicationController {
 			return applicationService.getAllApplications();
 	}
 	
+	@GetMapping(path = "jobseeker/{id}")
+	public List<Application> getAllApplicationsByJobSeekerId(@PathVariable(name = "id") String id){
+		return applicationService.getAllApplicationsForJobSeekerWithId(id);
+}
+	
     @PostMapping(path = "newApplication")
     public String addNewApplication(@RequestBody Application application) {
         return applicationService.addNewApplication(application) ? "Application added successfully" : "Application not added. Invalid job id or invalid jobseeker email.";
