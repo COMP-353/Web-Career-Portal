@@ -24,6 +24,9 @@ public interface JobDao extends JpaRepository<Job, Long> {
 	@Query(nativeQuery = true, value = "select * from job j where j.jobId= :job_id")
 	Job getJobWithJobId(@Value("jobId") int job_id);
 	
+	@Query(nativeQuery = true, value = "select j.jobId from job j where j.employer_email= :employer group by j.jobId")
+    List<Integer> getJobIdsWithEmployer(@Value("employer") Employer employer);
+	
     @Query(nativeQuery = true, value = "select * from job j where j.employer_email= :employer group by j.jobId")
-    List<Job> getJobWithEmployer(@Value("employer") Employer employer);
+    List<Job> getJobsWithEmployer(@Value("employer") Employer employer);
 }

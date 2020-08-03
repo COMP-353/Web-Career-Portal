@@ -1,6 +1,7 @@
 package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.Application;
+import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobSeeker;
 
@@ -28,8 +29,9 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
     @Query("delete from application a where a.job= :job")
     void deleteApplicationWithJob(@Value("job") Job job);
 	
-	@Transactional
-    @Modifying
-    @Query("delete from application a where a.jobseeker= :jobSeeker")
-    void deleteApplicationWithJobSeeker(@Value("jobseeker") JobSeeker jobSeeker);
+	@Query(nativeQuery = true, value = "select a.applicationId from application a where a.jobseeker_email= :jobSeeker group by a.applicationId")
+    List<Integer> getApplicationIdsWithJobSeeker(@Value("jobSeeker_email") JobSeeker jobSeeker);
+	
+	@Query(nativeQuery = true, value = "select * from application a where a.jobseeker_email= :jobSeeker group by a.applicationId")
+    List<Application> getApplicationsWithJobSeeker(@Value("jobSeeker_email") JobSeeker jobSeeker);
 }

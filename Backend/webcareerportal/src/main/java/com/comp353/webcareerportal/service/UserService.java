@@ -14,7 +14,7 @@ public class UserService {
     private UserDao userRepo;
     
     @Autowired
-    private ApplicationDao applicationRepo;
+    private ApplicationService applicationService;
     
     @Autowired
     private JobService jobService;
@@ -99,8 +99,7 @@ public class UserService {
             userRepo.deleteEmployerWithEmail(id);
             deleted = true;
         } else if (userRepo.jobSeekerExistsWithEmail(id)) {
-        	JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
-        	applicationRepo.deleteApplicationWithJobSeeker(jobSeeker);
+        	applicationService.deleteApplicationWithJobSeekerId(id);
             userRepo.deleteJobSeekerWithEmail(id);
             deleted = true;
         } else if (userRepo.adminExistsWithEmail(id)) {

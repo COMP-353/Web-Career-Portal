@@ -38,10 +38,10 @@ public class JobService {
 	
 	public void deleteJobWithEmployerId(String id) {
 		Employer employer = userRepo.getEmployerWithEmail(id);
-		List<Job> jobs = jobRepo.getJobWithEmployer(employer);
+		List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(employer);
 		
-		for(Job job : jobs) {
-			this.deleteJobWithJobId(job.getJobId());
+		for(Integer jobId : jobIds) {
+			this.deleteJobWithJobId(jobId);
 		}
 	}
 }
