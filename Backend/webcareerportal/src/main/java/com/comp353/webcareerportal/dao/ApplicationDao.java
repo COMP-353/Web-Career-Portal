@@ -37,4 +37,7 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
 
 	@Query(nativeQuery = true, value = "select * from application")
     List<Application> getAllApplications();
+	
+	@Query(nativeQuery = true, value = "select * from application a where a.job_id= :job group by a.applicationId")
+    List<Application> getApplicationsWithJob(@Value("job_id") Job job);
 }

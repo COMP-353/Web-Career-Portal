@@ -53,4 +53,9 @@ public class ApplicationService {
 		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
 		return applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 	}
+	
+	public List<Application> getAllApplicationsForJobWithId(int id){
+		Job job = jobRepo.getJobWithJobId(id);
+		return applicationRepo.getApplicationsWithJob(job);
+	}
 }

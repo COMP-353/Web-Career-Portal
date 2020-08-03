@@ -30,7 +30,12 @@ public class ApplicationController {
 	@GetMapping(path = "jobseeker/{id}")
 	public List<Application> getAllApplicationsByJobSeekerId(@PathVariable(name = "id") String id){
 		return applicationService.getAllApplicationsForJobSeekerWithId(id);
-}
+	}
+	
+	@GetMapping(path = "job/{id}")
+	public List<Application> getAllApplicationsByJobId(@PathVariable(name = "id") int id){
+		return applicationService.getAllApplicationsForJobWithId(id);
+	}
 	
     @PostMapping(path = "newApplication")
     public String addNewApplication(@RequestBody Application application) {
