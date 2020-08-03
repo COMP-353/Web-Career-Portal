@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 public interface JobDao extends JpaRepository<Job, Long> {
@@ -19,4 +17,7 @@ public interface JobDao extends JpaRepository<Job, Long> {
     @Modifying
     @Query("delete from job j where j.jobId= :job_id")
     void deleteJobWithJobId(@Value("jobId") int job_id);
+	
+	@Query(nativeQuery = true, value = "select * from job j where j.jobId= :job_id")
+	Job getJobWithJobId(@Value("jobId") int job_id);
 }

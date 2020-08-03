@@ -1,6 +1,7 @@
 package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.Application;
+import com.comp353.webcareerportal.models.Job;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,9 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
     @Modifying
     @Query("delete from application a where a.applicationId= :application_id")
     void deleteApplicationWithApplicationId(@Value("applicationId") int application_id);
+	
+	@Transactional
+    @Modifying
+    @Query("delete from application a where a.job= :job")
+    void deleteApplicationWithJobId(@Value("job") Job job);
 }
