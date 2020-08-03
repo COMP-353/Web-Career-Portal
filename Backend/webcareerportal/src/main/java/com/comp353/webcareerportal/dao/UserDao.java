@@ -1,8 +1,6 @@
 package com.comp353.webcareerportal.dao;
 
-import com.comp353.webcareerportal.models.EmployerCategory;
-import com.comp353.webcareerportal.models.JobSeekerCategory;
-import com.comp353.webcareerportal.models.User;
+import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -67,6 +65,7 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("update admin a set a.password = :password where a.email = :email")
     void updateAdminPasswordWithEmail(@Value("email") String email, @Value("password") String password);
 
+    // Deleting users
     @Transactional
     @Modifying
     @Query("delete from jobseeker js where js.email = :email")
@@ -82,5 +81,63 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("delete from admin a where a.email = :email")
     void deleteAdminWithEmail(@Value("email") String email);
 
+    // Retrieving Users
+    @Query(nativeQuery = true, value = "select * from jobseeker js where js.email = :email")
+    JobSeeker getJobSeekerWithEmail(@Value("email") String email);
+
+    @Query(nativeQuery = true, value = "select * from employer e where e.email = :email")
+    Employer getEmployerWithEmail(@Value("email") String email);
+
+    // Changing Status of Users
+    @Modifying
+    @Transactional
+    @Query("update jobseeker js set js.status = 'Active' where js.email = :id")
+    void activateJobSeekerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update employer e set e.status = 'Active' where e.email = :id")
+    void activateEmployerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update admin a set a.status = 'Active' where a.email = :id")
+    void activateAdminWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update jobseeker js set js.status = 'Inactive' where js.email = :id")
+    void deactivateJobSeekerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update employer e set e.status = 'Inactive' where e.email = :id")
+    void deactivateEmployerWithEmail(@Value("id") String id);
+
+    @Modifying
+    @Transactional
+    @Query("update admin a set a.status = 'Inactive' where a.email = :id")
+    void deactivateAdminWithEmail(@Value("id") String id);
+
+    // Charge the account
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update employer e set e.accountBalance = (case when (e.employerCategory = 1) then e.accountBalance = 50 + e.accountBalance else e.accountBalance = e.accountBalance + 100 end) where e.email not in :ids")
+    void chargeAllEmployersWithAutomaticPayments(@Value("ids") List<String> ids);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update jobseeker js set js.accountBalance = (case when (js.jobSeekerCategory = 1) then js.accountBalance = 10 + js.accountBalance when (js.jobSeekerCategory = 2) then js.accountBalance = 20 + js.accountBalance end) where js.email not in :ids")
+    void chargeAllJobSeekersWithoutAutomaticPayments(@Value("ids") List<String> ids);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update employer e set e.accountBalance =  e.accountBalance - :amount where e.email = :id")
+    void employerMadePayment(@Value("id") String id, int amount);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update jobseeker js set js.accountBalance =  js.accountBalance - :amount where js.email = :id")
+    void jobSeekerMadePayment(@Value("id") String id, int amount);
 }
 
