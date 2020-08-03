@@ -44,4 +44,8 @@ public class ApplicationService {
 			this.deleteApplicationWithApplicationId(applicationId);
 		}
 	}
+	
+	public List<Application> getAllApplications(){
+		return applicationRepo.getAllApplications();
+	}
 }
