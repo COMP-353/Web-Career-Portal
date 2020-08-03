@@ -119,6 +119,7 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query("update admin a set a.status = 'Inactive' where a.email = :id")
     void deactivateAdminWithEmail(@Value("id") String id);
 
+    // Charge the account
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "update employer e set e.accountBalance = (case when (e.employerCategory = 1) then e.accountBalance = 50 + e.accountBalance else e.accountBalance = e.accountBalance + 100 end) where e.email not in :ids")
@@ -128,5 +129,15 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Transactional
     @Query(nativeQuery = true, value = "update jobseeker js set js.accountBalance = (case when (js.jobSeekerCategory = 1) then js.accountBalance = 10 + js.accountBalance when (js.jobSeekerCategory = 2) then js.accountBalance = 20 + js.accountBalance end) where js.email not in :ids")
     void chargeAllJobSeekersWithoutAutomaticPayments(@Value("ids") List<String> ids);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update employer e set e.accountBalance =  e.accountBalance - :amount where e.email = :id")
+    void employerMadePayment(@Value("id") String id, int amount);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "update jobseeker js set js.accountBalance =  js.accountBalance - :amount where js.email = :id")
+    void jobSeekerMadePayment(@Value("id") String id, int amount);
 }
 

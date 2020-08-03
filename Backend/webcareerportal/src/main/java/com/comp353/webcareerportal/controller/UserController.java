@@ -76,4 +76,9 @@ public class UserController {
     public boolean deactivateUserWithId(@PathVariable(name = "id") String id){
         return userService.deactivateUserWithId(id);
     }
+
+    @PutMapping(path = "pay/{id}/{amount}")
+    public boolean userMakePayment(@PathVariable(name = "id") String id, @PathVariable(name = "amount") int amount){
+        return userService.makePayment(id, amount);
+    }
 }

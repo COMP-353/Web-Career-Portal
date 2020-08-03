@@ -32,27 +32,27 @@ public class UserService {
     public boolean authenticateUser(String id, String password) {
         boolean success = false;
 
-        if (userRepo.employerExistsWithEmail(id)){
+        if (userRepo.employerExistsWithEmail(id)) {
             success = userRepo.authenticateEmployerWithEmail(id, password);
-        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
             success = userRepo.authenticateJobSeekerWithEmail(id, password);
-        }else if (userRepo.adminExistsWithEmail(id)){
+        } else if (userRepo.adminExistsWithEmail(id)) {
             success = userRepo.authenticateAdminWithEmail(id, password);
         }
 
         return success;
     }
 
-    public boolean updateUserPassword(String id, String newPassword){
+    public boolean updateUserPassword(String id, String newPassword) {
         boolean updatedPassword = false;
 
-        if (userRepo.employerExistsWithEmail(id)){
+        if (userRepo.employerExistsWithEmail(id)) {
             userRepo.updateEmployerPasswordWithEmail(id, newPassword);
             updatedPassword = true;
-        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
             userRepo.updateJobSeekerPasswordWithEmail(id, newPassword);
             updatedPassword = true;
-        }else if (userRepo.adminExistsWithEmail(id)){
+        } else if (userRepo.adminExistsWithEmail(id)) {
             userRepo.authenticateAdminWithEmail(id, newPassword);
             updatedPassword = true;
         }
@@ -83,32 +83,32 @@ public class UserService {
         else return EmployerCategory.PRIME;
     }
 
-    public boolean deleteUserWithEmail(String id){
+    public boolean deleteUserWithEmail(String id) {
         boolean deleted = false;
 
-        if (userRepo.employerExistsWithEmail(id)){
+        if (userRepo.employerExistsWithEmail(id)) {
             userRepo.deleteEmployerWithEmail(id);
             deleted = true;
-        }else if (userRepo.jobSeekerExistsWithEmail(id)){
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
             userRepo.deleteJobSeekerWithEmail(id);
             deleted = true;
-        }else if (userRepo.adminExistsWithEmail(id)){
+        } else if (userRepo.adminExistsWithEmail(id)) {
             userRepo.deleteAdminWithEmail(id);
             deleted = true;
         }
         return deleted;
     }
 
-    public boolean activateUserWithId(String id){
+    public boolean activateUserWithId(String id) {
         boolean activated = false;
 
-        if(userRepo.jobSeekerExistsWithEmail(id)){
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
             userRepo.activateJobSeekerWithEmail(id);
             activated = true;
-        }else if (userRepo.employerExistsWithEmail(id)){
+        } else if (userRepo.employerExistsWithEmail(id)) {
             userRepo.activateEmployerWithEmail(id);
             activated = true;
-        }else if (userRepo.adminExistsWithEmail(id)){
+        } else if (userRepo.adminExistsWithEmail(id)) {
             userRepo.activateAdminWithEmail(id);
             activated = true;
         }
@@ -116,21 +116,35 @@ public class UserService {
         return activated;
     }
 
-    public boolean deactivateUserWithId(String id){
+    public boolean deactivateUserWithId(String id) {
         boolean deactivated = false;
 
-        if(userRepo.jobSeekerExistsWithEmail(id)){
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
             userRepo.deactivateJobSeekerWithEmail(id);
             deactivated = true;
-        }else if (userRepo.employerExistsWithEmail(id)){
+        } else if (userRepo.employerExistsWithEmail(id)) {
             userRepo.deactivateEmployerWithEmail(id);
             deactivated = true;
-        }else if (userRepo.adminExistsWithEmail(id)){
+        } else if (userRepo.adminExistsWithEmail(id)) {
             userRepo.deactivateAdminWithEmail(id);
             deactivated = true;
         }
 
         return deactivated;
+    }
+
+
+    public boolean makePayment(String id, int amount) {
+        boolean paymentMade = false;
+
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            userRepo.jobSeekerMadePayment(id, amount);
+            paymentMade = true;
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            userRepo.employerMadePayment(id, amount);
+            paymentMade = true;
+        }
+        return paymentMade;
     }
 
 }
