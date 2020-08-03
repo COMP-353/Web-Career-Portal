@@ -49,4 +49,8 @@ public class JobService {
 		Employer employer = userRepo.getEmployerWithEmail(id);
 		return jobRepo.getJobsWithEmployer(employer);
 	}
+	
+	public List<Job> getAllJobs(){
+		return jobRepo.getAllJobs();
+	}
 }

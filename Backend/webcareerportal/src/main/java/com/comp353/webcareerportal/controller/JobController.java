@@ -25,6 +25,11 @@ public class JobController {
 	public List<Job> getAllJobsByEmployerId(@PathVariable(name = "id") String id){
 			return jobService.getAllJobsForEmployerWithId(id);
 	}
+	
+	@GetMapping(path = "all")
+	public List<Job> getAllJobs(){
+			return jobService.getAllJobs();
+	}
 
     @PostMapping(path = "newJob")
     public String addNewJob(@RequestBody Job job) {
