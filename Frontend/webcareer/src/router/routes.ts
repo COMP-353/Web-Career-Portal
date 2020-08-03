@@ -8,7 +8,9 @@ const routes: RouteConfig[] = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'index', component: () => import('pages/Index.vue') },
       { path: 'sign-up-employer', component: () => import('pages/sign-up-employer.vue') },
-      { path: 'sign-up-jobSeeker', component: () => import('pages/sign-up-jobSeeker.vue') }
+      { path: 'sign-up-jobSeeker', component: () => import('pages/sign-up-jobSeeker.vue') },
+      { path: 'employer', component: () => import('pages/employer.vue') },
+      { path: 'job-seeker', component: () => import('pages/job-seeker.vue') }
     ]
   },
 
