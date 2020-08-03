@@ -1,7 +1,11 @@
 package com.comp353.webcareerportal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.dao.ApplicationDao;
 import com.comp353.webcareerportal.dao.JobDao;
@@ -30,5 +34,14 @@ public class JobService {
 		applicationRepo.deleteApplicationWithJob(job);
 		jobRepo.deleteJobWithJobId(id);
 		return true;
+	}
+	
+	public void deleteJobWithEmployerId(String id) {
+		Employer employer = userRepo.getEmployerWithEmail(id);
+		List<Job> jobs = jobRepo.getJobWithEmployer(employer);
+		
+		for(Job job : jobs) {
+			this.deleteJobWithJobId(job.getJobId());
+		}
 	}
 }
