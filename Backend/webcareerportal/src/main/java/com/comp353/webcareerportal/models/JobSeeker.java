@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Getter
 @Setter
 @Entity(name = "jobseeker")
@@ -14,6 +16,7 @@ public class JobSeeker extends User{
 
     private String firstName;
     private String lastName;
+    @JsonIgnore
     private JobSeekerCategory jobSeekerCategory;
 
     public JobSeeker(String firstName, String lastName, String email, String password, String category){

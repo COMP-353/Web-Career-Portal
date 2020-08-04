@@ -1,5 +1,7 @@
 package com.comp353.webcareerportal.service;
 
+import com.comp353.webcareerportal.dao.ApplicationDao;
+import com.comp353.webcareerportal.service.JobService;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,12 @@ public class UserService {
 
     @Autowired
     private UserDao userRepo;
+    
+    @Autowired
+    private ApplicationService applicationService;
+    
+    @Autowired
+    private JobService jobService;
 
     public boolean addNewAdmin(Admin admin) {
         if (userRepo.adminExistsWithEmail(admin.getEmail())) return false;
@@ -87,9 +95,11 @@ public class UserService {
         boolean deleted = false;
 
         if (userRepo.employerExistsWithEmail(id)) {
+        	jobService.deleteJobWithEmployerId(id);
             userRepo.deleteEmployerWithEmail(id);
             deleted = true;
         } else if (userRepo.jobSeekerExistsWithEmail(id)) {
+        	applicationService.deleteApplicationWithJobSeekerId(id);
             userRepo.deleteJobSeekerWithEmail(id);
             deleted = true;
         } else if (userRepo.adminExistsWithEmail(id)) {

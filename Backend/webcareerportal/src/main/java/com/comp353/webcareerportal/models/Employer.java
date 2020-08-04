@@ -5,10 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @NoArgsConstructor
 @Entity (name = "employer")
 public class Employer extends User{
+	@JsonIgnore
     protected EmployerCategory employerCategory;
 
     public Employer(String email, String password, String category){
