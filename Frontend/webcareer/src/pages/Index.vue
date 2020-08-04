@@ -29,31 +29,46 @@
               <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="seeker">
                   <div>
-                    <q-input outlined v-model="text" label="Email Address" />
+                    <q-input outlined v-model="email" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="text" label="Password" />
+                    <q-input outlined v-model="password" label="Password" />
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
-		    <q-btn to="sign-up-jobSeeker" color="white" text-color="black" label="Sign-Up" />
+                    <q-btn
+                      to="sign-up-jobSeeker"
+                      color="white"
+                      text-color="black"
+                      label="Sign-Up"
+                    />
                   </div>
                 </q-tab-panel>
 
                 <q-tab-panel name="employer">
                   <div>
-                    <q-input outlined v-model="text" label="Email Address" />
+                    <q-input outlined v-model="email" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="text" label="Password" />
+                    <q-input outlined v-model="password" label="Password" />
                     <q-separator></q-separator>
-                    <q-btn color="white" text-color="black" label="Log in" />
-                    <q-btn to="sign-up-employer" color="white" text-color="black" label="Sign-Up" />
+                    <q-btn
+                      color="white"
+                      text-color="black"
+                      label="Log in"
+                      @click="loginEmployer()"
+                    />
+                    <q-btn
+                      to="sign-up-employer"
+                      color="white"
+                      text-color="black"
+                      label="Sign-Up"
+                    />
                   </div>
                 </q-tab-panel>
 
                 <q-tab-panel name="admin">
                   <div>
-                    <q-input outlined v-model="text" label="Email Address" />
+                    <q-input outlined v-model="email" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="text" label="Password" />
+                    <q-input outlined v-model="password" label="Password" />
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
                   </div>
@@ -71,6 +86,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import axios from 'axios';
+import { METHODS } from 'http';
+import { error } from 'util';
 
 @Component({
   // components: { EssentialLink }
@@ -78,6 +96,25 @@ import { Vue, Component } from 'vue-property-decorator';
 export default class Index extends Vue {
   data() {
     return { tab: 'seeker' };
+  }
+  email: String = '';
+  password = '';
+  loginEmployer() {
+    axios
+      .get(
+        'http://localhost:7070/user/authenticateUser/' +
+          this.email +
+          '/' +
+          this.password
+      )
+      .then(response => this.checkResponse(response.data))
+      .catch(error => console.log(error));
+  }
+
+  checkResponse(response: boolean) {
+    if (response) {
+      this.$router.push('job-seeker');
+    }
   }
 }
 </script>
