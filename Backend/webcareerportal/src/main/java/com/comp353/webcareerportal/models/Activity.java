@@ -23,11 +23,11 @@ public class Activity {
     private int id;
     private String userId;
     private String description;
-    private Date on;
+    private Date dateCreated;
 
     public Activity(String userId, String description){
         this.userId = userId;
         this.description = description;
-        this.on = new Date();
+        this.dateCreated = new Date();
     }
 }
