@@ -1,5 +1,6 @@
 package com.comp353.webcareerportal.service;
 
+import com.comp353.webcareerportal.dao.ActivityDao;
 import com.comp353.webcareerportal.dao.PaymentDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.models.*;
@@ -15,10 +16,19 @@ public class PaymentService {
     PaymentDao paymentRepo;
     @Autowired
     UserDao userRepo;
+    @Autowired
+    ActivityDao activityDao;
+
+    private final String ADDED_CC = "ADDED A CREDIT CARD TO THEIR ACCOUNT";
+    private final String ADDED_CA = "ADDED A CHECKING TO THEIR ACCOUNT";
+    private final String REMOVED_CC = "REMOVED A CREDIT FROM THEIR ACCOUNT";
+    private final String REMOVED_CA = "REMOVED A CREDIT FROM THEIR ACCOUNT";
+    private final String CHARGED = "PAYMENT MADE AUTOMATICALLY";
 
     public boolean addCreditCard(String userId, CreditCard creditCard) {
         if (!setAppropriateUser(userId, creditCard)) return false;
         paymentRepo.save(creditCard);
+        activityDao.save(new Activity(userId, ADDED_CC));
         return true;
     }
 
@@ -40,6 +50,7 @@ public class PaymentService {
     public boolean addCheckingAccount(String id, CheckingAccount checkingAccount) {
         if (!setAppropriateUser(id, checkingAccount)) return false;
         paymentRepo.save(checkingAccount);
+        activityDao.save(new Activity(id, ADDED_CA));
         return true;
     }
 
@@ -61,6 +72,7 @@ public class PaymentService {
 
     public void deleteAllPaymentsForUser(String id) {
         deleteAllPaymentsForUser(id);
+        activityDao.save(new Activity(id, "REMOVED ALL THEIR PAYMENT METHODS"));
     }
 
     //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
@@ -74,11 +86,13 @@ public class PaymentService {
         List<String> employers = paymentRepo.getEmployersWithAutomaticPaymentsAndCheckingAccountAsDefault();
         employers.addAll(paymentRepo.getEmployersWithAutomaticPaymentsAndCreditCardAsDefault());
         userRepo.chargeAllEmployersWithAutomaticPayments(employers);
+        employers.forEach(e -> activityDao.save(new Activity(e, CHARGED)));
     }
 
     private void makeJobSeekersPay() {
         List<String> js = paymentRepo.getEmployersWithAutomaticPaymentsAndCheckingAccountAsDefault();
         js.addAll(paymentRepo.getJobSeekersWithAutomaticPaymentsAndCreditCardsAsDefault());
         userRepo.chargeAllJobSeekersWithoutAutomaticPayments(js);
+        js.forEach(j -> activityDao.save(new Activity(j, CHARGED)));
     }
 }
