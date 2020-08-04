@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 public abstract class User {
     @Id
     private String email;
+    @JsonIgnore
     private String password;
     @Column(columnDefinition = "VARCHAR(20) default 'Active'")
     private String status;

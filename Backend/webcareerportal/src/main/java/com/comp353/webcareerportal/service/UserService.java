@@ -1,5 +1,7 @@
 package com.comp353.webcareerportal.service;
 
+import com.comp353.webcareerportal.dao.ApplicationDao;
+import com.comp353.webcareerportal.service.JobService;
 import com.comp353.webcareerportal.dao.ActivityDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.models.*;
@@ -23,6 +25,12 @@ public class UserService {
 
     @Autowired
     private UserDao userRepo;
+    
+    @Autowired
+    private ApplicationService applicationService;
+    
+    @Autowired
+    private JobService jobService;
 
     @Autowired
     private ActivityDao activityDao;
@@ -115,10 +123,12 @@ public class UserService {
         boolean deleted = false;
 
         if (userRepo.employerExistsWithEmail(id)) {
+        	jobService.deleteJobWithEmployerId(id);
             userRepo.deleteEmployerWithEmail(id);
             activityDao.save(new Activity(id,USER_DELETED));
             deleted = true;
         } else if (userRepo.jobSeekerExistsWithEmail(id)) {
+        	applicationService.deleteApplicationWithJobSeekerId(id);
             userRepo.deleteJobSeekerWithEmail(id);
             activityDao.save(new Activity(id,USER_DELETED));
             deleted = true;
@@ -186,4 +196,47 @@ public class UserService {
         return paymentMade;
     }
 
+    public boolean updateJobSeekerName(JobSeeker jobSeeker) {
+        if (!userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
+        userRepo.updateJobSeekerName(jobSeeker.getEmail(), jobSeeker.getFirstName(), jobSeeker.getLastName());
+        return true;
+    }
+
+    public boolean checkIdAvailability(String id) {
+        boolean legit = true;
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            legit = false;
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            legit = false;
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            legit = false;
+        }
+        return legit;
+    }
+
+    public boolean updateUserEmailWithId(String oldId, String newId) {
+        //new id is not available
+        if (!checkIdAvailability(newId)) return false;
+            //old id is not available
+        else {
+            updateUserId(oldId, newId);
+            return true;
+        }
+    }
+
+    private boolean updateUserId(String id, String newId) {
+        boolean changed = false;
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            userRepo.updateJobSeekerEmail(id, newId);
+            changed = true;
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            userRepo.updateEmployerEmail(id, newId);
+            changed = true;
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            userRepo.updateAdminEmail(id, newId);
+            changed = true;
+        }
+        return changed;
+
+    }
 }

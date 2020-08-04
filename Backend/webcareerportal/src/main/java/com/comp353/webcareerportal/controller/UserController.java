@@ -64,22 +64,37 @@ public class UserController {
     }
 
     @DeleteMapping(path = "deleteUser/{id}")
-    public boolean deleteUser(@PathVariable(name = "id") String id){
+    public boolean deleteUser(@PathVariable(name = "id") String id) {
         return userService.deleteUserWithEmail(id);
     }
 
     @PutMapping(path = "activate/{id}")
-    public boolean activateUserWithId(@PathVariable(name = "id") String id){
+    public boolean activateUserWithId(@PathVariable(name = "id") String id) {
         return userService.activateUserWithId(id);
     }
 
     @PutMapping(path = "deactivate/{id}")
-    public boolean deactivateUserWithId(@PathVariable(name = "id") String id){
+    public boolean deactivateUserWithId(@PathVariable(name = "id") String id) {
         return userService.deactivateUserWithId(id);
     }
 
     @PutMapping(path = "pay/{id}/{amount}")
-    public boolean userMakePayment(@PathVariable(name = "id") String id, @PathVariable(name = "amount") int amount){
+    public boolean userMakePayment(@PathVariable(name = "id") String id, @PathVariable(name = "amount") int amount) {
         return userService.makePayment(id, amount);
+    }
+
+    @GetMapping(path = "check/{id}")
+    public boolean checkAvailablityOfUserId(@PathVariable(name = "id") String id) {
+        return userService.checkIdAvailability(id);
+    }
+
+    @PutMapping(path = "updateName")
+    public boolean updateJobSeekerName(@RequestBody JobSeeker jobSeeker) {
+        return userService.updateJobSeekerName(jobSeeker);
+    }
+
+    @PutMapping(path = "updateEmail/{oldId}/{newId}")
+    public boolean updateJobSeekerName(@PathVariable(name = "oldId") String oldId, @PathVariable(name = "newId") String id) {
+        return userService.updateUserEmailWithId(oldId, id);
     }
 }
