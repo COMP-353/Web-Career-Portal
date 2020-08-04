@@ -1,11 +1,8 @@
 package com.comp353.webcareerportal.service;
 
-import com.comp353.webcareerportal.dao.ApplicationDao;
-import com.comp353.webcareerportal.service.JobService;
 import com.comp353.webcareerportal.dao.ActivityDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.models.*;
-import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
