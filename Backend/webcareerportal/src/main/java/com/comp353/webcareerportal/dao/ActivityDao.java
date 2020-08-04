@@ -10,5 +10,5 @@ public interface ActivityDao extends JpaRepository<Activity, Long> {
 
     @Query(nativeQuery = true, value = "select * from Activity")
     List<Activity> getAllActivities();
-    
+
 }
