@@ -97,8 +97,11 @@ export default class Index extends Vue {
   data() {
     return { tab: 'seeker' };
   }
+  //Models
   email: String = '';
   password = '';
+
+  //Methods that uses axios to connect to backend
   loginEmployer() {
     axios
       .get(
@@ -111,6 +114,7 @@ export default class Index extends Vue {
       .catch(error => console.log(error));
   }
 
+  // Method that leads to another page if successful
   checkResponse(response: boolean) {
     if (response) {
       this.$router.push('job-seeker');
