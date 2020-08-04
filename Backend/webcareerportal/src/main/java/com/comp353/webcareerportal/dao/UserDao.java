@@ -13,14 +13,14 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User, Long> {
 
     // Checking users Exists
-    @Query("select case when COUNT (e.email) > 0 then true else false end from employer e where e.email = :email")
+    @Query("select case when COUNT(e.email) > 0 then true else false end from employer e where e.email = :email")
     boolean employerExistsWithEmail(@Value("email") String email);
 
-    @Query("select case when COUNT (js.email) > 0 then true else false end from jobseeker js where js.email = :email")
+    @Query("select case when COUNT(js.email) > 0 then true else false end from jobseeker js where js.email = :email")
     boolean jobSeekerExistsWithEmail(@Value("email") String email);
 
 
-    @Query("select case when COUNT (a.email) > 0 then true else false end from admin a where a.email = :email")
+    @Query("select case when COUNT(a.email) > 0 then true else false end from admin a where a.email = :email")
     boolean adminExistsWithEmail(@Value("email") String email);
 
 
