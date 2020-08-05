@@ -110,11 +110,15 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import axios from 'axios';
-
+// import { State, Action, Mutation, namespace } from 'vuex-class';
+// import { UserStateInterface } from 'app/store/module-example/state';
+// const someModule = namespace('store/');
 @Component({
   // components: { EssentialLink }
 })
 export default class Index extends Vue {
+  // @State('user') user; //: UserStateInterface;
+  // @Action('setUserId') setId: any;
   data() {
     return { tab: 'seeker' };
   }
@@ -135,7 +139,7 @@ export default class Index extends Vue {
           '/' +
           this.ePassword
       )
-      .then((response) => this.checkResponse(response.data, 'e'))
+      .then((response) => this.checkResponse(response.data, this.eEmail, 'e'))
       .catch((error) => console.log(error));
   }
 
@@ -147,7 +151,7 @@ export default class Index extends Vue {
           '/' +
           this.jsPw
       )
-      .then((response) => this.checkResponse(response.data, 'j'))
+      .then((response) => this.checkResponse(response.data, this.jsEmail, 'j'))
       .catch((error) => console.log(error));
   }
 
@@ -159,19 +163,23 @@ export default class Index extends Vue {
           '/' +
           this.aPw
       )
-      .then((response) => this.checkResponse(response.data, 'a'))
+      .then((response) => this.checkResponse(response.data, this.aEmail, 'a'))
       .catch((error) => console.log(error));
   }
 
   // Method that leads to another page if successful
-  checkResponse(response: boolean, type: string) {
+  checkResponse(response: boolean, id: string, type: string) {
     if (response) {
+      this.$store.commit('SET_USER_ID', id);
       if (type === 'j') {
         this.$router.push('job-seeker').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       } else if (type === 'e') {
         this.$router.push('employer').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       } else {
         this.$router.push('job-seeker').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       }
     }
   }
