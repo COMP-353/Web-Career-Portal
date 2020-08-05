@@ -7,10 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.comp353.webcareerportal.models.Application;
+import com.comp353.webcareerportal.models.ApplicationStatus;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobSeeker;
+import com.comp353.webcareerportal.models.JobStatus;
 import com.comp353.webcareerportal.dao.ApplicationDao;
+import com.comp353.webcareerportal.dao.ApplicationStatusDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.dao.JobDao;
 
@@ -24,6 +27,9 @@ public class ApplicationService {
 	
 	@Autowired
     private JobDao jobRepo;
+	
+	@Autowired
+    private ApplicationStatusDao applicationStatusRepo;
 
 	@Autowired
 	private ActivityDao activityDao;
@@ -65,5 +71,10 @@ public class ApplicationService {
 	public List<Application> getAllApplicationsForJobWithId(int id){
 		Job job = jobRepo.getJobWithJobId(id);
 		return applicationRepo.getApplicationsWithJob(job);
+	}
+	
+	public List<Application> getAllapplicationForapplicationStatusWithId(int id){
+		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(id);
+		return applicationRepo.getApplicationsWithApplicationStatus(applicationStatus);
 	}
 }

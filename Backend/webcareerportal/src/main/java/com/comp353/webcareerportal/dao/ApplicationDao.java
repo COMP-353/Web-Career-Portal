@@ -1,9 +1,11 @@
 package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.Application;
+import com.comp353.webcareerportal.models.ApplicationStatus;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobSeeker;
+import com.comp353.webcareerportal.models.JobStatus;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +42,7 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
 	
 	@Query(nativeQuery = true, value = "select * from application a where a.job_id= :job group by a.applicationId")
     List<Application> getApplicationsWithJob(@Value("job_id") Job job);
+	
+	@Query(nativeQuery = true, value = "select * from application a where a.application_status= :applicationStatus group by a.applicationId")
+    List<Application> getApplicationsWithApplicationStatus(@Value("application_status") ApplicationStatus applicationStatus);
 }
