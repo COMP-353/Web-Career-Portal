@@ -176,18 +176,7 @@
           </div>
           </div>
     </q-body>
-
-    <q-footer bordered class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-          Support: (123) 123-4567
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-
+    
   </q-layout>
 </template>
 
