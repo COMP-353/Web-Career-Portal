@@ -23,8 +23,8 @@
     <p><b>Please fill in this form to create an Employer account.</b></p>
     <hr>
 
-     <q-input filled v-model="text" label="Email" />
-     <q-input filled v-model="text" label="Password" />
+     <q-input filled v-model="employer.email" label="Email" />
+     <q-input filled v-model="employer.password" label="Password" />
 
 </div>
 </div>
@@ -49,7 +49,7 @@ applied
 
       <q-separator inset />
 
-<q-radio v-model="account_type" val="gold" label="Prime (50$/month)" />
+<q-radio v-model="account_type" val="prime" label="Prime (50$/month)" />
 
 </q-card>
 
@@ -65,7 +65,7 @@ of $100 will be applied.
 
       <q-separator inset />
 
- <q-radio v-model="account_type" val="prime" label="Gold (100$/month)" />
+ <q-radio v-model="account_type" val="gold" label="Gold (100$/month)" />
 
 </q-card>
 </div>
@@ -75,8 +75,8 @@ of $100 will be applied.
 
 <div class="row justify-center full-height full-width text-center">
 <div class="clearfix">
-      <q-btn color="white" text-color="black" label="Sign-Up" />
-      <q-btn to="index" color="white" text-color="black" label="Cancel" />
+      <q-btn color="white" text-color="black" label="Sign-Up" @click="signUp()"/>
+      <q-btn to="login" color="white" text-color="black" label="Cancel" />
 </div>
 </div>
 
@@ -84,11 +84,37 @@ of $100 will be applied.
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  data () {
+  data() {
     return {
-      account_type: 'basic'
+      account_type: 'prime',
+      employer: {
+        email: '',
+        password: ''
+      }
+    };
+  },
+  methods: {
+    signUp() {
+      axios
+        .post(
+          'http://localhost:7070/user/newEmployer/' + this.account_type,
+          this.employer
+        )
+        .then(res => this.checkResult(res.data))
+        .catch(e => console.log(e));
+    },
+    checkResult(r) {
+      if (r === true) {
+        this.resetInfo();
+        this.$router.push('login');
+      }
+    },
+    resetInfo() {
+      this.employer.email = '';
+      this.employer.password = '';
     }
   }
-}
+};
 </script>
