@@ -17,18 +17,18 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(path = "newEmployer")
-    public String addNewEmployer(@RequestBody Employer employer) {
-        return userService.addNewEmployer(employer) ? "Employer added successfully" : "Employer already exists";
+    public boolean addNewEmployer(@RequestBody Employer employer) {
+        return userService.addNewEmployer(employer); // ? "Employer added successfully" : "Employer already exists";
     }
 
     @PostMapping(path = "newAdmin")
-    public String addNewAdmin(@RequestBody Admin admin) {
-        return userService.addNewAdmin(admin) ? "Admin added successfully" : "Admin already exists";
+    public boolean addNewAdmin(@RequestBody Admin admin) {
+        return userService.addNewAdmin(admin); //? "Admin added successfully" : "Admin already exists";
     }
 
     @PostMapping(path = "newJobSeeker")
-    public String addNewJobSeeker(@RequestBody JobSeeker jobSeeker) {
-        return userService.addNewJobSeeker(jobSeeker) ? "JobSeeker added successfully" : "JobSeeker already exists";
+    public boolean addNewJobSeeker(@RequestBody JobSeeker jobSeeker) {
+        return userService.addNewJobSeeker(jobSeeker) ;//? "JobSeeker added successfully" : "JobSeeker already exists";
     }
 
     /**
