@@ -93,6 +93,12 @@ public class UserController {
         return userService.checkIdAvailability(id);
     }
 
+    @GetMapping(path = "forgot/{id}")
+    public void userForgotPassword(@PathVariable(name = "id") String id){
+        userService.userForgotPassword(id);
+    }
+
+
     @PutMapping(path = "updateName")
     public boolean updateJobSeekerName(@RequestBody JobSeeker jobSeeker) {
         return userService.updateJobSeekerName(jobSeeker);
