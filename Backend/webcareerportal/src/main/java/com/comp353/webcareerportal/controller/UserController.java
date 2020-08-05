@@ -15,8 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "newEmployer")
-    public boolean addNewEmployer(@RequestBody Employer employer) {
+    @PostMapping(path = "newEmployer/{type}")
+    public boolean addNewEmployer(@RequestBody Employer employer, @PathVariable(name = "type") String type) {
+        employer.setEmployerCategory(type);
         return userService.addNewEmployer(employer); // ? "Employer added successfully" : "Employer already exists";
     }
 
