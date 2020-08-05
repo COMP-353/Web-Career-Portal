@@ -18,10 +18,8 @@ import javax.persistence.OneToMany;
 public abstract class User {
     @Id
     private String email;
-    @JsonIgnore
     private String password;
-    @Column(columnDefinition = "VARCHAR(20) default 'Active'")
-    private String status;
+    private String status = "Active";
     @Column(columnDefinition = "int default 0")
     private int accountBalance;
 }
