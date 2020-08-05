@@ -300,7 +300,7 @@ public class UserService {
         text.append("Your password is: ");
         text.append(password);
         text.append(".");
-        text.append("\n\nPlease consider changing your password now");
+        text.append("\n\nPlease consider changing your password now.");
         try {
             wcpEmailService.sendmail(id, "Your Requested Password",text.toString());
         } catch (MessagingException e) {
