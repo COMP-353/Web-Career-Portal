@@ -1,192 +1,278 @@
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>
+
 <template>
-
   <q-layout view="hHh LpR fFf">
-
     <q-header reveal elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-          Job Portal
+          Web Career Portal
         </q-toolbar-title>
-        <q-toolbar-subtitle>
-          Job-seeker
-       </q-toolbar-subtitle>
+        <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
 
-      <q-tabs align="left">
-        <q-route-tab to="" label="Home" />
-        <q-route-tab to="/page2" label="Add payment" />
-        <q-route-tab to="/page3" label="Logout" />
+      <q-tabs v-model="tab" align="left">
+        <q-tab name="apps" label="Home" />
+        <q-tab name="page2" label="Job Postings" />
+        <q-tab name="page3" label="Profile" />
       </q-tabs>
     </q-header>
 
-    <q-page-container style="height: 250px">
-        <q-card
-        flat bordered class="my-card"
-      >
-        <q-card-section>
-          <div class="text-h6">Welcome back!</div>
-          <div class="text-subtitle2">The job opportunity list has been updated!</div>
-        </q-card-section>
+    <!-- <q-page-container style="height: 250px;"> -->
+    <q-tab-panels v-model="tab" animated>
+      <q-tab-panel name="apps">
+        <q-page-container>
+          <q-card flat bordered class="my-card">
+            <q-card-section>
+              <div class="text-h6">
+                Welcome back {{ this.jobSeeker.firstName }}!
+              </div>
+              <div class="text-subtitle2">
+                The job opportunity list has been updated!
+              </div>
+            </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
-        </q-card-section>
-      </q-card>
-        <router-view />
-    </q-page-container>
+            <q-card-section class="q-pt-none">
+              {{ this.jobSeeker.firstName }}
+            </q-card-section>
+          </q-card>
 
-    <q-body>
-        <div class="row">
-          <div class="col">
-            <div class="q-pl-xl">
-              <q-markup-table>
-                <thead>
-                  <tr>
-                    <th class="text-left">Company</th>
-                    <th class="text-left">Job position</th>
-                    <th class="text-right">ID</th>
-                    <th class="text-right">Email</th>
-                    <th class="text-right">Date of posting</th>
-                    <th class="text-right">Apply!</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">1</td>
-                    <td class="text-right">mia@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">2</td>
-                    <td class="text-right">joanna@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">3</td>
-                    <td class="text-right">leonie@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">4</td>
-                    <td class="text-right">ashley@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">5</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">6</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm"/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Google</td>
-                    <td class="text-left">Software developer</td>
-                    <td class="text-right">7</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">
-                      <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="blue" icon="mail" icon-right="send" label=" " size="sm" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <div class="q-pa-lg flex flex-center">
-                      <q-pagination
-                        v-model="current"
-                        :max="5"
-                        :direction-links="true"
-                        :boundary-links="true"
-                        icon-first="skip_previous"
-                        icon-last="skip_next"
-                        icon-prev="fast_rewind"
-                        icon-next="fast_forward"
-                      >
-                    </q-pagination>
-                  </div>
-                  </tr>
-              </tbody>
-            </q-markup-table>
-          </div>
-          </div>
-          <div class="col-3 row vertical-middle q-pl-xl">
-            <div class="q-pa-md flex flex-center">
-              <q-knob
+          <div class="row">
+            <div class="col">
+              <div class="q-pl-xl">
+                <q-markup-table>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Company</th>
+                      <th class="text-left">Job position</th>
+                      <th class="text-right">ID</th>
+                      <th class="text-right">Email</th>
+                      <th class="text-right">Date of posting</th>
+                      <th class="text-right">Apply!</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-left">Google</td>
+                      <td class="text-left">Software developer</td>
+                      <td class="text-right">1</td>
+                      <td class="text-right">mia@gmail.com</td>
+                      <td class="text-right">2020-08-02</td>
+                      <td class="text-right">
+                        <div class="q-pa-md q-gutter-sm">
+                          <q-btn
+                            color="blue"
+                            icon="mail"
+                            icon-right="send"
+                            label=" "
+                            size="sm"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
+              </div>
+            </div>
+            <div class="col-3 row vertical-middle q-pl-xl">
+              <div class="q-pa-md flex flex-center">
+                <q-knob
                   readonly
                   show-value
                   font-size="20px"
-                  v-model="value"
+                  v-model="this.jobSeeker.accountBalance"
                   size="250px"
                   :thickness="0.1"
                   color="teal"
                   track-color="grey-3"
                   class="q-ma-md"
                 >
-                  Balance ${{ value }}
+                  Balance {{ this.jobSeeker.accountBalance }}$
                 </q-knob>
+              </div>
             </div>
           </div>
-          </div>
-    </q-body>
-    
+          <!-- </q-body> -->
+        </q-page-container>
+      </q-tab-panel>
+
+      <q-tab-panel name="page2"
+        ><q-page-container>Page 2</q-page-container>
+      </q-tab-panel>
+
+      <q-tab-panel name="page3">
+        <q-page-container>
+          <q-splitter v-model="splitterModel" style="height: 75%;">
+            <template v-slot:before>
+              <q-tabs v-model="innerProfileTab" vertical class="text-teal">
+                <q-tab name="innerprofile" icon="person" label="Profile" />
+                <q-tab name="innerAlarms" icon="payment" label="Payment" />
+                <q-tab name="innerMovies" icon="category" label="category" />
+              </q-tabs>
+            </template>
+
+            <template v-slot:after>
+              <q-tab-panels
+                v-model="innerProfileTab"
+                animated
+                transition-prev="slide-down"
+                transition-next="slide-up"
+              >
+                <q-tab-panel name="innerprofile">
+                  <div class="text-h4 q-mb-md">Profile</div>
+                  <p>Your profile information</p>
+                  <q-input
+                    outlined
+                    v-model="jobSeeker.firstName"
+                    label="First Name"
+                  />
+                  <q-separator></q-separator>
+                  <q-input
+                    outlined
+                    v-model="jobSeeker.lastName"
+                    label="Last Name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="innerAlarms">
+                  <div class="text-h4 q-mb-md">Payments</div>
+                </q-tab-panel>
+
+                <q-tab-panel name="innerMovies">
+                  <div class="text-h4 q-mb-md">Category</div>
+                  <div
+                    class="row justify-center full-height full-width text-center"
+                  >
+                    <div class="q-gutter-sm">
+                      <p style="font-size: 100%;">
+                        <b>Select type of account</b>
+                      </p>
+
+                      <div class="row">
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Basic Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can only view job postings but not apply. Free.
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="accountType"
+                            val="Basic"
+                            label="Free"
+                          />
+                        </q-card>
+
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Prime Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can apply to up to five jobs. A monthly charge
+                            of $10 will be applied
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="accountType"
+                            val="Prime"
+                            label="Prime (10$/month)"
+                          />
+                        </q-card>
+
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Gold Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can apply to as many jobs as you wants. A
+                            monthly charge of $20 will be applied.
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="accountType"
+                            val="Gold"
+                            label="Gold (20$/month)"
+                          />
+                        </q-card>
+                      </div>
+                    </div>
+                  </div>
+                </q-tab-panel>
+              </q-tab-panels>
+            </template> </q-splitter></q-page-container
+      ></q-tab-panel>
+    </q-tab-panels>
   </q-layout>
 </template>
 
 <script>
+import axios from 'axios';
+
+
 export default {
-  data () {
+  data() {
     return {
-      current: 3,
-      value: 71
+      tab: 'apps',
+      accountType:'basic',
+      innerProfileTab:'innerprofile',
+      baseUrl: 'http://localhost:7070/',
+      jobSeeker:{
+      firstName:'',
+        lastName:'',
+        accountBalance: 0,
+        status:'',
+        email:'',
+      }
     }
-  }
-}
+  },
+
+  mounted() {
+    if (this.$store.getters.getUserId === '') {
+      console.log("User id is indeed ''");
+      this.$router.push('/');
+    } else {
+      this.jobSeeker.email = this.$store.getters.getUserId;
+     this.getUserData()
+     this.getAccountCategory()
+    }
+  },
+
+  methods: {
+    assignJsObject( res) {
+      this.jobSeeker.firstName = res.firstName;
+      this.jobSeeker.lastName = res.lastName;
+      this.jobSeeker.accountBalance = res.accountBalance;
+      this.jobSeeker.status = res.status;
+    },
+    logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
+    },
+    getAccountCategory(){
+       axios
+        .get(this.baseUrl + 'user/getCat/' + this.jobSeeker.email)
+        .then((res) => this.accountType = res.data)
+        .catch((e) => console.log(e));
+    },
+    getUserData(){
+      axios
+        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .then((res) => this.assignJsObject(res.data))
+        .catch((e) => console.log(e));
+    }
+  },
+};
 </script>

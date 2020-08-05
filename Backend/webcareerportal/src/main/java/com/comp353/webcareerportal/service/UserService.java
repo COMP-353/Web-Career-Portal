@@ -38,6 +38,28 @@ public class UserService {
     @Autowired
     private ActivityDao activityDao;
 
+    public Employer getEmployerWithId(String id){
+       return userRepo.getEmployerWithEmail(id);
+    }
+
+//    public Admin getAdminWithId(String id){
+//        return userRepo.ge
+//    }
+
+    public String getCategoryForUser(String id){
+        if (userRepo.employerExistsWithEmail(id)) {
+            return userRepo.getEmployerWithEmail(id).getEmployerCategory();
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
+           return userRepo.getJobSeekerWithEmail(id).getJobSeekerCategory();
+        }
+        return "";
+    }
+
+
+    public JobSeeker getJobSeekerWithId(String id){
+        return userRepo.getJobSeekerWithEmail(id);
+    }
+
     public boolean addNewAdmin(Admin admin) {
         if (userRepo.adminExistsWithEmail(admin.getEmail())) return false;
         userRepo.save(admin);
