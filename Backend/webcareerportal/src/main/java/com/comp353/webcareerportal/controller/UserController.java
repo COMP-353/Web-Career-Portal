@@ -52,9 +52,18 @@ public class UserController {
      * @return true if user exists and password matches, false otherwise
      */
     //TODO use more secure way of handling password
-    @GetMapping(path = "authenticateUser/{employerId}/{pw}")
-    public boolean authenticateUser(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
-        return userService.authenticateUser(employerId, password);
+    @GetMapping(path = "authenticatejs/{employerId}/{pw}")
+    public boolean authenticateJs(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateJobSeeker(employerId, password);
+    }
+    @GetMapping(path = "authenticatee/{employerId}/{pw}")
+    public boolean authenticateE(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateEmployer(employerId, password);
+    }
+
+    @GetMapping(path = "authenticatea/{employerId}/{pw}")
+    public boolean authenticateA(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateAdmin(employerId, password);
     }
 
     @PutMapping(path = "updateJobSeekerCategory/{id}/{category}")
