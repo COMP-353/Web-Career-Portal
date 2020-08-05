@@ -46,6 +46,16 @@ public class UserService {
 //        return userRepo.ge
 //    }
 
+    public String getCategoryForUser(String id){
+        if (userRepo.employerExistsWithEmail(id)) {
+            return userRepo.getEmployerWithEmail(id).getEmployerCategory();
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
+           return userRepo.getJobSeekerWithEmail(id).getJobSeekerCategory();
+        }
+        return "";
+    }
+
+
     public JobSeeker getJobSeekerWithId(String id){
         return userRepo.getJobSeekerWithEmail(id);
     }

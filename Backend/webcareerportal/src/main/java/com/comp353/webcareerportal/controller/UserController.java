@@ -62,6 +62,11 @@ public class UserController {
         return userService.updateJobSeekerCategory(id, category);
     }
 
+    @GetMapping(path = "getCat/{id}")
+    public String getJobSeekerCategory(@PathVariable(value = "id") String id){
+        return userService.getCategoryForUser(id);
+    }
+
     @PutMapping(path = "updateEmployerCategory/{id}/{category}")
     public boolean changeEmployerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category) {
         return userService.updateEmployerCategory(id, category);
