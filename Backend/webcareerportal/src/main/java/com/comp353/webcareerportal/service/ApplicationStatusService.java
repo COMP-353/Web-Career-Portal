@@ -1,5 +1,7 @@
 package com.comp353.webcareerportal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class ApplicationStatusService {
 		if (applicationStatusRepo.applicationStatusExistsWithStatus(applicationStatus.getStatus())) return false;
 		applicationStatusRepo.save(applicationStatus);
 		return true;
+	}
+	
+	public List<ApplicationStatus> getAllApplicationStatuses(){
+		return applicationStatusRepo.getAllApplicationStatuses();
 	}
 
 }

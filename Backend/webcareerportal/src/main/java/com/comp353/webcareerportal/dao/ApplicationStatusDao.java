@@ -20,4 +20,6 @@ public interface ApplicationStatusDao extends JpaRepository<ApplicationStatus, L
 	@Query(nativeQuery = true, value = "select * from applicationStatus a where a.statusId= :status_id")
 	ApplicationStatus getApplicationStatusWithId(@Value("statusId") int status_id);
 
+	@Query(nativeQuery = true, value = "select * from applicationStatus")
+	List<ApplicationStatus> getAllApplicationStatuses();
 }
