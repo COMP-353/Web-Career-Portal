@@ -35,6 +35,7 @@
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
 		    <q-btn to="sign-up-jobSeeker" color="white" text-color="black" label="Sign-Up" />
+        <q-btn to="forgotPassword" color="white" text-color="black" label="Forgot Password" />
                   </div>
                 </q-tab-panel>
 
@@ -46,6 +47,7 @@
                     <q-separator></q-separator>
                     <q-btn color="white" text-color="black" label="Log in" />
                     <q-btn to="sign-up-employer" color="white" text-color="black" label="Sign-Up" />
+                    <q-btn to="forgotPassword" color="white" text-color="black" label="Forgot Password" />
                   </div>
                 </q-tab-panel>
 
