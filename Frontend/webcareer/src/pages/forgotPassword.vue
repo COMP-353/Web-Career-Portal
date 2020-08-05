@@ -16,7 +16,7 @@
 
     <p><b>Please input your email. If it matches the one we have in our system, you will see your password in your email.</b></p>
     <hr>
-     <q-input filled v-model="text" label="Email" />
+     <q-input filled v-model="email" label="Email" />
 
 </div>
 
@@ -26,19 +26,40 @@
 
 <div class="row justify-center full-height full-width text-center">
 <div class="clearfix">
-      <q-btn color="white" text-color="black" label="Submit" />
-      <q-btn to="index" color="white" text-color="black" label="Cancel" />
+      <q-btn color="white" text-color="black" label="Submit" @click="sendEmail()"/>
+      <q-btn to="login" color="white" text-color="black" label="Cancel" />
 </div>
+
 </div>
 
 
-
-
+<div class="justify-center text-center">
+{{text}}
+</div>
   </q-page>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  // name: 'PageName',
+  data() {
+    return {
+      email: '',
+      text: ''
+    };
+  },
+  methods: {
+    sendEmail() {
+      axios
+        .get('http://localhost:7070/user/forgot/' + this.email)
+        .then(this.done)
+        .catch(e => console.log(e));
+    },
+    done() {
+      this.email = '';
+      this.text =
+        "It's done, check your email. \nIf you do not receive any emails anywhere, your email is not registered in our system.";
+    }
+  }
 };
 </script>
