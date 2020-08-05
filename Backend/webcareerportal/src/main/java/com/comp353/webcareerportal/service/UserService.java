@@ -282,12 +282,15 @@ public class UserService {
         if (userRepo.jobSeekerExistsWithEmail(id)) {
             String password = userRepo.getPasswordForJobSeekerWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         } else if (userRepo.employerExistsWithEmail(id)) {
             String password = userRepo.getPasswordForEmployerWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         } else if (userRepo.adminExistsWithEmail(id)) {
             String password = userRepo.getPasswordForAdminWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         }
     }
 
@@ -297,7 +300,7 @@ public class UserService {
         text.append("Your password is: ");
         text.append(password);
         text.append(".");
-        text.append("\n\nPlease consider changing your password now");
+        text.append("\n\nPlease consider changing your password now.");
         try {
             wcpEmailService.sendmail(id, "Your Requested Password",text.toString());
         } catch (MessagingException e) {
