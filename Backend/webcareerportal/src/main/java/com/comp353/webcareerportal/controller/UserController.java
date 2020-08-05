@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "user/")
 public class UserController {
 
@@ -36,8 +37,8 @@ public class UserController {
      * @return true if user exists and password matches, false otherwise
      */
     //TODO use more secure way of handling password
-    @GetMapping(path = "authenticateUser/{employerId}")
-    public boolean authenticateUser(@PathVariable String employerId, @RequestBody String password) {
+    @GetMapping(path = "authenticateUser/{employerId}/{pw}")
+    public boolean authenticateUser(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
         return userService.authenticateUser(employerId, password);
     }
 
@@ -57,8 +58,8 @@ public class UserController {
      * @return true if user exists and password matches, false otherwise
      */
     //TODO use more secure way of handling password
-    @PutMapping(path = "updatePassword/{id}")
-    public boolean updateUserPassword(@PathVariable(name = "id") String id, @RequestBody String newPassword) {
+    @PutMapping(path = "updateEmployerCategory/{id}/{pw}")
+    public boolean updateUserPassword(@PathVariable(name = "id") String id, @PathVariable(name = "pw") String newPassword) {
         return userService.updateUserPassword(id, newPassword);
     }
 
