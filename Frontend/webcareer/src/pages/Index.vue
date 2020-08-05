@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal
@@ -13,6 +13,7 @@
         <div class="q-pa-md">
           <div class="q-gutter-y-md" style="max-width: 60%">
             <q-card>
+              <!-- All the tabs -->
               <q-tabs
                 v-model="tab"
                 active-color="primary"
@@ -24,40 +25,75 @@
                 <q-tab name="admin" label="Admin"></q-tab>
               </q-tabs>
 
-              <!-- <q-separator></q-separator> -->
+              <q-separator></q-separator>
 
               <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="seeker">
                   <div>
-                    <q-input outlined v-model="email" label="Email Address" />
+                    <q-input outlined v-model="jsEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="password" label="Password" />
+                    <q-input outlined v-model="jsPw" label="Password" />
                     <q-separator></q-separator>
-                    <q-btn color="white" text-color="black" label="Log in" />
-		    <q-btn to="sign-up-jobSeeker" color="white" text-color="black" label="Sign-Up" />
-        <q-btn to="forgotPassword" color="white" text-color="black" label="Forgot Password" />
+                    <q-btn
+                      color="white"
+                      text-color="black"
+                      label="Log in"
+                      @click="loginJs()"
+                    />
+                    <q-btn
+                      to="sign-up-jobSeeker"
+                      color="white"
+                      text-color="black"
+                      label="Sign-Up"
+                    />
+                    <q-btn
+                      to="forgotPassword"
+                      color="white"
+                      text-color="black"
+                      label="Forgot Password"
+                    />
                   </div>
                 </q-tab-panel>
 
                 <q-tab-panel name="employer">
                   <div>
-                    <q-input outlined v-model="email" label="Email Address" />
+                    <q-input outlined v-model="eEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="password" label="Password" />
+                    <q-input outlined v-model="ePassword" label="Password" />
                     <q-separator></q-separator>
-                    <q-btn color="white" text-color="black" label="Log in" />
-                    <q-btn to="sign-up-employer" color="white" text-color="black" label="Sign-Up" />
-                    <q-btn to="forgotPassword" color="white" text-color="black" label="Forgot Password" />
+                    <q-btn
+                      color="white"
+                      text-color="black"
+                      label="Log in"
+                      @click="loginEmployer()"
+                    />
+                    <q-btn
+                      to="sign-up-employer"
+                      color="white"
+                      text-color="black"
+                      label="Sign-Up"
+                    />
+                    <q-btn
+                      to="forgotPassword"
+                      color="white"
+                      text-color="black"
+                      label="Forgot Password"
+                    />
                   </div>
                 </q-tab-panel>
 
                 <q-tab-panel name="admin">
                   <div>
-                    <q-input outlined v-model="email" label="Email Address" />
+                    <q-input outlined v-model="aEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="password" label="Password" />
+                    <q-input outlined v-model="aPw" label="Password" />
                     <q-separator></q-separator>
-                    <q-btn color="white" text-color="black" label="Log in" />
+                    <q-btn
+                      color="white"
+                      text-color="black"
+                      label="Log in"
+                      @click="loginA()"
+                    />
                   </div>
                 </q-tab-panel>
               </q-tab-panels>
@@ -85,26 +121,60 @@ export default class Index extends Vue {
     return { tab: 'seeker' };
   }
   //Models
-  email: String = '';
-  password = '';
+  eEmail: String = '';
+  ePassword = '';
+  jsEmail = '';
+  jsPw = '';
+  aEmail = '';
+  aPw = '';
 
   //Methods that uses axios to connect to backend
   loginEmployer() {
     axios
       .get(
         'http://localhost:7070/user/authenticateUser/' +
-          this.email +
+          this.eEmail +
           '/' +
-          this.password
+          this.ePassword
       )
-      .then(response => this.checkResponse(response.data))
+      .then(response => this.checkResponse(response.data, 'e'))
+      .catch(error => console.log(error));
+  }
+
+  loginJs() {
+    axios
+      .get(
+        'http://localhost:7070/user/authenticateUser/' +
+          this.jsEmail +
+          '/' +
+          this.jsPw
+      )
+      .then(response => this.checkResponse(response.data, 'j'))
+      .catch(error => console.log(error));
+  }
+
+  loginA() {
+    axios
+      .get(
+        'http://localhost:7070/user/authenticateUser/' +
+          this.aEmail +
+          '/' +
+          this.aPw
+      )
+      .then(response => this.checkResponse(response.data, 'a'))
       .catch(error => console.log(error));
   }
 
   // Method that leads to another page if successful
-  checkResponse(response: boolean) {
+  checkResponse(response: boolean, type: String) {
     if (response) {
-      this.$router.push('job-seeker');
+      if (type === 'j') {
+        this.$router.push('job-seeker');
+      } else if (type === 'e') {
+        this.$router.push('employer');
+      } else {
+        this.$router.push('job-seeker');
+      }
     }
   }
 }

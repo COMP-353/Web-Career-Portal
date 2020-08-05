@@ -16,23 +16,24 @@ import java.io.IOException;
 @RequestMapping(path = "user/")
 public class UserController {
 
-
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "newEmployer")
-    public String addNewEmployer(@RequestBody Employer employer) {
-        return userService.addNewEmployer(employer) ? "Employer added successfully" : "Employer already exists";
+    @PostMapping(path = "newEmployer/{type}")
+    public boolean addNewEmployer(@RequestBody Employer employer, @PathVariable(name = "type") String type) {
+        employer.setEmployerCategory(type);
+        return userService.addNewEmployer(employer); // ? "Employer added successfully" : "Employer already exists";
     }
 
     @PostMapping(path = "newAdmin")
-    public String addNewAdmin(@RequestBody Admin admin) {
-        return userService.addNewAdmin(admin) ? "Admin added successfully" : "Admin already exists";
+    public boolean addNewAdmin(@RequestBody Admin admin) {
+        return userService.addNewAdmin(admin); //? "Admin added successfully" : "Admin already exists";
     }
 
-    @PostMapping(path = "newJobSeeker")
-    public String addNewJobSeeker(@RequestBody JobSeeker jobSeeker) {
-        return userService.addNewJobSeeker(jobSeeker) ? "JobSeeker added successfully" : "JobSeeker already exists";
+    @PostMapping(path = "newJobSeeker/{type}")
+    public boolean addNewJobSeeker(@RequestBody JobSeeker jobSeeker, @PathVariable(name = "type") String type) {
+        jobSeeker.setJobSeekerCategory(type);
+        return userService.addNewJobSeeker(jobSeeker) ;//? "JobSeeker added successfully" : "JobSeeker already exists";
     }
 
     /**
@@ -88,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping(path = "check/{id}")
-    public boolean checkAvailablityOfUserId(@PathVariable(name = "id") String id) {
+    public boolean checkAvailabilityOfUserId(@PathVariable(name = "id") String id) {
         return userService.checkIdAvailability(id);
     }
 
