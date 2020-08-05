@@ -3,26 +3,21 @@
     <q-header reveal elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          <!-- <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" /> -->
-          <!-- </q-avatar> -->
           Web Career Portal
         </q-toolbar-title>
-        <!-- <q-toolbar-subtitle> -->
-        <q-btn label="logout" />
-        <!-- </q-toolbar-subtitle> -->
+        <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs v-model="tab" align="left">
-        <q-tab name="page1" label="Home" />
-        <q-tab name="page2" label="Applications" />
+        <q-tab name="apps" label="Home" />
+        <q-tab name="page2" label="Job Postings" />
         <q-tab name="page3" label="Profile" />
       </q-tabs>
     </q-header>
 
     <!-- <q-page-container style="height: 250px;"> -->
     <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="page1">
+      <q-tab-panel name="apps">
         <q-page-container>
           <q-card flat bordered class="my-card">
             <q-card-section>
@@ -38,10 +33,7 @@
               {{ this.jobSeeker.firstName }}
             </q-card-section>
           </q-card>
-          <!-- <router-view /> -->
-          <!-- </q-page-container> -->
 
-          <!-- <q-body> -->
           <div class="row">
             <div class="col">
               <div class="q-pl-xl">
@@ -106,8 +98,116 @@
       </q-tab-panel>
 
       <q-tab-panel name="page3">
-        <q-page-container>Page 3</q-page-container></q-tab-panel
-      >
+        <q-page-container>
+          <q-splitter v-model="splitterModel" style="height: 250px;">
+            <template v-slot:before>
+              <q-tabs v-model="innerProfileTab" vertical class="text-teal">
+                <q-tab name="innerprofile" icon="person" label="Profile" />
+                <q-tab name="innerAlarms" icon="payment" label="Payment" />
+                <q-tab name="innerMovies" icon="category" label="category" />
+              </q-tabs>
+            </template>
+
+            <template v-slot:after>
+              <q-tab-panels
+                v-model="innerProfileTab"
+                animated
+                transition-prev="slide-down"
+                transition-next="slide-up"
+              >
+                <q-tab-panel name="innerprofile">
+                  <div class="text-h4 q-mb-md">Profile</div>
+                  <p>Your profile information</p>
+                  <q-input
+                    outlined
+                    v-model="jobSeeker.firstName"
+                    label="First Name"
+                  />
+                  <q-separator></q-separator>
+                  <q-input
+                    outlined
+                    v-model="jobSeeker.lastName"
+                    label="Last Name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="innerAlarms">
+                  <div class="text-h4 q-mb-md">Payments</div>
+                </q-tab-panel>
+
+                <q-tab-panel name="innerMovies">
+                  <div class="text-h4 q-mb-md">Category</div>
+                  <div
+                    class="row justify-center full-height full-width text-center"
+                  >
+                    <div class="q-gutter-sm">
+                      <p style="font-size: 100%;">
+                        <b>Select type of account</b>
+                      </p>
+
+                      <div class="row">
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Basic Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can only view job postings but not apply. Free.
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="account_type"
+                            val="basic"
+                            label="Free"
+                          />
+                        </q-card>
+
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Prime Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can apply to up to five jobs. A monthly charge
+                            of $10 will be applied
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="account_type"
+                            val="prime"
+                            label="Prime (10$/month)"
+                          />
+                        </q-card>
+
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Gold Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            You can apply to as many jobs as you wants. A
+                            monthly charge of $20 will be applied.
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="account_type"
+                            val="gold"
+                            label="Gold (20$/month)"
+                          />
+                        </q-card>
+                      </div>
+                    </div>
+                  </div>
+                </q-tab-panel>
+              </q-tab-panels>
+            </template> </q-splitter></q-page-container
+      ></q-tab-panel>
     </q-tab-panels>
   </q-layout>
 </template>
@@ -119,7 +219,9 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      tab: 'page1',
+      tab: 'apps',
+      accountType:'basic',
+      innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
       jobSeeker:{
       firstName:'',
@@ -150,6 +252,16 @@ export default {
       this.jobSeeker.lastName = res.lastName;
       this.jobSeeker.accountBalance = res.accountBalance;
       this.jobSeeker.status = res.status;
+    },
+    logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
+    },
+    getAccountCategory(){
+       axios
+        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .then((res) => this.accountType = res.data)
+        .catch((e) => console.log(e));
     }
   },
 };
