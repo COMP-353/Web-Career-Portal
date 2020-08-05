@@ -58,7 +58,7 @@
 
             <q-radio
               v-model="account_type"
-              val="gold"
+              val="prime"
               label="Prime (10$/month)"
             />
           </q-card>
@@ -77,7 +77,7 @@
 
             <q-radio
               v-model="account_type"
-              val="prime"
+              val="gold"
               label="Gold (20$/month)"
             />
           </q-card>
@@ -87,8 +87,13 @@
 
     <div class="row justify-center full-height full-width text-center">
       <div class="clearfix">
-        <q-btn color="white" text-color="black" label="Sign-Up" />
-        <q-btn to="index" color="white" text-color="black" label="Cancel" />
+        <q-btn
+          color="white"
+          text-color="black"
+          label="Sign-Up"
+          @click="signUp()"
+        />
+        <q-btn to="login" color="white" text-color="black" label="Cancel" />
       </div>
     </div>
   </q-page>
@@ -108,16 +113,19 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
-        category: ''
+        password: ''
       }
     };
   },
   methods: {
     signUp() {
+      this.createJobSeekerObject();
       axios
-        .post('http://localhost:7070/user/newJobSeeker', this.jobSeeker)
-        .then(result => checkResultOfAdding(result.data))
+        .post(
+          'http://localhost:7070/user/newJobSeeker/' + this.account_type,
+          this.jobSeeker
+        )
+        .then(result => this.checkResultOfAdding(result.data))
         .catch(e => console.log(e));
     },
     createJobSeekerObject() {
@@ -125,11 +133,20 @@ export default {
       this.jobSeeker.lastName = this.lastName;
       this.jobSeeker.email = this.email;
       this.jobSeeker.password = this.password;
+      // this.jobSeeker.jobSeekerCategory = this.account_type;
     },
     checkResultOfAdding(r) {
       if (r === true) {
-        this.$router.pop;
+        this.resetInfos();
+        this.$router.push('login');
       }
+    },
+    resetInfos() {
+      this.email = '';
+      this.password = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.account_type = 'basic';
     }
   }
 };
