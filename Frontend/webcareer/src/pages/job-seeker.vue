@@ -1,3 +1,9 @@
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>
+
 <template>
   <q-layout view="hHh LpR fFf">
     <q-header reveal elevated class="bg-primary text-white" height-hint="98">
@@ -99,7 +105,7 @@
 
       <q-tab-panel name="page3">
         <q-page-container>
-          <q-splitter v-model="splitterModel" style="height: 250px;">
+          <q-splitter v-model="splitterModel" style="height: 75%;">
             <template v-slot:before>
               <q-tabs v-model="innerProfileTab" vertical class="text-teal">
                 <q-tab name="innerprofile" icon="person" label="Profile" />
@@ -158,8 +164,8 @@
                           <q-separator inset />
 
                           <q-radio
-                            v-model="account_type"
-                            val="basic"
+                            v-model="accountType"
+                            val="Basic"
                             label="Free"
                           />
                         </q-card>
@@ -177,8 +183,8 @@
                           <q-separator inset />
 
                           <q-radio
-                            v-model="account_type"
-                            val="prime"
+                            v-model="accountType"
+                            val="Prime"
                             label="Prime (10$/month)"
                           />
                         </q-card>
@@ -196,8 +202,8 @@
                           <q-separator inset />
 
                           <q-radio
-                            v-model="account_type"
-                            val="gold"
+                            v-model="accountType"
+                            val="Gold"
                             label="Gold (20$/month)"
                           />
                         </q-card>
@@ -239,10 +245,8 @@ export default {
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
-      axios
-        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
-        .then((res) => this.assignJsObject(res.data))
-        .catch((e) => console.log(e));
+     this.getUserData()
+     this.getAccountCategory()
     }
   },
 
@@ -259,8 +263,14 @@ export default {
     },
     getAccountCategory(){
        axios
-        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .get(this.baseUrl + 'user/getCat/' + this.jobSeeker.email)
         .then((res) => this.accountType = res.data)
+        .catch((e) => console.log(e));
+    },
+    getUserData(){
+      axios
+        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
     }
   },
