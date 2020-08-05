@@ -134,7 +134,7 @@ export default class Index extends Vue {
   loginEmployer() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatee/' +
           this.eEmail +
           '/' +
           this.ePassword
@@ -146,7 +146,7 @@ export default class Index extends Vue {
   loginJs() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatejs/' +
           this.jsEmail +
           '/' +
           this.jsPw
@@ -158,7 +158,7 @@ export default class Index extends Vue {
   loginA() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatea/' +
           this.aEmail +
           '/' +
           this.aPw
