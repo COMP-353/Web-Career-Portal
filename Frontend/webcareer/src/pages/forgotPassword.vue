@@ -14,7 +14,7 @@
      <div class="q-pa-md q-gutter-sm">
   </div>
 
-    <p><b>Please input your email so that we can show you your password.</b></p>
+    <p><b>Please input your email. If it matches the one we have in our system, you will see your password in your email.</b></p>
     <hr>
      <q-input filled v-model="text" label="Email" />
 
@@ -31,24 +31,8 @@
 </div>
 </div>
 
-<br></br>
 
-<div class="row justify-center full-height full-width text-center">
-<q-card flat bordered class="my-card">
-      <q-card-section>
-        <div class="text-h6">Your password is:</div>
-      </q-card-section>
 
-      <q-card-section class="q-pt-none">
-        your password will be displayed when you click submit
-      </q-card-section>
-
-      <q-separator inset />
-
- 
-
-</q-card>
-</div>
 
   </q-page>
 </template>
@@ -56,5 +40,5 @@
 <script>
 export default {
   // name: 'PageName',
-}
+};
 </script>
