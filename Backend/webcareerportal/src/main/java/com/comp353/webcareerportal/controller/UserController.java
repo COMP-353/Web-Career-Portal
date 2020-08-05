@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "user/")
 public class UserController {
 
-
     @Autowired
     private UserService userService;
 
@@ -26,8 +25,9 @@ public class UserController {
         return userService.addNewAdmin(admin); //? "Admin added successfully" : "Admin already exists";
     }
 
-    @PostMapping(path = "newJobSeeker")
-    public boolean addNewJobSeeker(@RequestBody JobSeeker jobSeeker) {
+    @PostMapping(path = "newJobSeeker/{type}")
+    public boolean addNewJobSeeker(@RequestBody JobSeeker jobSeeker, @PathVariable(name = "type") String type) {
+        jobSeeker.setJobSeekerCategory(type);
         return userService.addNewJobSeeker(jobSeeker) ;//? "JobSeeker added successfully" : "JobSeeker already exists";
     }
 
@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping(path = "check/{id}")
-    public boolean checkAvailablityOfUserId(@PathVariable(name = "id") String id) {
+    public boolean checkAvailabilityOfUserId(@PathVariable(name = "id") String id) {
         return userService.checkIdAvailability(id);
     }
 
