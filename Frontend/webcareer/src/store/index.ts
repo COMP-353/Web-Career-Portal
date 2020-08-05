@@ -19,11 +19,35 @@ export interface UserInterface {
 export default store(function({ Vue }) {
   Vue.use(Vuex);
 
-  const Store = new Vuex.Store<UserInterface>({
-    modules: {
-      // example
+  const Store = new Vuex.Store({
+    state: {
+      id: ''
+    } as UserInterface,
+    // modules: {
+    //   // example
+    // },
+    mutations: {
+      SET_USER_ID(state, id: string) {
+        state.id = id;
+      },
+      RESET_USER_ID(state) {
+        state.id = '';
+      }
     },
-
+    actions: {
+      setUserId(context, id) {
+        // your code
+        context.commit('SET_USER_ID', id);
+      },
+      resetUserId(context) {
+        context.commit('RESET_USER_ID');
+      }
+    },
+    getters: {
+      getUserId: context => {
+        return context.id;
+      }
+    },
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: !!process.env.DEV
