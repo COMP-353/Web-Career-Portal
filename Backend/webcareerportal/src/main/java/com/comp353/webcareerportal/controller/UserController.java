@@ -4,8 +4,12 @@ import com.comp353.webcareerportal.models.Admin;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.JobSeeker;
 import com.comp353.webcareerportal.service.UserService;
+import com.comp353.webcareerportal.service.WcpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 @RestController
 @CrossOrigin
@@ -103,5 +107,18 @@ public class UserController {
     @PutMapping(path = "updateEmail/{oldId}/{newId}")
     public boolean updateJobSeekerName(@PathVariable(name = "oldId") String oldId, @PathVariable(name = "newId") String id) {
         return userService.updateUserEmailWithId(oldId, id);
+    }
+
+    @GetMapping(path = "testEmail/{to}/{s}/{t}")
+    public void testEmail(@PathVariable(value = "to") String to, @PathVariable(value = "s") String subject, @PathVariable(value = "t") String text){
+        WcpEmailService wcpEmailService = new WcpEmailService();
+        try {
+            wcpEmailService.sendmail(to, subject,text);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        wcpEmailService.sendSimpleMessage(to,subject,text);
     }
 }
