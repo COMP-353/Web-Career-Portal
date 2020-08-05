@@ -14,8 +14,9 @@
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-route-tab to="" label="Home" />
+        <q-route-tab to="employer" label="Home" />
         <q-route-tab to="/page2" label="Add payment" />
+        <q-route-tab to="/addjob" label="Add job"/>
         <q-route-tab to="/page3" label="Logout" />
       </q-tabs>
     </q-header>
@@ -133,16 +134,6 @@
       </div>
     </q-body>
 
-    <q-footer bordered class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-          </q-avatar>
-          Support: (123) 123-4567
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
 
