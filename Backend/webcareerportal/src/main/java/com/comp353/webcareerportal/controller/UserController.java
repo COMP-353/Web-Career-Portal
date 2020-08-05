@@ -1,5 +1,6 @@
 package com.comp353.webcareerportal.controller;
 
+import com.comp353.webcareerportal.models.Activity;
 import com.comp353.webcareerportal.models.Admin;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.JobSeeker;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -144,5 +146,10 @@ public class UserController {
             e.printStackTrace();
         }
 //        wcpEmailService.sendSimpleMessage(to,subject,text);
+    }
+
+    @GetMapping(path = "allActivities")
+    public List<Activity> getAllActivities(){
+        return userService.getAllActivites();
     }
 }

@@ -10,6 +10,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -308,5 +309,9 @@ public class UserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Activity> getAllActivites(){
+        return this.activityDao.getAllActivities();
     }
 }
