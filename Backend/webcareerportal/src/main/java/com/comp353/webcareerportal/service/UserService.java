@@ -61,39 +61,53 @@ public class UserService {
     }
 
     public boolean addNewAdmin(Admin admin) {
-        if (userRepo.adminExistsWithEmail(admin.getEmail())) return false;
+        if (!this.checkIdAvailability(admin.getEmail())) return false;
         userRepo.save(admin);
         return true;
     }
 
     public boolean addNewJobSeeker(JobSeeker jobSeeker) {
-        if (userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
+        if (!this.checkIdAvailability(jobSeeker.getEmail())) return false;
         userRepo.save(jobSeeker);
         activityDao.save(new Activity(jobSeeker.getEmail(), JOBSEEKER_ADDED));
         return true;
     }
 
     public boolean addNewEmployer(Employer employer) {
-        if (userRepo.employerExistsWithEmail(employer.getEmail())) return false;
+        if (!this.checkIdAvailability(employer.getEmail())) return false;
         userRepo.save(employer);
         activityDao.save(new Activity(employer.getEmail(), EMPLOYER_ADDED));
         return true;
     }
 
-    public boolean authenticateUser(String id, String password) {
+    public boolean authenticateEmployer(String id, String password) {
         boolean success = false;
 
         if (userRepo.employerExistsWithEmail(id)) {
             success = userRepo.authenticateEmployerWithEmail(id, password);
             activityDao.save(new Activity(id,AUTHENTICATED));
-        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
-            success = userRepo.authenticateJobSeekerWithEmail(id, password);
-            activityDao.save(new Activity(id,AUTHENTICATED));
-        } else if (userRepo.adminExistsWithEmail(id)) {
+        }
+        return success;
+    }
+
+    public boolean authenticateAdmin(String id, String password) {
+        boolean success = false;
+
+         if (userRepo.adminExistsWithEmail(id)) {
             success = userRepo.authenticateAdminWithEmail(id, password);
             activityDao.save(new Activity(id,AUTHENTICATED));
-        }else {
-            activityDao.save(new Activity(id,FAILED_LOGIN));
+        }
+
+        return success;
+    }
+
+
+    public boolean authenticateJobSeeker(String id, String password) {
+        boolean success = false;
+
+         if (userRepo.jobSeekerExistsWithEmail(id)) {
+            success = userRepo.authenticateJobSeekerWithEmail(id, password);
+            activityDao.save(new Activity(id,AUTHENTICATED));
         }
 
         return success;
