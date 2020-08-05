@@ -243,6 +243,31 @@ public class UserService {
     }
 
     public void userForgotPassword(String id){
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForJobSeekerWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForEmployerWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForAdminWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+        }
+    }
 
+    private void sendEmailWithPassword(String id, String password){
+        WcpEmailService wcpEmailService = new WcpEmailService();
+        StringBuilder text = new StringBuilder();
+        text.append("Your password is: ");
+        text.append(password);
+        text.append(".");
+        text.append("\n\nPlease consider changing your password now");
+        try {
+            wcpEmailService.sendmail(id, "Your Requested Password",text.toString());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
