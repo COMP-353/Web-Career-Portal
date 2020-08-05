@@ -6,6 +6,12 @@ import com.comp353.webcareerportal.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Properties;
+
 @Service
 public class UserService {
 
@@ -234,6 +240,7 @@ public class UserService {
             changed = true;
         }
         return changed;
-
     }
+
+
 }
