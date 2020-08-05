@@ -198,6 +198,9 @@ public class UserService {
             changed = true;
         }
         return changed;
+    }
+
+    public void userForgotPassword(String id){
 
     }
 }
