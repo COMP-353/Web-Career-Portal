@@ -10,7 +10,8 @@ const routes: RouteConfig[] = [
       { path: 'sign-up-employer', component: () => import('pages/sign-up-employer.vue') },
       { path: 'sign-up-jobSeeker', component: () => import('pages/sign-up-jobSeeker.vue') },
       { path: 'employer', component: () => import('pages/employer.vue') },
-      { path: 'job-seeker', component: () => import('pages/job-seeker.vue') }
+      { path: 'job-seeker', component: () => import('pages/job-seeker.vue') },
+      { path: 'addjob', component: () => import('pages/addjob.vue') }
     ]
   },
 
