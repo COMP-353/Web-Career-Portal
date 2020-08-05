@@ -282,12 +282,15 @@ public class UserService {
         if (userRepo.jobSeekerExistsWithEmail(id)) {
             String password = userRepo.getPasswordForJobSeekerWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         } else if (userRepo.employerExistsWithEmail(id)) {
             String password = userRepo.getPasswordForEmployerWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         } else if (userRepo.adminExistsWithEmail(id)) {
             String password = userRepo.getPasswordForAdminWithId(id);
             activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
         }
     }
 
