@@ -11,7 +11,7 @@
     <q-page-container>
       <template>
         <div class="q-pa-md">
-          <div class="q-gutter-y-md" style="max-width: 60%">
+          <div class="q-gutter-y-md" style="max-width: 60%;">
             <q-card>
               <!-- All the tabs -->
               <q-tabs
@@ -110,8 +110,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import axios from 'axios';
-import { METHODS } from 'http';
-import { error } from 'util';
 
 @Component({
   // components: { EssentialLink }
@@ -121,7 +119,7 @@ export default class Index extends Vue {
     return { tab: 'seeker' };
   }
   //Models
-  eEmail: String = '';
+  eEmail = '';
   ePassword = '';
   jsEmail = '';
   jsPw = '';
@@ -137,8 +135,8 @@ export default class Index extends Vue {
           '/' +
           this.ePassword
       )
-      .then(response => this.checkResponse(response.data, 'e'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, 'e'))
+      .catch((error) => console.log(error));
   }
 
   loginJs() {
@@ -149,8 +147,8 @@ export default class Index extends Vue {
           '/' +
           this.jsPw
       )
-      .then(response => this.checkResponse(response.data, 'j'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, 'j'))
+      .catch((error) => console.log(error));
   }
 
   loginA() {
@@ -161,19 +159,19 @@ export default class Index extends Vue {
           '/' +
           this.aPw
       )
-      .then(response => this.checkResponse(response.data, 'a'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, 'a'))
+      .catch((error) => console.log(error));
   }
 
   // Method that leads to another page if successful
-  checkResponse(response: boolean, type: String) {
+  checkResponse(response: boolean, type: string) {
     if (response) {
       if (type === 'j') {
-        this.$router.push('job-seeker');
+        this.$router.push('job-seeker').catch((error) => console.log(error));
       } else if (type === 'e') {
-        this.$router.push('employer');
+        this.$router.push('employer').catch((error) => console.log(error));
       } else {
-        this.$router.push('job-seeker');
+        this.$router.push('job-seeker').catch((error) => console.log(error));
       }
     }
   }
