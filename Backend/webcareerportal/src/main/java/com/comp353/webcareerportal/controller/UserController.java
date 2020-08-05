@@ -19,6 +19,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping(path = "employer/{id}")
+    public Employer getEmployerWithId(@PathVariable(value = "id") String id){
+        return userService.getEmployerWithId(id);
+    }
+
+    @GetMapping(path = "jobseeker/{id}")
+    public JobSeeker getJobSeekerWithId(@PathVariable(value = "id") String id){
+        return userService.getJobSeekerWithId(id);
+    }
+
     @PostMapping(path = "newEmployer/{type}")
     public boolean addNewEmployer(@RequestBody Employer employer, @PathVariable(name = "type") String type) {
         employer.setEmployerCategory(type);

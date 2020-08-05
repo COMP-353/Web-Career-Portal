@@ -38,6 +38,18 @@ public class UserService {
     @Autowired
     private ActivityDao activityDao;
 
+    public Employer getEmployerWithId(String id){
+       return userRepo.getEmployerWithEmail(id);
+    }
+
+//    public Admin getAdminWithId(String id){
+//        return userRepo.ge
+//    }
+
+    public JobSeeker getJobSeekerWithId(String id){
+        return userRepo.getJobSeekerWithEmail(id);
+    }
+
     public boolean addNewAdmin(Admin admin) {
         if (userRepo.adminExistsWithEmail(admin.getEmail())) return false;
         userRepo.save(admin);
