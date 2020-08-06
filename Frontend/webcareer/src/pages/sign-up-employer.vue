@@ -19,8 +19,21 @@
         <p><b>Please fill in this form to create an Employer account.</b></p>
         <hr />
 
-        <q-input filled v-model="employer.email" label="Email" />
-        <q-input filled v-model="employer.password" label="Password" />
+        <q-input outlined v-model="employer.email" label="Email" />
+
+        <q-input
+          outlined
+          v-model="employer.password"
+          label="Password"
+          :type="eIsPw ? 'password' : 'text'"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="eIsPw ? 'visibility_off' : 'visibility'"
+              @click="eIsPw = !eIsPw"
+            />
+          </template>
+        </q-input>
       </div>
     </div>
 
@@ -90,6 +103,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      eIsPw:true,
       account_type: 'prime',
       employer: {
         email: '',
