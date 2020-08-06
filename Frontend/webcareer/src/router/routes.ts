@@ -18,7 +18,16 @@ const routes: RouteConfig[] = [
       },
       { path: 'employer', component: () => import('pages/employer.vue') },
       { path: 'admin', component: () => import('pages/admin.vue') },
-      { path: 'job-seeker', component: () => import('pages/job-seeker.vue') },
+      {
+        path: 'js',
+        component: () => import('pages/job-seeker.vue')
+      },
+
+      {
+        path: 'js-postings',
+        component: () => import('pages/JSJobPostings.vue')
+      },
+      { path: 'js-profile', component: () => import('pages/JSProfile.vue') },
       { path: 'addjob', component: () => import('pages/addjob.vue') },
       { path: 'listofjobs', component: () => import('pages/listofjobs.vue') },
       {
