@@ -71,8 +71,7 @@ public class JobService {
 	}
 	
 	public List<Job> getAllJobsForJobSeekerWithId(String id){
-		System.out.println("xxxxxxx"+id);
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
 		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 		
 		List<Job> jobs = new ArrayList<>();
