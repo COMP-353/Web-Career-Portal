@@ -43,6 +43,11 @@ public class ApplicationController {
 		return applicationService.getAllApplicationsForJobWithId(id);
 	}
 	
+	@GetMapping(path = "updateApplicationStatus/{id}/{applicationId}")
+    public String updateApplicationStatus(@PathVariable(name = "id") int id, @PathVariable(name = "applicationId") int applicationId) {
+        return applicationService.updateApplicationStatus(id, applicationId) ? "Application updated successfully" : "An error occured";
+    }
+	
     @PostMapping(path = "newApplication")
     public String addNewApplication(@RequestBody Application application) {
         return applicationService.addNewApplication(application) ? "Application added successfully" : "Application not added. Invalid job id or invalid jobseeker email.";

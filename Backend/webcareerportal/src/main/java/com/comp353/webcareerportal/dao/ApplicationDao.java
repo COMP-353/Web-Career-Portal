@@ -45,4 +45,9 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
 	
 	@Query(nativeQuery = true, value = "select * from application a where a.application_status= :applicationStatus group by a.applicationId")
     List<Application> getApplicationsWithApplicationStatus(@Value("application_status") ApplicationStatus applicationStatus);
+
+	 @Transactional
+	 @Modifying
+	 @Query("update application a set a.applicationStatus= :applicationStatus where a.applicationId= :application_id")
+	 void updateApplicationStatus(@Value("applicationId") int application_id, @Value("application_status") ApplicationStatus applicationStatus);
 }

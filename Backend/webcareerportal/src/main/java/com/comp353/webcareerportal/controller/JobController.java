@@ -58,7 +58,7 @@ public class JobController {
     
     @GetMapping(path = "updateJobStatus/{id}/{statusId}")
     public String updateJobStatus(@PathVariable(name = "id") int id, @PathVariable(name = "statusId") int statusId) {
-        return jobService.updateJob(id, statusId) ? "Job updated successfully" : "An error occured";
+        return jobService.updateJobStatus(id, statusId) ? "Job updated successfully" : "An error occured";
     }
     
     @DeleteMapping(path = "deleteJob/{id}")

@@ -77,4 +77,12 @@ public class ApplicationService {
 		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(id);
 		return applicationRepo.getApplicationsWithApplicationStatus(applicationStatus);
 	}
+	
+	public boolean updateApplicationStatus(int applicationId, int statusId) {
+		if(!applicationRepo.applicationExistsWithId(applicationId)) return false;
+		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(statusId);
+		if(applicationStatus == null) return false;
+		applicationRepo.updateApplicationStatus(applicationId, applicationStatus);
+		return true;
+	}
 }

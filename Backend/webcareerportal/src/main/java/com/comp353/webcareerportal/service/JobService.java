@@ -103,7 +103,7 @@ public class JobService {
 		return jobRepo.getJobsWithjobStatus(jobStatus);
 	}
 	
-	public boolean updateJob(int jobId, int statusId) {
+	public boolean updateJobStatus(int jobId, int statusId) {
 		if(!jobRepo.jobExistsWithId(jobId)) return false;
 		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(statusId);
 		if(jobStatus == null) return false;
