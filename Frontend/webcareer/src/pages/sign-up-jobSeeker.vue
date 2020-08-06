@@ -9,7 +9,7 @@
     <!-- content -->
 
     <div class="row justify-center full-height full-width text-center">
-      <div class="q-gutter-md" style="max-width: 300px">
+      <div class="q-gutter-md" style="max-width: 300px;">
         <div class="q-pa-md q-gutter-sm">
           <q-banner rounded class="bg-primary text-white">
             Job Seeker Sign-up Form
@@ -18,16 +18,29 @@
 
         <p><b>Please fill in this form to create a Job Seeker account.</b></p>
         <hr />
-        <q-input filled v-model="firstName" label="First Name" />
-        <q-input filled v-model="lastName" label="Last Name" />
-        <q-input filled v-model="email" label="Email" />
-        <q-input filled v-model="password" label="Password" />
+        <q-input outlined v-model="firstName" label="First Name" />
+        <q-input outlined v-model="lastName" label="Last Name" />
+        <q-input outlined v-model="email" label="Email" />
+
+        <q-input
+          outlined
+          v-model="password"
+          label="Password"
+          :type="jsIsPw ? 'password' : 'text'"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="jsIsPw ? 'visibility_off' : 'visibility'"
+              @click="jsIsPw = !jsIsPw"
+            />
+          </template>
+        </q-input>
       </div>
     </div>
 
     <div class="row justify-center full-height full-width text-center">
       <div class="q-gutter-sm">
-        <p style="font-size:100%"><b>Select type of account</b></p>
+        <p style="font-size: 100%;"><b>Select type of account</b></p>
 
         <div class="row">
           <q-card flat bordered class="my-card">
@@ -114,7 +127,8 @@ export default {
         lastName: '',
         email: '',
         password: ''
-      }
+      },
+      jsIsPw: true
     };
   },
   methods: {
