@@ -32,7 +32,20 @@
                   <div>
                     <q-input outlined v-model="jsEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="jsPw" label="Password" />
+                    <q-input
+                      outlined
+                      v-model="jsPw"
+                      label="Password"
+                      :type="jsIsPw ? 'password' : 'text'"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="jsIsPw ? 'visibility_off' : 'visibility'"
+                          @click="jsIsPw = !jsIsPw"
+                        />
+                      </template>
+                    </q-input>
+
                     <q-separator></q-separator>
                     <q-btn
                       color="white"
@@ -48,6 +61,8 @@
                     />
                     <q-btn
                       to="forgotPassword"
+                      rounded
+                      flat
                       color="white"
                       text-color="black"
                       label="Forgot Password"
@@ -59,7 +74,21 @@
                   <div>
                     <q-input outlined v-model="eEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="ePassword" label="Password" />
+                    <!-- <q-input outlined v-model="ePassword" label="Password" /> -->
+                    <q-input
+                      v-model="ePassword"
+                      outlined
+                      :type="eIsPw ? 'password' : 'text'"
+                      label="Password"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="eIsPw ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="eIsPw = !eIsPw"
+                        />
+                      </template>
+                    </q-input>
                     <q-separator></q-separator>
                     <q-btn
                       color="white"
@@ -76,6 +105,8 @@
                     <q-btn
                       to="forgotPassword"
                       color="white"
+                      rounded
+                      flat
                       text-color="black"
                       label="Forgot Password"
                     />
@@ -86,7 +117,21 @@
                   <div>
                     <q-input outlined v-model="aEmail" label="Email Address" />
                     <q-separator></q-separator>
-                    <q-input outlined v-model="aPw" label="Password" />
+                    <!-- <q-input outlined v-model="aPw" label="Password" /> -->
+                    <q-input
+                      v-model="aPw"
+                      outlined
+                      :type="aIsPw ? 'password' : 'text'"
+                      label="Password"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="aIsPw ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="aIsPw = !aIsPw"
+                        />
+                      </template>
+                    </q-input>
                     <q-separator></q-separator>
                     <q-btn
                       color="white"
@@ -120,7 +165,7 @@ export default class Index extends Vue {
   // @State('user') user; //: UserStateInterface;
   // @Action('setUserId') setId: any;
   data() {
-    return { tab: 'seeker' };
+    return { tab: 'seeker', jsIsPw: true, eIsPw: true, aIsPw: true };
   }
   //Models
   eEmail = '';
