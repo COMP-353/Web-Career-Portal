@@ -1,5 +1,6 @@
 package com.comp353.webcareerportal.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 
 @Getter
 @Setter
+@Data
 @MappedSuperclass
 public abstract class User {
     @Id

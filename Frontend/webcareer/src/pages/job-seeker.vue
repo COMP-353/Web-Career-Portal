@@ -6,12 +6,12 @@
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal
         </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
+        <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs v-model="tab" align="left">
@@ -90,6 +90,10 @@
                   track-color="grey-3"
                   class="q-ma-md"
                 >
+                  <q-tooltip>
+                    A negative balance means you have extra credit while a
+                    positive balance shows how much you owe to the system.
+                  </q-tooltip>
                   Balance {{ this.jobSeeker.accountBalance }}$
                 </q-knob>
               </div>
@@ -137,45 +141,86 @@
                     v-model="jobSeeker.lastName"
                     label="Last Name"
                   />
+                  <q-btn label="Modify" />
+                  <q-btn>Save</q-btn>
                 </q-tab-panel>
 
                 <q-tab-panel name="innerAlarms">
                   <div class="text-h4 q-mb-md">Payments</div>
-                  <p>If you have choosen automatic during set-up payment then you don't need to visit this page. If else, continue to steps below.</p>
+                  <p>
+                    If you have choosen automatic during set-up payment then you
+                    don't need to visit this page. If else, continue to steps
+                    below.
+                  </p>
                   <p><b>Choose the amount of money you're going to pay.</b></p>
-                  <q-input outlined v-model="text" label="Amount" />
+                  <q-input outlined v-model="amount" type="number" prefix="$" />
                   <q-separator></q-separator>
-                  <br>
+                  <br />
                   <p><b>Choose your method of payment.</b></p>
-                  <q-radio v-model="paymentmethod" val="creditcard" label="Credit Card" />
-                  <q-radio v-model="paymentmethod" val="checkingaccount" label="Checking Account" />
 
+                  <div>
+                    <q-radio
+                      v-model="paymentmethod"
+                      val="creditcard"
+                      label="Credit Card"
+                    />
+                    <q-radio
+                      v-model="paymentmethod"
+                      val="checkingaccount"
+                      label="Checking Account"
+                    />
+                  </div>
+                  <q-btn
+                    label="pay"
+                    @click="makeAPayment()"
+                    :disabled="!(amount > 0)"
+                  />
                 </q-tab-panel>
 
-		<q-tab-panel name="innerSetUpPay">
+                <q-tab-panel name="innerSetUpPay">
                   <div class="text-h4 q-mb-md">Credit Card</div>
                   <p>Your credit card information</p>
-                   <q-input outlined v-model="text" label="Card Number" />
+                  <q-input outlined v-model="text" label="Card Number" />
                   <q-separator></q-separator>
                   <q-input outlined v-model="text" label="Credit Card Name" />
-		  <q-separator></q-separator>
-                  <q-input outlined v-model="text" label="Credit Card Security Code" />
-		  <q-separator></q-separator>
+                  <q-separator></q-separator>
+                  <q-input
+                    outlined
+                    v-model="text"
+                    label="Credit Card Security Code"
+                  />
+                  <q-separator></q-separator>
                   <q-input outlined v-model="text" label="Billing Address" />
 
-      <q-radio v-model="creditcard" val="automatic" label="Automatic Withdrawal" />
-      <q-radio v-model="creditcard" val="default" label="Default Payment" />
+                  <q-radio
+                    v-model="creditcard"
+                    val="automatic"
+                    label="Automatic Withdrawal"
+                  />
+                  <q-radio
+                    v-model="creditcard"
+                    val="default"
+                    label="Default Payment"
+                  />
 
-      <br>
-			
-		   <div class="text-h4 q-mb-md">Checking Account</div>
+                  <br />
+
+                  <div class="text-h4 q-mb-md">Checking Account</div>
                   <p>Your checking account information</p>
                   <q-input outlined v-model="text" label="Bank Number" />
                   <q-separator></q-separator>
                   <q-input outlined v-model="text" label="Account Number" />
 
-      <q-radio v-model="checkingacc" val="automatic" label="Automatic Withdrawal" />
-      <q-radio v-model="checkingacc" val="default" label="Default Payment" />
+                  <q-radio
+                    v-model="checkingacc"
+                    val="automatic"
+                    label="Automatic Withdrawal"
+                  />
+                  <q-radio
+                    v-model="checkingacc"
+                    val="default"
+                    label="Default Payment"
+                  />
                 </q-tab-panel>
 
                 <q-tab-panel name="innerMovies">
@@ -247,10 +292,13 @@
                       </div>
                     </div>
                   </div>
+                  <q-btn>Save</q-btn>
                 </q-tab-panel>
               </q-tab-panels>
-            </template> </q-splitter></q-page-container
-      ></q-tab-panel>
+            </template>
+          </q-splitter></q-page-container
+        ></q-tab-panel
+      >
     </q-tab-panels>
   </q-layout>
 </template>
@@ -275,7 +323,8 @@ export default {
         accountBalance: 0,
         status:'',
         email:'',
-      }
+      },
+      amount:0
     }
   },
 
@@ -293,7 +342,8 @@ export default {
   },
 
   methods: {
-    assignJsObject(res){
+    assignJsObject(res) {
+      console.log(res)
       this.jobSeeker.firstName = res.firstName;
       this.jobSeeker.lastName = res.lastName;
       this.jobSeeker.accountBalance = res.accountBalance;
@@ -310,10 +360,15 @@ export default {
         .catch((e) => console.log(e));
     },
     getUserData(){
+      this.amount = 0
       axios
         .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
         .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
+    },
+    makeAPayment(){
+      axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
+      (this.getUserData()).catch(e => console.log(e))
     }
   },
 };
