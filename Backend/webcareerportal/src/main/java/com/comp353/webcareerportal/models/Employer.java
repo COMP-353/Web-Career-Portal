@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity (name = "employer")
 public class Employer extends User{

@@ -1,6 +1,8 @@
 package com.comp353.webcareerportal.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,7 @@ public class JobService {
 	
 	public List<Job> getAllJobsForEmployerWithId(String id){
 		Employer employer = userRepo.getEmployerWithEmail(id);
+		System.out.println("XXXXXXXXXXXXX"+employer.getEmail());
 		return jobRepo.getJobsWithEmployer(employer);
 	}
 	
@@ -78,6 +81,17 @@ public class JobService {
 			jobs.add(jobRepo.getJobWithJobId(application.getJob().getJobId()));
 		}
 		return jobs;
+	}
+	
+	public List<Job> getAllJobsNotAppliedForJobSeekerWithId(String id){
+		
+		List<Job> jobs = getAllJobsForJobSeekerWithId(id);
+		Collection<Integer> ids = new ArrayList<>();
+		for(Job job : jobs) {
+			ids.add(job.getJobId());
+		}
+		
+		return jobRepo.getAllJobsWhereIdNotIn(ids);
 	}
 	
 	public List<Job> getAllJobsForJobCategoryWithId(int id){

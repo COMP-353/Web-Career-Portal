@@ -31,9 +31,14 @@ public class JobController {
 			return jobService.getAllJobs();
 	}
 	
-	@GetMapping(path = "jobseeker/{id}")
+	@GetMapping(path = "applied/jobseeker/{id}")
 	public List<Job> getAllJobsByJobSeekerId(@PathVariable(name = "id") String id){
 			return jobService.getAllJobsForJobSeekerWithId(id);
+	}
+	
+	@GetMapping(path = "notapplied/jobseeker/{id}")
+	public List<Job> getAllJobsNotAppliedByJobSeekerId(@PathVariable(name = "id") String id){
+			return jobService.getAllJobsNotAppliedForJobSeekerWithId(id);
 	}
 	
 	@GetMapping(path = "jobcategory/{id}")

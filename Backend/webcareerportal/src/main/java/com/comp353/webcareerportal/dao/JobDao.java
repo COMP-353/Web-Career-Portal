@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,4 +41,7 @@ public interface JobDao extends JpaRepository<Job, Long> {
     
     @Query(nativeQuery = true, value = "select * from job j where j.job_status= :jobStatus group by j.jobId")
     List<Job> getJobsWithjobStatus(@Value("job_status") JobStatus jobStatus);
+    
+    @Query(nativeQuery = true, value = "select * from job j where j.jobId not in ?1")
+    List<Job> getAllJobsWhereIdNotIn(@Value("ids") Collection<Integer> ids);
 }
