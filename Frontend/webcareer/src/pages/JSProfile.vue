@@ -22,207 +22,232 @@
     </q-header>
 
     <q-page-container style="height: 100%;" class="relative-position">
-
       <router-view />
-      <!-- </q-body> -->
-    
-
 
       <q-body>
-          <q-splitter v-model="splitterModel" style="height: 75%;">
+        <q-splitter v-model="splitterModel" style="height: 75%;">
+          <template v-slot:before>
+            <q-tabs v-model="tab" vertical class="text-teal">
+              <q-tab name="tabProfile" icon="person" label="Profile" />
+              <q-tab name="tabMakePayment" icon="payment" label="Payment" />
+              <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
+              <q-tab name="tabCategory" icon="category" label="category" />
+            </q-tabs>
+          </template>
 
-            <template v-slot:before>
-              <q-tabs v-model="tab" vertical class="text-teal">
-                <q-tab name="tabProfile" icon="person" label="Profile" />
-                <q-tab name="tabMakePayment" icon="payment" label="Payment" />
-		        <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
-                <q-tab name="tabCategory" icon="category" label="category" />
-              </q-tabs>
-            </template>
+          <template v-slot:after>
+            <q-tab-panels
+              v-model="tab"
+              animated
+              transition-prev="slide-down"
+              transition-next="slide-up"
+            >
+              <!-- The Profile Information -->
+              <q-tab-panel name="tabProfile">
+                <div class="text-h4 q-mb-md">Profile Info</div>
+                <p>Your profile information</p>
+                <q-input
+                  outlined
+                  v-model="jobSeeker.firstName"
+                  label="First Name"
+                  :disable="modifyProfileInfo"
+                />
+                <q-separator></q-separator>
+                <q-input
+                  outlined
+                  :disable="modifyProfileInfo"
+                  v-model="jobSeeker.lastName"
+                  label="Last Name"
+                />
 
-            <template v-slot:after>
-              <q-tab-panels
-                v-model="tab"
-                animated
-                transition-prev="slide-down"
-                transition-next="slide-up"
-              >
-                <q-tab-panel name="tabProfile">
-                  <div class="text-h4 q-mb-md">Profile Info</div>
-                  <p>Your profile information</p>
-                  <q-input
-                    outlined
-                    v-model="jobSeeker.firstName"
-                    label="First Name"
-                  />
-                  <q-separator></q-separator>
-                  <q-input
-                    outlined
-                    v-model="jobSeeker.lastName"
-                    label="Last Name"
-                  />
-                  <q-btn label="Modify" />
-                  <q-btn>Save</q-btn>
-                </q-tab-panel>
+                <q-btn
+                  :label="modifyProfileInfo ? 'Modify' : 'Save'"
+                  @click="modifyInfo()"
+                />
+              </q-tab-panel>
 
-                <q-tab-panel name="tabMakePayment">
-                  <div class="text-h4 q-mb-md">Make a Payment</div>
-                  <p>
-                    If you have choosen automatic during set-up payment then you
-                    don't need to visit this page. If else, continue to steps
-                    below.
-                  </p>
-                  <p><b>Choose the amount of money you're going to pay.</b></p>
-                  <q-input outlined v-model="amount" type="number" prefix="$" />
-                  <q-separator></q-separator>
-                  <br />
-                  <p><b>Choose your method of payment.</b></p>
+              <!-- To Make a Payment -->
+              <q-tab-panel name="tabMakePayment">
+                <div class="text-h4 q-mb-md">Make a Payment</div>
+                <p>
+                  If you have choosen automatic during set-up payment then you
+                  don't need to visit this page. If else, continue to steps
+                  below.
+                </p>
+                <p><b>Choose the amount of money you're going to pay.</b></p>
+                <q-input outlined v-model="amount" type="number" prefix="$" />
+                <q-separator></q-separator>
+                <br />
+                <p><b>Choose your method of payment.</b></p>
 
-                  <div>
-                    <q-radio
-                      v-model="paymentmethod"
-                      val="creditcard"
-                      label="Credit Card"
-                    />
-                    <q-radio
-                      v-model="paymentmethod"
-                      val="checkingaccount"
-                      label="Checking Account"
-                    />
-                  </div>
-                  <q-btn
-                    label="pay"
-                    @click="makeAPayment()"
-                    :disabled="!(amount > 0)"
-                  />
-                </q-tab-panel>
-
-                <q-tab-panel name="tabSetUpPay">
-                  <div class="text-h4 q-mb-md">Credit Card</div>
-                  <p>Your credit card information</p>
-                  <q-input outlined v-model="text" label="Card Number" />
-                  <q-separator></q-separator>
-                  <q-input outlined v-model="text" label="Credit Card Name" />
-                  <q-separator></q-separator>
-                  <q-input
-                    outlined
-                    v-model="text"
-                    label="Credit Card Security Code"
-                  />
-                  <q-separator></q-separator>
-                  <q-input outlined v-model="text" label="Billing Address" />
-
+                <div>
                   <q-radio
-                    v-model="creditcard"
-                    val="automatic"
-                    label="Automatic Withdrawal"
+                    v-model="paymentmethod"
+                    val="creditcard"
+                    label="Credit Card"
                   />
                   <q-radio
-                    v-model="creditcard"
-                    val="default"
-                    label="Default Payment"
+                    v-model="paymentmethod"
+                    val="checkingaccount"
+                    label="Checking Account"
                   />
-                  <br></br>
-		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
-                  <br><br />
-                  
+                </div>
+                <q-btn
+                  label="pay"
+                  @click="makeAPayment()"
+                  :disabled="!(amount > 0)"
+                />
+              </q-tab-panel>
 
-                  <div class="text-h4 q-mb-md">Checking Account</div>
-                  <p>Your checking account information</p>
-                  <q-input outlined v-model="text" label="Bank Number" />
-                  <q-separator></q-separator>
-                  <q-input outlined v-model="text" label="Account Number" />
+              <!-- To Set Up A Payment -->
+              <q-tab-panel name="tabSetUpPay">
+                <div class="text-h4 q-mb-md">Credit Card</div>
+                <p>Your credit card information</p>
+                <q-input
+                  outlined
+                  v-model="cc.number"
+                  type="number"
+                  label="Card Number"
+                />
+                <q-separator></q-separator>
+                <q-input outlined v-model="cc.name" label="Credit Card Name" />
+                <q-separator></q-separator>
+                <q-input
+                  outlined
+                  v-model="cc.securityCode"
+                  type="number"
+                  label="Credit Card Security Code"
+                />
+                <q-separator></q-separator>
+                <q-input
+                  outlined
+                  v-model="cc.address"
+                  label="Billing Address"
+                />
 
-                  <q-radio
-                    v-model="checkingacc"
-                    val="automatic"
-                    label="Automatic Withdrawal"
-                  />
-                  <q-radio
-                    v-model="checkingacc"
-                    val="default"
-                    label="Default Payment"
-                  />
-                  <br/>
-		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
-                </q-tab-panel>
+                <q-radio
+                  v-model="creditcard"
+                  val="automatic"
+                  label="Automatic Withdrawal"
+                />
+                <q-radio
+                  v-model="creditcard"
+                  val="default"
+                  label="Default Payment"
+                />
+                <br />
+                <q-btn
+                  color="white"
+                  text-color="black"
+                  label="Set-Up Checking Account"
+                />
+                <br /><br />
 
-                <q-tab-panel name="tabCategory">
-                  <div class="text-h4 q-mb-md">Category</div>
-                  <div
-                    class="row justify-center full-height full-width text-center"
-                  >
-                    <div class="q-gutter-sm">
-                      <p style="font-size: 100%;">
-                        <b>Select type of account</b>
-                      </p>
+                <div class="text-h4 q-mb-md">Checking Account</div>
+                <p>Your checking account information</p>
+                <q-input outlined v-model="ca.bankNumber" label="Bank Number" />
+                <q-separator></q-separator>
+                <q-input
+                  outlined
+                  v-model="ca.accountNumber"
+                  label="Account Number"
+                />
 
-                      <div class="row">
-                        <q-card flat bordered class="my-card">
-                          <q-card-section>
-                            <div class="text-h6">Basic Account</div>
-                          </q-card-section>
+                <q-radio
+                  v-model="checkingacc"
+                  val="automatic"
+                  label="Automatic Withdrawal"
+                />
+                <q-radio
+                  v-model="checkingacc"
+                  val="default"
+                  label="Default Payment"
+                />
+                <br />
+                <q-btn
+                  color="white"
+                  text-color="black"
+                  label="Set-Up Checking Account"
+                />
+              </q-tab-panel>
 
-                          <q-card-section class="q-pt-none">
-                            You can only view job postings but not apply. Free.
-                          </q-card-section>
+              <!-- To Change User Category aka Plan -->
+              <q-tab-panel name="tabCategory">
+                <div class="text-h4 q-mb-md">Category</div>
+                <div
+                  class="row justify-center full-height full-width text-center"
+                >
+                  <div class="q-gutter-sm">
+                    <p style="font-size: 100%;">
+                      <b>Select type of account</b>
+                    </p>
 
-                          <q-separator inset />
+                    <div class="row">
+                      <q-card flat bordered class="my-card">
+                        <q-card-section>
+                          <div class="h6">Basic Account</div>
+                        </q-card-section>
 
-                          <q-radio
-                            v-model="accountType"
-                            val="Basic"
-                            label="Free"
-                          />
-                        </q-card>
+                        <q-card-section class="q-pt-none">
+                          You can only view job postings but not apply. Free.
+                        </q-card-section>
 
-                        <q-card flat bordered class="my-card">
-                          <q-card-section>
-                            <div class="text-h6">Prime Account</div>
-                          </q-card-section>
+                        <q-separator inset />
 
-                          <q-card-section class="q-pt-none">
-                            You can apply to up to five jobs. A monthly charge
-                            of $10 will be applied
-                          </q-card-section>
+                        <q-radio
+                          v-model="accountType"
+                          val="Basic"
+                          label="Free"
+                        />
+                      </q-card>
 
-                          <q-separator inset />
+                      <q-card flat bordered class="my-card">
+                        <q-card-section>
+                          <div class="h6">Prime Account</div>
+                        </q-card-section>
 
-                          <q-radio
-                            v-model="accountType"
-                            val="Prime"
-                            label="Prime (10$/month)"
-                          />
-                        </q-card>
+                        <q-card-section class="q-pt-none">
+                          You can apply to up to five jobs. A monthly charge of
+                          $10 will be applied
+                        </q-card-section>
 
-                        <q-card flat bordered class="my-card">
-                          <q-card-section>
-                            <div class="text-h6">Gold Account</div>
-                          </q-card-section>
+                        <q-separator inset />
 
-                          <q-card-section class="q-pt-none">
-                            You can apply to as many jobs as you wants. A
-                            monthly charge of $20 will be applied.
-                          </q-card-section>
+                        <q-radio
+                          v-model="accountType"
+                          val="Prime"
+                          label="Prime (10$/month)"
+                        />
+                      </q-card>
 
-                          <q-separator inset />
+                      <q-card flat bordered class="my-card">
+                        <q-card-section>
+                          <div class="h6">Gold Account</div>
+                        </q-card-section>
 
-                          <q-radio
-                            v-model="accountType"
-                            val="Gold"
-                            label="Gold (20$/month)"
-                          />
-                        </q-card>
-                      </div>
+                        <q-card-section class="q-pt-none">
+                          You can apply to as many jobs as you wants. A monthly
+                          charge of $20 will be applied.
+                        </q-card-section>
+
+                        <q-separator inset />
+
+                        <q-radio
+                          v-model="accountType"
+                          val="Gold"
+                          label="Gold (20$/month)"
+                        />
+                      </q-card>
                     </div>
                   </div>
-                  <q-btn>Save</q-btn>
-                </q-tab-panel>
-              </q-tab-panels>
-            </template>
-            </q-splitter>
-         </q-body>
-         </q-page-container>
+                </div>
+                <q-btn>Save</q-btn>
+              </q-tab-panel>
+            </q-tab-panels>
+          </template>
+        </q-splitter>
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -233,9 +258,21 @@ import axios from 'axios';
 export default {
   data() {
     return {
+    modifyProfileInfo: true,
+    modifyUserCategory: true,
+    justSaved:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
+      cc:{
+          number:0,
+          name:'',
+          address:'',
+          securityCode:0
+      },ca:{
+          bankNumber:0,
+          accountNumber:0
+      },
       tab: 'apps',
       accountType:'basic',
       tab:'tabProfile',
@@ -290,6 +327,17 @@ export default {
     makeAPayment(){
       axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
       (this.getUserData()).catch(e => console.log(e))
+    }, 
+    modifyInfo(){
+        this.modifyProfileInfo = !this.modifyProfileInfo
+        if(this.modifyProfileInfo){
+            console.log('ready to save profile info')
+            axios
+            .put(this.baseUrl + 'user/updateName', this.jobSeeker)
+            .then(this.modifyProfileInfo = !this.modifyProfileInfo)
+            .catch(e => console.log(e))
+            this.modifyProfileInfo = true
+        }
     }
   },
 };
