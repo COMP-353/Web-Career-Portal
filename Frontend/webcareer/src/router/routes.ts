@@ -20,6 +20,7 @@ const routes: RouteConfig[] = [
       { path: 'admin', component: () => import('pages/admin.vue') },
       { path: 'job-seeker', component: () => import('pages/job-seeker.vue') },
       { path: 'addjob', component: () => import('pages/addjob.vue') },
+      { path: 'addpayment', component: () => import('pages/addpayment.vue') },
       { path: 'listofjobs', component: () => import('pages/listofjobs.vue') },
       {
         path: 'forgotPassword',
