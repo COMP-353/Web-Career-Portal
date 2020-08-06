@@ -1,6 +1,8 @@
 package com.comp353.webcareerportal.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +53,18 @@ public class JobService {
 	}
 	
 	public void deleteJobWithEmployerId(String id) {
-		Employer employer = userRepo.getEmployerWithEmail(id);
-		List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(employer);
-		
-		for(Integer jobId : jobIds) {
-			this.deleteJobWithJobId(jobId);
+		if(userRepo.employerExistsWithEmail(id)) {
+			Employer employer = userRepo.getEmployerWithEmail(id);
+			List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(employer);
+			
+			for(Integer jobId : jobIds) {
+				this.deleteJobWithJobId(jobId);
+			}
 		}
 	}
 	
 	public List<Job> getAllJobsForEmployerWithId(String id){
+		if(!userRepo.employerExistsWithEmail(id)) return null;
 		Employer employer = userRepo.getEmployerWithEmail(id);
 		return jobRepo.getJobsWithEmployer(employer);
 	}
@@ -69,9 +74,14 @@ public class JobService {
 	}
 	
 	public List<Job> getAllJobsForJobSeekerWithId(String id){
+		if(!userRepo.jobSeekerExistsWithEmail(id)) return null;
+		
 		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		
 		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 		
+		if(applications == null) return null;
+
 		List<Job> jobs = new ArrayList<>();
 		
 		for(Application application : applications) {
@@ -80,13 +90,37 @@ public class JobService {
 		return jobs;
 	}
 	
+	public List<Job> getAllJobsNotAppliedForJobSeekerWithId(String id){
+		
+		List<Job> jobs = getAllJobsForJobSeekerWithId(id);
+		
+		if(jobs == null) return null;
+		
+		List<Integer> ids = new ArrayList<>();
+		for(Job job : jobs) {
+			ids.add(job.getJobId());
+		}
+		
+		return jobRepo.getAllJobsWhereIdNotIn(ids);
+	}
+	
 	public List<Job> getAllJobsForJobCategoryWithId(int id){
+		if(!jobCategoryRepo.jobCategoryExistsWithCategoryId(id)) return null;
 		JobCategory jobCategory = jobCategoryRepo.getJobCategoryWithId(id);
 		return jobRepo.getJobsWithjobCategory(jobCategory);
 	}
 	
 	public List<Job> getAllJobsForJobStatusWithId(int id){
+		if(!jobStatusRepo.jobStatusExistsWithStatusId(id)) return null;
 		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(id);
 		return jobRepo.getJobsWithjobStatus(jobStatus);
+	}
+	
+	public boolean updateJobStatus(int jobId, int statusId) {
+		if(!jobRepo.jobExistsWithId(jobId)) return false;
+		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(statusId);
+		if(jobStatus == null) return false;
+		jobRepo.updateJobStatus(jobId, jobStatus);
+		return true;
 	}
 }

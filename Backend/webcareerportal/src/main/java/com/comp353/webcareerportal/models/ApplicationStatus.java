@@ -13,14 +13,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity (name = "JobStatus")
+@Entity (name = "ApplicationStatus")
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"status"})})
-public class JobStatus {
+public class ApplicationStatus {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int statusId;
     @Column(nullable = false)
     private String status;
-    @Column(nullable = false)
     private String description;
 }

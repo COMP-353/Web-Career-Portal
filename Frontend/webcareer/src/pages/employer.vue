@@ -8,16 +8,14 @@
           </q-avatar>
           Job Portal
         </q-toolbar-title>
-        <q-toolbar-subtitle>
-          Employer
-        </q-toolbar-subtitle>
+       <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
         <q-route-tab to="/page2" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job" />
-        <q-route-tab to="/page3" label="Logout" />
+        <q-route-tab to="/addjob" label="Add job"/>
+        <q-route-tab to="/listofjobs" label="List of Jobs" />
       </q-tabs>
     </q-header>
 

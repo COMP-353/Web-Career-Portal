@@ -8,14 +8,14 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+@Getter
+@Setter
 @NoArgsConstructor
 @Setter
 @Getter
 @Data
 @Entity (name = "employer")
 public class Employer extends User{
-	@JsonIgnore
     protected EmployerCategory employerCategory;
 
     public Employer(String email, String password, String category){

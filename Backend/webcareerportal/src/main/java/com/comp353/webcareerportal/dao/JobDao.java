@@ -1,6 +1,7 @@
 package com.comp353.webcareerportal.dao;
 
 import com.comp353.webcareerportal.models.Employer;
+import com.comp353.webcareerportal.models.EmployerCategory;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobCategory;
 import com.comp353.webcareerportal.models.JobStatus;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,4 +42,13 @@ public interface JobDao extends JpaRepository<Job, Long> {
     
     @Query(nativeQuery = true, value = "select * from job j where j.job_status= :jobStatus group by j.jobId")
     List<Job> getJobsWithjobStatus(@Value("job_status") JobStatus jobStatus);
+    
+    @Query(nativeQuery = true, value = "select * from job j where j.jobId not in :jobIds")
+    List<Job> getAllJobsWhereIdNotIn(@Value("ids") List<Integer> jobIds);
+    
+    @Transactional
+    @Modifying
+    @Query("update job j set j.jobStatus= :jobStatus where j.jobId= :job_id")
+    void updateJobStatus(@Value("jobId") int job_id, @Value("job_status") JobStatus jobStatus);
+
 }

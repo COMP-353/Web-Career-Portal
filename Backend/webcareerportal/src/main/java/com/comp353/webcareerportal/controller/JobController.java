@@ -31,9 +31,14 @@ public class JobController {
 			return jobService.getAllJobs();
 	}
 	
-	@GetMapping(path = "jobseeker/{id}")
+	@GetMapping(path = "applied/jobseeker/{id}")
 	public List<Job> getAllJobsByJobSeekerId(@PathVariable(name = "id") String id){
 			return jobService.getAllJobsForJobSeekerWithId(id);
+	}
+	
+	@GetMapping(path = "notapplied/jobseeker/{id}")
+	public List<Job> getAllJobsNotAppliedByJobSeekerId(@PathVariable(name = "id") String id){
+			return jobService.getAllJobsNotAppliedForJobSeekerWithId(id);
 	}
 	
 	@GetMapping(path = "jobcategory/{id}")
@@ -49,6 +54,11 @@ public class JobController {
     @PostMapping(path = "newJob")
     public String addNewJob(@RequestBody Job job) {
         return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";
+    }
+    
+    @GetMapping(path = "updateJobStatus/{id}/{statusId}")
+    public String updateJobStatus(@PathVariable(name = "id") int id, @PathVariable(name = "statusId") int statusId) {
+        return jobService.updateJobStatus(id, statusId) ? "Job updated successfully" : "An error occured";
     }
     
     @DeleteMapping(path = "deleteJob/{id}")

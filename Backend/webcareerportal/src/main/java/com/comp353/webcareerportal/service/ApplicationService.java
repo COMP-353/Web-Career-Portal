@@ -7,10 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.comp353.webcareerportal.models.Application;
+import com.comp353.webcareerportal.models.ApplicationStatus;
 import com.comp353.webcareerportal.models.Employer;
 import com.comp353.webcareerportal.models.Job;
 import com.comp353.webcareerportal.models.JobSeeker;
+import com.comp353.webcareerportal.models.JobStatus;
 import com.comp353.webcareerportal.dao.ApplicationDao;
+import com.comp353.webcareerportal.dao.ApplicationStatusDao;
 import com.comp353.webcareerportal.dao.UserDao;
 import com.comp353.webcareerportal.dao.JobDao;
 
@@ -24,6 +27,9 @@ public class ApplicationService {
 	
 	@Autowired
     private JobDao jobRepo;
+	
+	@Autowired
+    private ApplicationStatusDao applicationStatusRepo;
 
 	@Autowired
 	private ActivityDao activityDao;
@@ -45,11 +51,13 @@ public class ApplicationService {
 	}
 	
 	public void deleteApplicationWithJobSeekerId(String id) {
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
-		List<Integer> applicationIds = applicationRepo.getApplicationIdsWithJobSeeker(jobSeeker);
-		
-		for(Integer applicationId : applicationIds) {
-			this.deleteApplicationWithApplicationId(applicationId);
+		if(userRepo.jobSeekerExistsWithEmail(id)) {
+			JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+			List<Integer> applicationIds = applicationRepo.getApplicationIdsWithJobSeeker(jobSeeker);
+			
+			for(Integer applicationId : applicationIds) {
+				this.deleteApplicationWithApplicationId(applicationId);
+			}
 		}
 	}
 	
@@ -58,12 +66,28 @@ public class ApplicationService {
 	}
 	
 	public List<Application> getAllApplicationsForJobSeekerWithId(String id){
+		if(!userRepo.jobSeekerExistsWithEmail(id)) return null;
 		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
 		return applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 	}
 	
 	public List<Application> getAllApplicationsForJobWithId(int id){
+		if(!jobRepo.jobExistsWithId(id)) return null;
 		Job job = jobRepo.getJobWithJobId(id);
 		return applicationRepo.getApplicationsWithJob(job);
+	}
+	
+	public List<Application> getAllapplicationForapplicationStatusWithId(int id){
+		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(id);
+		if(applicationStatus == null) return null;
+		return applicationRepo.getApplicationsWithApplicationStatus(applicationStatus);
+	}
+	
+	public boolean updateApplicationStatus(int applicationId, int statusId) {
+		if(!applicationRepo.applicationExistsWithId(applicationId)) return false;
+		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(statusId);
+		if(applicationStatus == null) return false;
+		applicationRepo.updateApplicationStatus(applicationId, applicationStatus);
+		return true;
 	}
 }

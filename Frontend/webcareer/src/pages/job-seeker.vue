@@ -104,7 +104,8 @@
       </q-tab-panel>
 
       <q-tab-panel name="page2"
-        ><q-page-container>Page 2</q-page-container>
+        ><q-page-container>
+        </q-page-container>
       </q-tab-panel>
 
       <q-tab-panel name="page3">
@@ -114,11 +115,7 @@
               <q-tabs v-model="innerProfileTab" vertical class="text-teal">
                 <q-tab name="innerprofile" icon="person" label="Profile" />
                 <q-tab name="innerAlarms" icon="payment" label="Payment" />
-                <q-tab
-                  name="innerSetUpPay"
-                  icon="payment"
-                  label="Set-up Payment"
-                />
+		            <q-tab name="innerSetUpPay" icon="payment" label="Set-up Payment" />
                 <q-tab name="innerMovies" icon="category" label="category" />
               </q-tabs>
             </template>
