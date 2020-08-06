@@ -90,6 +90,10 @@
                   track-color="grey-3"
                   class="q-ma-md"
                 >
+                  <q-tooltip>
+                    A negative balance means you have extra credit while a
+                    positive balance shows how much you owe to the system.
+                  </q-tooltip>
                   Balance {{ this.jobSeeker.accountBalance }}$
                 </q-knob>
               </div>
