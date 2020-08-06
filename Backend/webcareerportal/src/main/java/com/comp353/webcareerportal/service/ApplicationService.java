@@ -51,8 +51,8 @@ public class ApplicationService {
 	}
 	
 	public void deleteApplicationWithJobSeekerId(String id) {
-		if(userRepo.jobSeekerExistsWithEmail("sohalmanu@hotmail.com")) {
-			JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
+		if(userRepo.jobSeekerExistsWithEmail(id)) {
+			JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
 			List<Integer> applicationIds = applicationRepo.getApplicationIdsWithJobSeeker(jobSeeker);
 			
 			for(Integer applicationId : applicationIds) {
@@ -66,8 +66,8 @@ public class ApplicationService {
 	}
 	
 	public List<Application> getAllApplicationsForJobSeekerWithId(String id){
-		if(!userRepo.jobSeekerExistsWithEmail("sohalmanu@hotmail.com")) return null;
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
+		if(!userRepo.jobSeekerExistsWithEmail(id)) return null;
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
 		return applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 	}
 	

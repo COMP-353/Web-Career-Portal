@@ -14,6 +14,7 @@ public class Application {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int applicationId;
+    @Column(nullable = false)
     private Date applicationDate;
     
     @ManyToOne
