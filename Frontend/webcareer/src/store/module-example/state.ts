@@ -1,9 +1,9 @@
-export interface ExampleStateInterface {
-  prop: boolean;
+export interface UserStateInterface {
+  id: string | null;
 }
 
-const state: ExampleStateInterface = {
-  prop: false
+const state: UserStateInterface = {
+  id: null
 };
 
 export default state;

@@ -5,6 +5,7 @@ const routes: RouteConfig[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      { path: '', component: () => import('pages/Index.vue') },
       { path: 'login', component: () => import('pages/Index.vue') },
       // { path: 'index', component: () => import('pages/Index.vue') },
       {
@@ -17,6 +18,7 @@ const routes: RouteConfig[] = [
       },
       { path: 'employer', component: () => import('pages/employer.vue') },
       { path: 'job-seeker', component: () => import('pages/job-seeker.vue') },
+      { path: 'addjob', component: () => import('pages/addjob.vue') },
       {
         path: 'forgotPassword',
         component: () => import('pages/forgotPassword.vue')

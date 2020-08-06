@@ -1,9 +1,15 @@
 import { MutationTree } from 'vuex';
-import { ExampleStateInterface } from './state';
+import { UserStateInterface } from './state';
 
-const mutation: MutationTree<ExampleStateInterface> = {
-  someMutation (/* state: ExampleStateInterface */) {
-    // your code
+const mutation: MutationTree<UserStateInterface> = {
+  // someMutation (/* state: ExampleStateInterface */) {
+  // your code
+
+  SET_USER_ID(state, id: string) {
+    state.id = id;
+  },
+  RESET_USER_ID(state) {
+    state.id = null;
   }
 };
 

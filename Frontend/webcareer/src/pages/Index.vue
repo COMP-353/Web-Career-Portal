@@ -11,7 +11,7 @@
     <q-page-container>
       <template>
         <div class="q-pa-md">
-          <div class="q-gutter-y-md" style="max-width: 60%">
+          <div class="q-gutter-y-md" style="max-width: 60%;">
             <q-card>
               <!-- All the tabs -->
               <q-tabs
@@ -110,18 +110,20 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import axios from 'axios';
-import { METHODS } from 'http';
-import { error } from 'util';
-
+// import { State, Action, Mutation, namespace } from 'vuex-class';
+// import { UserStateInterface } from 'app/store/module-example/state';
+// const someModule = namespace('store/');
 @Component({
   // components: { EssentialLink }
 })
 export default class Index extends Vue {
+  // @State('user') user; //: UserStateInterface;
+  // @Action('setUserId') setId: any;
   data() {
     return { tab: 'seeker' };
   }
   //Models
-  eEmail: String = '';
+  eEmail = '';
   ePassword = '';
   jsEmail = '';
   jsPw = '';
@@ -132,48 +134,52 @@ export default class Index extends Vue {
   loginEmployer() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatee/' +
           this.eEmail +
           '/' +
           this.ePassword
       )
-      .then(response => this.checkResponse(response.data, 'e'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, this.eEmail, 'e'))
+      .catch((error) => console.log(error));
   }
 
   loginJs() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatejs/' +
           this.jsEmail +
           '/' +
           this.jsPw
       )
-      .then(response => this.checkResponse(response.data, 'j'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, this.jsEmail, 'j'))
+      .catch((error) => console.log(error));
   }
 
   loginA() {
     axios
       .get(
-        'http://localhost:7070/user/authenticateUser/' +
+        'http://localhost:7070/user/authenticatea/' +
           this.aEmail +
           '/' +
           this.aPw
       )
-      .then(response => this.checkResponse(response.data, 'a'))
-      .catch(error => console.log(error));
+      .then((response) => this.checkResponse(response.data, this.aEmail, 'a'))
+      .catch((error) => console.log(error));
   }
 
   // Method that leads to another page if successful
-  checkResponse(response: boolean, type: String) {
+  checkResponse(response: boolean, id: string, type: string) {
     if (response) {
+      this.$store.commit('SET_USER_ID', id);
       if (type === 'j') {
-        this.$router.push('job-seeker');
+        this.$router.push('job-seeker').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       } else if (type === 'e') {
-        this.$router.push('employer');
+        this.$router.push('employer').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       } else {
-        this.$router.push('job-seeker');
+        this.$router.push('job-seeker').catch((error) => console.log(error));
+        // this.$store.commit('setUserId', id);
       }
     }
   }

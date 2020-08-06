@@ -38,40 +38,76 @@ public class UserService {
     @Autowired
     private ActivityDao activityDao;
 
+    public Employer getEmployerWithId(String id){
+       return userRepo.getEmployerWithEmail(id);
+    }
+
+//    public Admin getAdminWithId(String id){
+//        return userRepo.ge
+//    }
+
+    public String getCategoryForUser(String id){
+        if (userRepo.employerExistsWithEmail(id)) {
+            return userRepo.getEmployerWithEmail(id).getEmployerCategory();
+        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
+           return userRepo.getJobSeekerWithEmail(id).getJobSeekerCategory();
+        }
+        return "";
+    }
+
+
+    public JobSeeker getJobSeekerWithId(String id){
+        return userRepo.getJobSeekerWithEmail(id);
+    }
+
     public boolean addNewAdmin(Admin admin) {
-        if (userRepo.adminExistsWithEmail(admin.getEmail())) return false;
+        if (!this.checkIdAvailability(admin.getEmail())) return false;
         userRepo.save(admin);
         return true;
     }
 
     public boolean addNewJobSeeker(JobSeeker jobSeeker) {
-        if (userRepo.jobSeekerExistsWithEmail(jobSeeker.getEmail())) return false;
+        if (!this.checkIdAvailability(jobSeeker.getEmail())) return false;
         userRepo.save(jobSeeker);
         activityDao.save(new Activity(jobSeeker.getEmail(), JOBSEEKER_ADDED));
         return true;
     }
 
     public boolean addNewEmployer(Employer employer) {
-        if (userRepo.employerExistsWithEmail(employer.getEmail())) return false;
+        if (!this.checkIdAvailability(employer.getEmail())) return false;
         userRepo.save(employer);
         activityDao.save(new Activity(employer.getEmail(), EMPLOYER_ADDED));
         return true;
     }
 
-    public boolean authenticateUser(String id, String password) {
+    public boolean authenticateEmployer(String id, String password) {
         boolean success = false;
 
         if (userRepo.employerExistsWithEmail(id)) {
             success = userRepo.authenticateEmployerWithEmail(id, password);
             activityDao.save(new Activity(id,AUTHENTICATED));
-        } else if (userRepo.jobSeekerExistsWithEmail(id)) {
-            success = userRepo.authenticateJobSeekerWithEmail(id, password);
-            activityDao.save(new Activity(id,AUTHENTICATED));
-        } else if (userRepo.adminExistsWithEmail(id)) {
+        }
+        return success;
+    }
+
+    public boolean authenticateAdmin(String id, String password) {
+        boolean success = false;
+
+         if (userRepo.adminExistsWithEmail(id)) {
             success = userRepo.authenticateAdminWithEmail(id, password);
             activityDao.save(new Activity(id,AUTHENTICATED));
-        }else {
-            activityDao.save(new Activity(id,FAILED_LOGIN));
+        }
+
+        return success;
+    }
+
+
+    public boolean authenticateJobSeeker(String id, String password) {
+        boolean success = false;
+
+         if (userRepo.jobSeekerExistsWithEmail(id)) {
+            success = userRepo.authenticateJobSeekerWithEmail(id, password);
+            activityDao.save(new Activity(id,AUTHENTICATED));
         }
 
         return success;
@@ -242,5 +278,35 @@ public class UserService {
         return changed;
     }
 
+    public void userForgotPassword(String id){
+        if (userRepo.jobSeekerExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForJobSeekerWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
+        } else if (userRepo.employerExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForEmployerWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
+        } else if (userRepo.adminExistsWithEmail(id)) {
+            String password = userRepo.getPasswordForAdminWithId(id);
+            activityDao.save(new Activity(id, "REQUESTED PASSWORD VIA EMAIL"));
+            sendEmailWithPassword(id, password);
+        }
+    }
 
+    private void sendEmailWithPassword(String id, String password){
+        WcpEmailService wcpEmailService = new WcpEmailService();
+        StringBuilder text = new StringBuilder();
+        text.append("Your password is: ");
+        text.append(password);
+        text.append(".");
+        text.append("\n\nPlease consider changing your password now.");
+        try {
+            wcpEmailService.sendmail(id, "Your Requested Password",text.toString());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

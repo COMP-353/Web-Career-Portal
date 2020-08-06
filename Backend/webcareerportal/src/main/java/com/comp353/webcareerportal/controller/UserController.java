@@ -19,6 +19,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping(path = "employer/{id}")
+    public Employer getEmployerWithId(@PathVariable(value = "id") String id){
+        return userService.getEmployerWithId(id);
+    }
+
+    @GetMapping(path = "jobseeker/{id}")
+    public JobSeeker getJobSeekerWithId(@PathVariable(value = "id") String id){
+        return userService.getJobSeekerWithId(id);
+    }
+
     @PostMapping(path = "newEmployer/{type}")
     public boolean addNewEmployer(@RequestBody Employer employer, @PathVariable(name = "type") String type) {
         employer.setEmployerCategory(type);
@@ -42,14 +52,28 @@ public class UserController {
      * @return true if user exists and password matches, false otherwise
      */
     //TODO use more secure way of handling password
-    @GetMapping(path = "authenticateUser/{employerId}/{pw}")
-    public boolean authenticateUser(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
-        return userService.authenticateUser(employerId, password);
+    @GetMapping(path = "authenticatejs/{employerId}/{pw}")
+    public boolean authenticateJs(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateJobSeeker(employerId, password);
+    }
+    @GetMapping(path = "authenticatee/{employerId}/{pw}")
+    public boolean authenticateE(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateEmployer(employerId, password);
+    }
+
+    @GetMapping(path = "authenticatea/{employerId}/{pw}")
+    public boolean authenticateA(@PathVariable(name = "employerId") String employerId, @PathVariable(name = "pw") String password) {
+        return userService.authenticateAdmin(employerId, password);
     }
 
     @PutMapping(path = "updateJobSeekerCategory/{id}/{category}")
     public boolean changeJobSeekerCategory(@PathVariable(name = "id") String id, @PathVariable(name = "category") String category) {
         return userService.updateJobSeekerCategory(id, category);
+    }
+
+    @GetMapping(path = "getCat/{id}")
+    public String getJobSeekerCategory(@PathVariable(value = "id") String id){
+        return userService.getCategoryForUser(id);
     }
 
     @PutMapping(path = "updateEmployerCategory/{id}/{category}")
@@ -92,6 +116,12 @@ public class UserController {
     public boolean checkAvailabilityOfUserId(@PathVariable(name = "id") String id) {
         return userService.checkIdAvailability(id);
     }
+
+    @GetMapping(path = "forgot/{id}")
+    public void userForgotPassword(@PathVariable(name = "id") String id){
+        userService.userForgotPassword(id);
+    }
+
 
     @PutMapping(path = "updateName")
     public boolean updateJobSeekerName(@RequestBody JobSeeker jobSeeker) {
