@@ -100,7 +100,8 @@
       </q-tab-panel>
 
       <q-tab-panel name="page2"
-        ><q-page-container>Page 2</q-page-container>
+        ><q-page-container>
+        </q-page-container>
       </q-tab-panel>
 
       <q-tab-panel name="page3">
@@ -251,7 +252,7 @@ export default {
   },
 
   methods: {
-    assignJsObject( res) {
+    assignJsObject(res){
       this.jobSeeker.firstName = res.firstName;
       this.jobSeeker.lastName = res.lastName;
       this.jobSeeker.accountBalance = res.accountBalance;
