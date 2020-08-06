@@ -1,0 +1,145 @@
+<style lang="sass" scoped>
+.my-card
+    width: 100%
+    max-width: 250px
+</style>
+
+<template>
+  <q-layout view="hHh LpR fFf">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
+      <q-toolbar>
+        <q-toolbar-title>
+          Web Career Portal
+        </q-toolbar-title>
+        <q-btn flat rounded label="logout" @click="logOut()" />
+      </q-toolbar>
+
+      <q-tabs align="left">
+        <q-route-tab to="js" label="Home" />
+        <q-route-tab to="js-postings" label="Job Postings" />
+        <q-route-tab to="js-profile" label="Profile" />
+      </q-tabs>
+    </q-header>
+
+    <q-page-container style="height: 100%;">
+      <q-card flat bordered class="my-card">
+        <q-card-section>
+          <div class="text-h6">
+            Welcome back {{ this.jobSeeker.firstName }}!
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <div class="row">
+        <div class="col">
+          <div class="q-pl-xl">
+            <q-markup-table>
+              <thead>
+                <tr>
+                  <th class="text-left">Company</th>
+                  <th class="text-left">Job position</th>
+                  <th class="text-right">ID</th>
+                  <th class="text-right">Email</th>
+                  <th class="text-right">Date of posting</th>
+                  <th class="text-right">Apply!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left">Google</td>
+                  <td class="text-left">Software developer</td>
+                  <td class="text-right">1</td>
+                  <td class="text-right">mia@gmail.com</td>
+                  <td class="text-right">2020-08-02</td>
+                  <td class="text-right">
+                    <div class="q-pa-md q-gutter-sm">
+                      <q-btn
+                        color="blue"
+                        icon="mail"
+                        icon-right="send"
+                        label=" "
+                        size="sm"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+        </div>
+      </div>
+      <!-- </q-body> -->
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script>
+import axios from 'axios';
+
+
+export default {
+  data() {
+    return {
+      creditcard: 'automatic',
+      checkingacc: 'automatic',
+      paymentmethod: 'creditcard',
+      tab: 'apps',
+      accountType:'basic',
+      innerProfileTab:'innerprofile',
+      baseUrl: 'http://localhost:7070/',
+      jobSeeker:{
+      firstName:'',
+        lastName:'',
+        accountBalance: 0,
+        status:'',
+        email:'',
+      },
+      amount:0
+    }
+  },
+
+
+
+  mounted() {
+    if (this.$store.getters.getUserId === '') {
+      console.log("User id is indeed ''");
+      this.$router.push('/');
+    } else {
+      this.jobSeeker.email = this.$store.getters.getUserId;
+     this.getUserData()
+     this.getAccountCategory()
+    }
+  },
+
+  methods: {
+    assignJsObject(res) {
+      console.log(res)
+      this.jobSeeker.firstName = res.firstName;
+      this.jobSeeker.lastName = res.lastName;
+      this.jobSeeker.accountBalance = res.accountBalance;
+      this.jobSeeker.status = res.status;
+    },
+    logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
+    },
+    getAccountCategory(){
+       axios
+        .get(this.baseUrl + 'user/getCat/' + this.jobSeeker.email)
+        .then((res) => this.accountType = res.data)
+        .catch((e) => console.log(e));
+    },
+    getUserData(){
+      this.amount = 0
+      axios
+        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .then((res) => this.assignJsObject(res.data))
+        .catch((e) => console.log(e));
+    },
+    makeAPayment(){
+      axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
+      (this.getUserData()).catch(e => console.log(e))
+    }
+  },
+};
+</script>
