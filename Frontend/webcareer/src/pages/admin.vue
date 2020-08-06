@@ -259,11 +259,13 @@ axios
                  .then(t => this.reloadAllUsers()).catch(e => console.log(e))
              }else {
                  axios.put(this.baseUrl + 'user/activate/' + this.temployer.email)
-                 .then(t => this.reloadAllUsers()).catch(e => console.log(e))
+                 .then(this.reloadAllUsers()).catch(e => console.log(e))
              }
          },
          reloadAllUsers(){
+             this.rowsForEmployers = []
              this.getAllEmployers()
+             this.rowsForJs = []
              this.getAllJobSeekers()
          }
         
