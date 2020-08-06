@@ -71,7 +71,8 @@ public class JobService {
 	}
 	
 	public List<Job> getAllJobsForJobSeekerWithId(String id){
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		System.out.println("xxxxxxx"+id);
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
 		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 		
 		List<Job> jobs = new ArrayList<>();
@@ -85,7 +86,7 @@ public class JobService {
 	public List<Job> getAllJobsNotAppliedForJobSeekerWithId(String id){
 		
 		List<Job> jobs = getAllJobsForJobSeekerWithId(id);
-		Collection<Integer> ids = new ArrayList<>();
+		List<Integer> ids = new ArrayList<>();
 		for(Job job : jobs) {
 			ids.add(job.getJobId());
 		}
