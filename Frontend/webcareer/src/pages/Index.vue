@@ -72,23 +72,31 @@
 
                 <q-tab-panel name="employer">
                   <div>
-                    <q-input outlined v-model="eEmail" label="Email Address" />
+                    <div class="q-mtb-lg">
+                      <q-input
+                        outlined
+                        v-model="eEmail"
+                        label="Email Address"
+                      />
+                    </div>
                     <q-separator></q-separator>
                     <!-- <q-input outlined v-model="ePassword" label="Password" /> -->
-                    <q-input
-                      v-model="ePassword"
-                      outlined
-                      :type="eIsPw ? 'password' : 'text'"
-                      label="Password"
-                    >
-                      <template v-slot:append>
-                        <q-icon
-                          :name="eIsPw ? 'visibility_off' : 'visibility'"
-                          class="cursor-pointer"
-                          @click="eIsPw = !eIsPw"
-                        />
-                      </template>
-                    </q-input>
+                    <div class="q-mtb-lg">
+                      <q-input
+                        v-model="ePassword"
+                        outlined
+                        :type="eIsPw ? 'password' : 'text'"
+                        label="Password"
+                      >
+                        <template v-slot:append>
+                          <q-icon
+                            :name="eIsPw ? 'visibility_off' : 'visibility'"
+                            class="cursor-pointer"
+                            @click="eIsPw = !eIsPw"
+                          />
+                        </template>
+                      </q-input>
+                    </div>
                     <q-separator></q-separator>
                     <q-btn
                       color="white"
@@ -230,3 +238,4 @@ export default class Index extends Vue {
   }
 }
 </script>
+

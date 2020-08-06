@@ -6,12 +6,12 @@
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal
         </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
+        <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs v-model="tab" align="left">
@@ -135,6 +135,8 @@
                     v-model="jobSeeker.lastName"
                     label="Last Name"
                   />
+
+                  <q-btn>Save</q-btn>
                 </q-tab-panel>
 
                 <q-tab-panel name="innerAlarms">
@@ -210,10 +212,13 @@
                       </div>
                     </div>
                   </div>
+                  <q-btn>Save</q-btn>
                 </q-tab-panel>
               </q-tab-panels>
-            </template> </q-splitter></q-page-container
-      ></q-tab-panel>
+            </template>
+          </q-splitter></q-page-container
+        ></q-tab-panel
+      >
     </q-tab-panels>
   </q-layout>
 </template>

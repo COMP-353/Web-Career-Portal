@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -16,7 +16,7 @@
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
         <q-route-tab to="/page2" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
+        <q-route-tab to="/addjob" label="Add job" />
         <q-route-tab to="/page3" label="Logout" />
       </q-tabs>
     </q-header>
@@ -133,7 +133,6 @@
         </div>
       </div>
     </q-body>
-
   </q-layout>
 </template>
 
