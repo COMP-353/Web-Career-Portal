@@ -32,23 +32,23 @@
           <q-splitter v-model="splitterModel" style="height: 75%;">
 
             <template v-slot:before>
-              <q-tabs v-model="innerProfileTab" vertical class="text-teal">
-                <q-tab name="innerprofile" icon="person" label="Profile" />
-                <q-tab name="innerAlarms" icon="payment" label="Payment" />
-		        <q-tab name="innerSetUpPay" icon="payment" label="Set-up Payment" />
-                <q-tab name="innerMovies" icon="category" label="category" />
+              <q-tabs v-model="tab" vertical class="text-teal">
+                <q-tab name="tabProfile" icon="person" label="Profile" />
+                <q-tab name="tabMakePayment" icon="payment" label="Payment" />
+		        <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
+                <q-tab name="tabCategory" icon="category" label="category" />
               </q-tabs>
             </template>
 
             <template v-slot:after>
               <q-tab-panels
-                v-model="innerProfileTab"
+                v-model="tab"
                 animated
                 transition-prev="slide-down"
                 transition-next="slide-up"
               >
-                <q-tab-panel name="innerprofile">
-                  <div class="text-h4 q-mb-md">Profile</div>
+                <q-tab-panel name="tabProfile">
+                  <div class="text-h4 q-mb-md">Profile Info</div>
                   <p>Your profile information</p>
                   <q-input
                     outlined
@@ -65,8 +65,8 @@
                   <q-btn>Save</q-btn>
                 </q-tab-panel>
 
-                <q-tab-panel name="innerAlarms">
-                  <div class="text-h4 q-mb-md">Payments</div>
+                <q-tab-panel name="tabMakePayment">
+                  <div class="text-h4 q-mb-md">Make a Payment</div>
                   <p>
                     If you have choosen automatic during set-up payment then you
                     don't need to visit this page. If else, continue to steps
@@ -97,7 +97,7 @@
                   />
                 </q-tab-panel>
 
-                <q-tab-panel name="innerSetUpPay">
+                <q-tab-panel name="tabSetUpPay">
                   <div class="text-h4 q-mb-md">Credit Card</div>
                   <p>Your credit card information</p>
                   <q-input outlined v-model="text" label="Card Number" />
@@ -147,7 +147,7 @@
 		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
                 </q-tab-panel>
 
-                <q-tab-panel name="innerMovies">
+                <q-tab-panel name="tabCategory">
                   <div class="text-h4 q-mb-md">Category</div>
                   <div
                     class="row justify-center full-height full-width text-center"
@@ -238,7 +238,7 @@ export default {
       paymentmethod: 'creditcard',
       tab: 'apps',
       accountType:'basic',
-      innerProfileTab:'innerprofile',
+      tab:'tabProfile',
       baseUrl: 'http://localhost:7070/',
       jobSeeker:{
       firstName:'',
@@ -250,8 +250,6 @@ export default {
       amount:0
     }
   },
-
-
 
   mounted() {
     if (this.$store.getters.getUserId === '') {
