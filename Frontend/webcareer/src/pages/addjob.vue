@@ -112,6 +112,11 @@ export default {
       }
     },
 
+logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
+    },
+
     onReset () {
       this.name = null
       this.age = null
