@@ -111,7 +111,7 @@
               <q-tabs v-model="innerProfileTab" vertical class="text-teal">
                 <q-tab name="innerprofile" icon="person" label="Profile" />
                 <q-tab name="innerAlarms" icon="payment" label="Payment" />
-		<q-tab name="innerSetUpPay" icon="payment" label="Set-up Payment" />
+		            <q-tab name="innerSetUpPay" icon="payment" label="Set-up Payment" />
                 <q-tab name="innerMovies" icon="category" label="category" />
               </q-tabs>
             </template>
@@ -142,13 +142,13 @@
                 <q-tab-panel name="innerAlarms">
                   <div class="text-h4 q-mb-md">Payments</div>
                   <p>If you have choosen automatic during set-up payment then you don't need to visit this page. If else, continue to steps below.</p>
-<p><b>Choose the amount of money you're going to pay.</b></p>
-<q-input outlined v-model="text" label="Amount" />
-<q-separator></q-separator>
-<br></br>
-<p><b>Choose your method of payment.</b></p>
-<q-radio v-model="paymentmethod" val="creditcard" label="Credit Card" />
-<q-radio v-model="paymentmethod" val="checkingaccount" label="Checking Account" />
+                  <p><b>Choose the amount of money you're going to pay.</b></p>
+                  <q-input outlined v-model="text" label="Amount" />
+                  <q-separator></q-separator>
+                  <br>
+                  <p><b>Choose your method of payment.</b></p>
+                  <q-radio v-model="paymentmethod" val="creditcard" label="Credit Card" />
+                  <q-radio v-model="paymentmethod" val="checkingaccount" label="Checking Account" />
 
                 </q-tab-panel>
 
@@ -166,7 +166,7 @@
       <q-radio v-model="creditcard" val="automatic" label="Automatic Withdrawal" />
       <q-radio v-model="creditcard" val="default" label="Default Payment" />
 
-<br></br>
+      <br>
 			
 		   <div class="text-h4 q-mb-md">Checking Account</div>
                   <p>Your checking account information</p>

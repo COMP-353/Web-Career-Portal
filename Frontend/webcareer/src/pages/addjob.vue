@@ -9,9 +9,7 @@
           </q-avatar>
           Job Portal
         </q-toolbar-title>
-        <q-toolbar-subtitle>
-          Employer
-       </q-toolbar-subtitle>
+        <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
