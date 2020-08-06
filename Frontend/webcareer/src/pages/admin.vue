@@ -69,6 +69,7 @@
               {{ this.jobSeeker.firstName }}
             </q-card-section> -->
           </q-card>
+          <q-btn label="Reload" @click="reloadAllUsers()" />
 
           <div class="q-pl-xl">
             <div class="q-pa-md">
@@ -98,6 +99,7 @@
       <q-tab-panel name="activities"
         ><q-page-container>
           <div class="q-pa-md">
+            <q-btn label="Reload" @click="getAllActivities()" />
             <q-table
               title="Activities In The System"
               :data="rowsForActivities"
@@ -229,6 +231,7 @@ computed: {
         .catch((e) => console.log(e));
     },
     getAllActivities(){
+        this.rowsForActivities = []
         axios.get(this.baseUrl + 'activity/')
         .then(res => this.rowsForActivities = res.data)
         .catch(e => console.log(e))
