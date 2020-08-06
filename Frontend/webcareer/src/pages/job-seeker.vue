@@ -202,8 +202,10 @@
                     val="default"
                     label="Default Payment"
                   />
-
-                  <br />
+                  <br></br>
+		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
+                  <br><br />
+                  
 
                   <div class="text-h4 q-mb-md">Checking Account</div>
                   <p>Your checking account information</p>
@@ -221,6 +223,8 @@
                     val="default"
                     label="Default Payment"
                   />
+                  <br></br>
+		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
                 </q-tab-panel>
 
                 <q-tab-panel name="innerMovies">
