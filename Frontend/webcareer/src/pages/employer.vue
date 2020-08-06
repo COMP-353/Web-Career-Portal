@@ -150,6 +150,15 @@ console.log('Mounted on employer page')
       console.log('id is indeed empty')
       this.$router.push('/')
     }
-  }
-}
+  },
+
+methods: {
+     
+    logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
+    	}
+     },
+ };
+
 </script>
