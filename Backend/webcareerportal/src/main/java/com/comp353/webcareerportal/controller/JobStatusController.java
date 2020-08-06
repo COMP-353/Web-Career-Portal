@@ -27,10 +27,10 @@ public class JobStatusController {
         return jobStatusService.addNewJobStatus(jobStatus) ? "JobStatus added successfully" : "An error occured";
     }
     
-    @DeleteMapping(path = "deleteJobStatus/{id}")
-    public String deleteJobStatus(@PathVariable(name = "id") int id){
-        return jobStatusService.deleteJobStatusWithStatusId(id) ? "JobStatus deleted succesfully" : "JobStats with given statusId does not exist";
-    }
+//    @DeleteMapping(path = "deleteJobStatus/{id}")
+//    public String deleteJobStatus(@PathVariable(name = "id") int id){
+//        return jobStatusService.deleteJobStatusWithStatusId(id) ? "JobStatus deleted succesfully" : "JobStats with given statusId does not exist";
+//    }
     
     @GetMapping(path = "all")
 	public List<JobStatus> getAllJobStatuses(){

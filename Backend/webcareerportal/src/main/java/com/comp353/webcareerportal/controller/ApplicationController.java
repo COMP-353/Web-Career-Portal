@@ -32,10 +32,21 @@ public class ApplicationController {
 		return applicationService.getAllApplicationsForJobSeekerWithId(id);
 	}
 	
+	@GetMapping(path = "applicationstatus/{id}")
+	public List<Application> getAllJobsByJobStatusId(@PathVariable(name = "id") int id){
+			return applicationService.getAllapplicationForapplicationStatusWithId(id);
+	}
+	
+	
 	@GetMapping(path = "job/{id}")
 	public List<Application> getAllApplicationsByJobId(@PathVariable(name = "id") int id){
 		return applicationService.getAllApplicationsForJobWithId(id);
 	}
+	
+	@GetMapping(path = "updateApplicationStatus/{id}/{applicationId}")
+    public String updateApplicationStatus(@PathVariable(name = "id") int id, @PathVariable(name = "applicationId") int applicationId) {
+        return applicationService.updateApplicationStatus(id, applicationId) ? "Application updated successfully" : "An error occured";
+    }
 	
     @PostMapping(path = "newApplication")
     public String addNewApplication(@RequestBody Application application) {

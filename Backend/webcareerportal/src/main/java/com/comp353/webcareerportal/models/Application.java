@@ -14,8 +14,12 @@ public class Application {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int applicationId;
+    @Column(nullable = false)
     private Date applicationDate;
-    private String applicationStatus;
+    
+    @ManyToOne
+    @JoinColumn(name="application_status", nullable=false)
+    private ApplicationStatus applicationStatus;
 
     @ManyToOne
     @JoinColumn(name="jobseeker_email", nullable=false)
