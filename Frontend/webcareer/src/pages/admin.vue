@@ -11,7 +11,7 @@
         <q-toolbar-title>
           Web Career Portal
         </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
+        <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs v-model="tab" align="left">
@@ -69,7 +69,13 @@
               {{ this.jobSeeker.firstName }}
             </q-card-section> -->
           </q-card>
-          <q-btn label="Reload" @click="reloadAllUsers()" />
+          <q-btn
+            outline
+            rounded
+            color="primary"
+            label="Reload"
+            @click="reloadAllUsers()"
+          />
 
           <div class="q-pl-xl">
             <div class="q-pa-md">
@@ -99,7 +105,13 @@
       <q-tab-panel name="activities"
         ><q-page-container>
           <div class="q-pa-md">
-            <q-btn label="Reload" @click="getAllActivities()" />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Reload"
+              @click="getAllActivities()"
+            />
             <q-table
               title="Activities In The System"
               :data="rowsForActivities"
