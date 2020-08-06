@@ -3,18 +3,15 @@
     <q-header reveal elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-          </q-avatar>
           Job Portal
         </q-toolbar-title>
-       <q-btn label="logout" @click="logOut()" />
+        <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
         <q-route-tab to="/page2" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
+        <q-route-tab to="/addjob" label="Add job" />
         <q-route-tab to="/listofjobs" label="List of Jobs" />
       </q-tabs>
     </q-header>
@@ -25,8 +22,7 @@
           <div class="text-h6">
             Here you can find your list of jobs!
           </div>
-          <div class="text-subtitle2">
-          </div>
+          <div class="text-subtitle2"></div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -200,7 +196,6 @@
         </div>
       </div>
     </q-body>
-
   </q-layout>
 </template>
 
@@ -220,6 +215,12 @@ console.log('Mounted on employer page')
       console.log('id is indeed empty')
       this.$router.push('/')
     }
-  }
+  },
+	methods:{
+		logOut(){
+      			this.$store.commit('RESET_USER_ID');
+      			this.$router.back();
+    		},
+},
 }
 </script>
