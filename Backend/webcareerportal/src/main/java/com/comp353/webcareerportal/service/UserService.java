@@ -314,4 +314,12 @@ public class UserService {
     public List<Activity> getAllActivites(){
         return this.activityDao.getAllActivities();
     }
+
+    public List<Employer> getAllEmployers(){
+        return this.userRepo.getAllEmployers();
+    }
+
+    public List<JobSeeker> getAllJobseekers(){
+        return this.userRepo.getAllJobSeekers();
+    }
 }

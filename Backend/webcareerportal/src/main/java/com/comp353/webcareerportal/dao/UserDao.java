@@ -169,5 +169,13 @@ public interface UserDao extends JpaRepository<User, Long> {
 
     @Query("select js.password from admin js where js.email = :id")
     String getPasswordForAdminWithId(@Value("id") String id);
+
+    @Query(nativeQuery = true, value = "select * from employer")
+    List<Employer> getAllEmployers();
+
+    @Query(nativeQuery = true, value = "select * from jobseeker")
+    List<JobSeeker> getAllJobSeekers();
+
+
 }
 

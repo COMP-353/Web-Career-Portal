@@ -152,4 +152,14 @@ public class UserController {
     public List<Activity> getAllActivities(){
         return userService.getAllActivites();
     }
+
+    @GetMapping(path = "allEmployers")
+    public List<Employer> getAllEmployers(){
+return userService.getAllEmployers();
+    }
+
+    @GetMapping(path = "allJs")
+    public List<JobSeeker> getAllJobS(){
+        return userService.getAllJobseekers();
+    }
 }
