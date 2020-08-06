@@ -53,15 +53,18 @@ public class JobService {
 	}
 	
 	public void deleteJobWithEmployerId(String id) {
-		Employer employer = userRepo.getEmployerWithEmail(id);
-		List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(employer);
-		
-		for(Integer jobId : jobIds) {
-			this.deleteJobWithJobId(jobId);
+		if(userRepo.employerExistsWithEmail(id)) {
+			Employer employer = userRepo.getEmployerWithEmail(id);
+			List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(employer);
+			
+			for(Integer jobId : jobIds) {
+				this.deleteJobWithJobId(jobId);
+			}
 		}
 	}
 	
 	public List<Job> getAllJobsForEmployerWithId(String id){
+		if(!userRepo.employerExistsWithEmail(id)) return null;
 		Employer employer = userRepo.getEmployerWithEmail(id);
 		return jobRepo.getJobsWithEmployer(employer);
 	}
@@ -71,9 +74,14 @@ public class JobService {
 	}
 	
 	public List<Job> getAllJobsForJobSeekerWithId(String id){
+		if(!userRepo.jobSeekerExistsWithEmail(id)) return null;
+		
 		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		
 		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 		
+		if(applications == null) return null;
+
 		List<Job> jobs = new ArrayList<>();
 		
 		for(Application application : applications) {
@@ -85,6 +93,9 @@ public class JobService {
 	public List<Job> getAllJobsNotAppliedForJobSeekerWithId(String id){
 		
 		List<Job> jobs = getAllJobsForJobSeekerWithId(id);
+		
+		if(jobs == null) return null;
+		
 		List<Integer> ids = new ArrayList<>();
 		for(Job job : jobs) {
 			ids.add(job.getJobId());
@@ -94,11 +105,13 @@ public class JobService {
 	}
 	
 	public List<Job> getAllJobsForJobCategoryWithId(int id){
+		if(!jobCategoryRepo.jobCategoryExistsWithCategoryId(id)) return null;
 		JobCategory jobCategory = jobCategoryRepo.getJobCategoryWithId(id);
 		return jobRepo.getJobsWithjobCategory(jobCategory);
 	}
 	
 	public List<Job> getAllJobsForJobStatusWithId(int id){
+		if(!jobStatusRepo.jobStatusExistsWithStatusId(id)) return null;
 		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(id);
 		return jobRepo.getJobsWithjobStatus(jobStatus);
 	}

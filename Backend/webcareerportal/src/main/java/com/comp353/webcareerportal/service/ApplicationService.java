@@ -51,11 +51,13 @@ public class ApplicationService {
 	}
 	
 	public void deleteApplicationWithJobSeekerId(String id) {
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
-		List<Integer> applicationIds = applicationRepo.getApplicationIdsWithJobSeeker(jobSeeker);
-		
-		for(Integer applicationId : applicationIds) {
-			this.deleteApplicationWithApplicationId(applicationId);
+		if(userRepo.jobSeekerExistsWithEmail("sohalmanu@hotmail.com")) {
+			JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
+			List<Integer> applicationIds = applicationRepo.getApplicationIdsWithJobSeeker(jobSeeker);
+			
+			for(Integer applicationId : applicationIds) {
+				this.deleteApplicationWithApplicationId(applicationId);
+			}
 		}
 	}
 	
@@ -64,17 +66,20 @@ public class ApplicationService {
 	}
 	
 	public List<Application> getAllApplicationsForJobSeekerWithId(String id){
-		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail(id);
+		if(!userRepo.jobSeekerExistsWithEmail("sohalmanu@hotmail.com")) return null;
+		JobSeeker jobSeeker = userRepo.getJobSeekerWithEmail("sohalmanu@hotmail.com");
 		return applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 	}
 	
 	public List<Application> getAllApplicationsForJobWithId(int id){
+		if(!jobRepo.jobExistsWithId(id)) return null;
 		Job job = jobRepo.getJobWithJobId(id);
 		return applicationRepo.getApplicationsWithJob(job);
 	}
 	
 	public List<Application> getAllapplicationForapplicationStatusWithId(int id){
 		ApplicationStatus applicationStatus = applicationStatusRepo.getApplicationStatusWithId(id);
+		if(applicationStatus == null) return null;
 		return applicationRepo.getApplicationsWithApplicationStatus(applicationStatus);
 	}
 	
