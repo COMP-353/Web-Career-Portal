@@ -140,7 +140,7 @@
 
                 <q-tab-panel name="innerAlarms">
                   <div class="text-h4 q-mb-md">Payments</div>
-                  <p>If you have choosen automatic during set-up payment then you don'y need to visit this page. If else, continue to steps below.</p>
+                  <p>If you have choosen automatic during set-up payment then you don't need to visit this page. If else, continue to steps below.</p>
 <p><b>Choose the amount of money you're going to pay.</b></p>
 <q-input outlined v-model="text" label="Amount" />
 <q-separator></q-separator>
