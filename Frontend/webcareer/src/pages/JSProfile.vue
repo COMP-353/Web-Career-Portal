@@ -198,6 +198,7 @@
                           v-model="accountType"
                           val="Basic"
                           label="Free"
+                          :disable="modifyUserCategory"
                         />
                       </q-card>
 
@@ -217,6 +218,7 @@
                           v-model="accountType"
                           val="Prime"
                           label="Prime (10$/month)"
+                          :disable="modifyUserCategory"
                         />
                       </q-card>
 
@@ -235,13 +237,17 @@
                         <q-radio
                           v-model="accountType"
                           val="Gold"
+                          :disable="modifyUserCategory"
                           label="Gold (20$/month)"
                         />
                       </q-card>
                     </div>
                   </div>
                 </div>
-                <q-btn>Save</q-btn>
+                <q-btn
+                  :label="modifyUserCategory ? 'Modify' : 'Save'"
+                  @click="saveUserCategory()"
+                />
               </q-tab-panel>
             </q-tab-panels>
           </template>
@@ -334,9 +340,16 @@ export default {
             console.log('ready to save profile info')
             axios
             .put(this.baseUrl + 'user/updateName', this.jobSeeker)
-            .then(this.modifyProfileInfo = !this.modifyProfileInfo)
+            .then(this.modifyProfileInfo = true)
             .catch(e => console.log(e))
-            this.modifyProfileInfo = true
+            // this.modifyProfileInfo = true
+        }
+    },
+    saveUserCategory(){
+        this.modifyUserCategory = !this.modifyUserCategory
+        if (this.modifyUserCategory){
+            console.log('Saving User Plan')
+            axios.put(this.baseUrl + 'user/updateJobSeekerCategory/'+this.jobSeeker.email +'/' +this.accountType).then(this.modifyUserCategory = true).catch(e => console.log(e))
         }
     }
   },
