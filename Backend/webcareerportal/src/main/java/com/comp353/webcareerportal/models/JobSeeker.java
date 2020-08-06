@@ -1,5 +1,6 @@
 package com.comp353.webcareerportal.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
+@Data
 @Entity(name = "jobseeker")
 @NoArgsConstructor
 public class JobSeeker extends User{

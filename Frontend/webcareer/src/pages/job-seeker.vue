@@ -345,7 +345,8 @@ export default {
   },
 
   methods: {
-    assignJsObject( res) {
+    assignJsObject(res) {
+      console.log(res)
       this.jobSeeker.firstName = res.firstName;
       this.jobSeeker.lastName = res.lastName;
       this.jobSeeker.accountBalance = res.accountBalance;
