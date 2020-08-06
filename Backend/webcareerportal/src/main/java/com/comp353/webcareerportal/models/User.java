@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 public abstract class User {
     @Id
     private String email;
-    @JsonIgnore
     private String password;
     private String status = "Active";
     @Column(columnDefinition = "int default 0")

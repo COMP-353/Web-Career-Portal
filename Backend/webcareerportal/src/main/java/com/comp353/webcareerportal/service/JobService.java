@@ -63,7 +63,6 @@ public class JobService {
 	
 	public List<Job> getAllJobsForEmployerWithId(String id){
 		Employer employer = userRepo.getEmployerWithEmail(id);
-		System.out.println("XXXXXXXXXXXXX"+employer.getEmail());
 		return jobRepo.getJobsWithEmployer(employer);
 	}
 	
@@ -102,5 +101,13 @@ public class JobService {
 	public List<Job> getAllJobsForJobStatusWithId(int id){
 		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(id);
 		return jobRepo.getJobsWithjobStatus(jobStatus);
+	}
+	
+	public boolean updateJob(int jobId, int statusId) {
+		if(!jobRepo.jobExistsWithId(jobId)) return false;
+		JobStatus jobStatus = jobStatusRepo.getJobStatusWithId(statusId);
+		if(jobStatus == null) return false;
+		jobRepo.updateJobStatus(jobId, jobStatus);
+		return true;
 	}
 }

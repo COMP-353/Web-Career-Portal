@@ -56,6 +56,11 @@ public class JobController {
         return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";
     }
     
+    @GetMapping(path = "updateJobStatus/{id}/{statusId}")
+    public String updateJobStatus(@PathVariable(name = "id") int id, @PathVariable(name = "statusId") int statusId) {
+        return jobService.updateJob(id, statusId) ? "Job updated successfully" : "An error occured";
+    }
+    
     @DeleteMapping(path = "deleteJob/{id}")
     public String deleteJob(@PathVariable(name = "id") int id){
         return jobService.deleteJobWithJobId(id) ? "Job deleted succesfully" : "Job with given JobId does not exist";
