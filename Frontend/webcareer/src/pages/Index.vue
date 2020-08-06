@@ -178,7 +178,7 @@ export default class Index extends Vue {
         this.$router.push('employer').catch((error) => console.log(error));
         // this.$store.commit('setUserId', id);
       } else {
-        this.$router.push('job-seeker').catch((error) => console.log(error));
+        this.$router.push('admin').catch((error) => console.log(error));
         // this.$store.commit('setUserId', id);
       }
     }
