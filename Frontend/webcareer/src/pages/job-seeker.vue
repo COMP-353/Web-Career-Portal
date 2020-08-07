@@ -20,7 +20,7 @@
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Welcome back {{ this.jobSeeker.firstName }}!
+            Welcome back {{ getGreetingField() }}!
           </div>
           <div class="text-subtitle2">
             The job opportunity list has been updated!
@@ -164,6 +164,10 @@ export default {
     convertDate(date_str){
       const date = new Date(date_str)
       return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date); 
+    }
+    ,
+    getGreetingField(){
+      return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
     }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
