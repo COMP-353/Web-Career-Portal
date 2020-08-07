@@ -1,11 +1,8 @@
 <template>
   <q-page padding>
-    <q-header reveal class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary fixed-top text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-          </q-avatar>
           Job Portal
         </q-toolbar-title>
        <q-btn label="logout" @click="logOut()" />
@@ -25,7 +22,7 @@
 <div>
     <q-splitter
       v-model="splitterModel"
-      style="height: 250px"
+      style="height: 50%"
     >
 
       <template v-slot:before>
@@ -35,7 +32,7 @@
           class="text-teal"
         >
           <q-tab name="payment" icon="payment" label="Payment"/>
-          <q-tab name="setuppayment" icon="setuppayment" label="Set-Up Payment"/>
+          <q-tab name="setuppayment" icon="payment" label="Set-Up payment"/>
          
         </q-tabs>
       </template>
