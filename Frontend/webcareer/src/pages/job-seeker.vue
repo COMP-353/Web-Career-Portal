@@ -38,21 +38,19 @@
             <q-markup-table>
               <thead>
                 <tr>
-                  <th class="text-left">Company</th>
+                  <th class="text-left">Job ID</th>
+                  <th class="text-left">Employer Email</th>
                   <th class="text-left">Job position</th>
-                  <th class="text-right">ID</th>
-                  <th class="text-right">Email</th>
-                  <th class="text-right">Date of posting</th>
+                  <th class="text-left">Description</th>
                   <th class="text-right">Apply!</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="text-left">Google</td>
-                  <td class="text-left">Software developer</td>
-                  <td class="text-right">1</td>
-                  <td class="text-right">mia@gmail.com</td>
-                  <td class="text-right">2020-08-02</td>
+                <tr v-for='job in jobList' v-bind:key='job.jobId'>
+                  <td class="text-left">{{job.jobId}}</td>
+                  <td class="text-left">{{job.employer.email}}</td>
+                  <td class="text-left">{{job.title}}</td>
+                  <td class="text-left">{{job.description}}</td>
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
@@ -105,6 +103,7 @@ export default {
       accountType:'basic',
       innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
+      jobList: [],
       jobSeeker:{
       firstName:'',
         lastName:'',
@@ -115,15 +114,15 @@ export default {
     }
   },
 
-
-
   mounted() {
     if (this.$store.getters.getUserId === '') {
       console.log("User id is indeed ''");
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
-     this.getUserData()
+      this.getUserData(this.jobSeeker.email);
+     this.getJobList(this.jobSeeker.email);
+     //console.log(this.jobList);
     //  this.getAccountCategory()
     }
   },
@@ -146,13 +145,19 @@ export default {
     //     .then((res) => this.accountType = res.data)
     //     .catch((e) => console.log(e));
     // },
-    getUserData(){
+    getUserData(user_email){
       this.amount = 0
       axios
-        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .get(this.baseUrl + 'user/jobseeker/' + user_email)
         .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
     },
+
+    getJobList(user_email){
+      axios
+        .get(this.baseUrl + 'job/applied/jobseeker/'+ user_email)
+        .then(res => this.jobList = res.data);
+    }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
     //   (this.getUserData()).catch(e => console.log(e))
