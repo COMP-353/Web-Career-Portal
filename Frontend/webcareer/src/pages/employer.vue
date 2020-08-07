@@ -1,9 +1,13 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary text-white" height-hint="98">
+    <q-header
+      reveal
+      class="bg-primary fixed-top absolute-top text-white"
+      height-hint="98"
+    >
       <q-toolbar>
         <q-toolbar-title>
-          Career Portal
+          Job Portal
         </q-toolbar-title>
         <q-btn label="logout" @click="logOut()" />
       </q-toolbar>
@@ -12,13 +16,13 @@
         <q-route-tab to="employer" label="Home" />
 
         <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
+        <q-route-tab to="/addjob" label="Add job" />
 
         <q-route-tab to="/listofjobs" label="List of Jobs" />
       </q-tabs>
     </q-header>
 
-     <q-page-container style="height: 300px;">
+    <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
