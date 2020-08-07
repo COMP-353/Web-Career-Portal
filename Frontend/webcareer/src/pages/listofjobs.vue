@@ -226,8 +226,30 @@ export default {
       current: 3,
       value: 71,
       baseUrl: 'http://localhost:7070/',
+      columnsForEmployers: [
+              {
+                name: 'jobId',
+                required: true,
+                label: 'JobID',
+                field: 'jobId',
+                align: 'left',
+              //   field: row => row.name,
+              //   format: val => `${val}`,
+                sortable: true
+              },
+              { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true },
+              { name: 'description', label: 'Description', field: 'description', sortable: true, style: 'width: 10px' },
+              { name: 'jobStatus', label: 'Job Status', field: 'jobStatus', sortable: true },
+              { name: 'application_applicationId', label: 'Application ID', field: 'application_applicationId', sortable: true },
+              { name: 'title', label: 'Title', field: 'title', sortable: true },
+              { name: 'employer_email', label: 'Employer Email', field: 'employer_email', sortable: true },
+              { name: 'job_category', label: 'Job Category', field: 'job_category', sortable: true },
+              { name: 'job_status', label: 'Job Status', field: 'job_status', sortable: true },
+              // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+            ]
     }
   },
+
   paginationForActivities: {
         sortBy: 'desc',
         descending: false,
@@ -235,27 +257,7 @@ export default {
         rowsPerPage: 10
         // rowsNumber: xx if getting data from a server
       },
-  columnsForEmployers: [
-        {
-          name: 'jobId',
-          required: true,
-          label: 'JobID',
-          field: 'jobId',
-          align: 'left',
-        //   field: row => row.name,
-        //   format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true },
-        { name: 'description', label: 'Description', field: 'description', sortable: true, style: 'width: 10px' },
-        { name: 'jobStatus', label: 'Job Status', field: 'jobStatus', sortable: true },
-        { name: 'application_applicationId', label: 'Application ID', field: 'application_applicationId', sortable: true },
-        { name: 'title', label: 'Title', field: 'title', sortable: true },
-        { name: 'employer_email', label: 'Employer Email', field: 'employer_email', sortable: true },
-        { name: 'job_category', label: 'Job Category', field: 'job_category', sortable: true },
-        { name: 'job_status', label: 'Job Status', field: 'job_status', sortable: true },
-        // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ],
+  
       rowsForEmployers: [],
 
 
