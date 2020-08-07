@@ -6,20 +6,7 @@
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Web Career Portal
-        </q-toolbar-title>
-        <q-btn flat rounded label="logout" @click="logOut()" />
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="js" label="Home" />
-        <q-route-tab to="js-postings" label="Job Postings" />
-        <q-route-tab to="js-profile" label="Profile" />
-      </q-tabs>
-    </q-header>
+    <JSHeader />
 
     <q-page-container style="height: 100%;" class="relative-position">
       <router-view />
@@ -27,7 +14,7 @@
       <q-body>
         <q-splitter v-model="splitterModel" style="height: 75%;">
           <template v-slot:before>
-            <q-tabs v-model="tab" vertical class="text-teal">
+            <q-tabs v-model="tab" vertical class="text-primary">
               <q-tab name="tabProfile" icon="person" label="Profile" />
               <q-tab name="tabMakePayment" icon="payment" label="Payment" />
               <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
@@ -269,9 +256,14 @@
 
 <script>
 import axios from 'axios';
+import JSHeader from '../components/JSHeader.vue';
+
 
 
 export default {
+components:{
+  JSHeader  
+},
   data() {
     return {
     modifyProfileInfo: true,
@@ -295,7 +287,6 @@ export default {
           defaultPayment:false,
           automaticWithdrawal: false
       },
-      tab: 'apps',
       accountType:'basic',
       tab:'tabProfile',
       baseUrl: 'http://localhost:7070/',
@@ -306,7 +297,8 @@ export default {
         status:'',
         email:'',
       },
-      amount:0
+      amount:0,
+      splitterModel:20
     }
   },
   computed:{

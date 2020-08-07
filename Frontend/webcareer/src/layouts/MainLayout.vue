@@ -1,12 +1,12 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
+    <!-- <q-header>
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal
         </q-toolbar-title>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
 
     <q-page-container>
       <router-view />

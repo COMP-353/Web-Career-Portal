@@ -1,54 +1,31 @@
 <template>
-  <q-page padding>
-    <q-header reveal class="bg-primary fixed-top text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Job Portal
-        </q-toolbar-title>
-       <q-btn flat rounded label="logout" @click="logOut()" />
-      </q-toolbar>
+  <q-layout view="hHh LpR fFf">
+    <q-page-container style="height: 300px;">
+      <EHeader />
+      <q-page padding>
+        <div>
+          <q-splitter v-model="splitterModel" style="height: 50%;">
+            <template v-slot:before>
+              <q-tabs v-model="tab" vertical class="text-primary">
+                <q-tab name="payment" icon="payment" label="Payment" />
+                <q-tab
+                  name="setuppayment"
+                  icon="payment"
+                  label="Set-Up payment"
+                />
+              </q-tabs>
+            </template>
 
-      <q-tabs align="left">
-        <q-route-tab to="employer" label="Home" />
-        <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
-        <q-route-tab to="/listofjobs" label="List of Jobs" />
-        <q-route-tab to="issues" label="Issues" />
-      </q-tabs>
-    </q-header>
-
-
-
-
-<div>
-    <q-splitter
-      v-model="splitterModel"
-      style="height: 50%"
-    >
-
-      <template v-slot:before>
-        <q-tabs
-          v-model="tab"
-          vertical
-          class="text-teal"
-        >
-          <q-tab name="payment" icon="payment" label="Payment"/>
-          <q-tab name="setuppayment" icon="payment" label="Set-Up payment"/>
-         
-        </q-tabs>
-      </template>
-
-      <template v-slot:after>
-        <q-tab-panels
-          v-model="tab"
-          animated
-          transition-prev="slide-down"
-          transition-next="slide-up"
-        >
-
-          <q-tab-panel name="payment">
-            <div class="text-h4 q-mb-md">Payment</div>
-            <p>
+            <template v-slot:after>
+              <q-tab-panels
+                v-model="tab"
+                animated
+                transition-prev="slide-down"
+                transition-next="slide-up"
+              >
+                <q-tab-panel name="payment">
+                  <div class="text-h4 q-mb-md">Payment</div>
+                  <p>
                     If you have choosen automatic during set-up payment then you
                     don't need to visit this page. If else, continue to steps
                     below.
@@ -76,11 +53,11 @@
                     @click="makeAPayment()"
                     :disabled="!(amount > 0)"
                   />
-          </q-tab-panel>
+                </q-tab-panel>
 
-          <q-tab-panel name="setuppayment">
-            <div class="text-h4 q-mb-md">Set-Up Payment</div>
-             <div class="text-h4 q-mb-md">Credit Card</div>
+                <q-tab-panel name="setuppayment">
+                  <div class="text-h4 q-mb-md">Set-Up Payment</div>
+                  <div class="text-h4 q-mb-md">Credit Card</div>
                   <p>Your credit card information</p>
                   <q-input outlined v-model="text" label="Card Number" />
                   <q-separator></q-separator>
@@ -104,10 +81,13 @@
                     val="default"
                     label="Default Payment"
                   />
-                  <br></br>
-		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
-                  <br><br />
-                  
+                  <br />
+                  <q-btn
+                    color="white"
+                    text-color="black"
+                    label="Set-Up Checking Account"
+                  />
+                  <br /><br />
 
                   <div class="text-h4 q-mb-md">Checking Account</div>
                   <p>Your checking account information</p>
@@ -125,27 +105,32 @@
                     val="default"
                     label="Default Payment"
                   />
-                  <br></br>
-		              <q-btn color="white" text-color="black" label="Set-Up Checking Account" />
-          </q-tab-panel>
-
-          
-        </q-tab-panels>
-      </template>
-
-    </q-splitter>
-  </div>
-
-</q-page>
-
+                  <br />
+                  <q-btn
+                    color="white"
+                    text-color="black"
+                    label="Set-Up Checking Account"
+                  />
+                </q-tab-panel>
+              </q-tab-panels>
+            </template>
+          </q-splitter>
+        </div>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 
 
 
 <script>
+import EHeader from 'components/EHeader.vue'
 export default {
   // name: 'PageName',
+  components:{
+EHeader
+  },
 
  data () {
     return {

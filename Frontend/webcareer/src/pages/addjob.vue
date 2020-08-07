@@ -1,27 +1,14 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary fixed-top text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Job Portal
-        </q-toolbar-title>
-        <q-btn flat rounded label="logout" @click="logOut()" />
-      </q-toolbar>
-      <q-tabs align="left">
-        <q-route-tab to="employer" label="Home" />
-        <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job" />
-        <q-route-tab to="/listofjobs" label="List of jobs" />
-        <q-route-tab to="issues" label="Issues" />
-      </q-tabs>
-    </q-header>
+    <EHeader />
 
-    <q-page-container style="height: 100%;" class="relative-position">
+    <q-page-container style="height: 100%;">
+      <router-view />
       <q-body>
         <div class="text-h6">
           Add a new job posting
         </div>
-        <div class="window-height window-width row justify-center items-center">
+        <div class="window-width row justify-center items-center">
           <!-- <div></div> -->
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input
@@ -119,7 +106,11 @@
 </template>
 
 <script>
+import EHeader from 'components/EHeader.vue'
 export default {
+  components:{
+EHeader
+  },
   data () {
     return {
         accept: false,
