@@ -19,7 +19,7 @@
       </q-tabs>
     </q-header>
 
-    <q-page-container style="height: 300px;">
+     <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
