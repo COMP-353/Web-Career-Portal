@@ -5,7 +5,7 @@
         <div class="text-h6">Add a New Credit Card</div>
       </q-card-section>
 
-      <q-separator />
+      <!-- <q-separator /> -->
 
       <q-card-section style="max-height: 50vh; min-width: 50vh;" class="scroll">
         <q-input
@@ -27,7 +27,7 @@
           type="number"
           label="Credit Card Security Code"
         />
-        <q-separator></q-separator>
+        <!-- <q-separator></q-separator> -->
         <q-input outlined v-model="cc.address" label="Billing Address" />
 
         <div class="q-gutter-sm">
@@ -39,17 +39,17 @@
         </div>
       </q-card-section>
 
-      <q-separator />
+      <!-- <q-separator /> -->
 
       <q-card-actions align="right">
+        <q-btn flat label="Cancel" color="primary" v-close-popup />
         <q-btn
           flat
-          label="Add new Credit Card"
+          label="Add"
           color="primary"
           v-close-popup
           @click="saveNewCreditCard()"
         />
-        <q-btn flat label="Cancel" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
