@@ -75,7 +75,12 @@
                   below.
                 </p>
                 <p><b>Choose the amount of money you're going to pay.</b></p>
-                <q-input outlined v-model="amount" type="number" prefix="$" />
+                <q-input
+                  outlined
+                  v-model="amount"
+                  type="creditCardNumber"
+                  prefix="$"
+                />
                 <q-separator></q-separator>
                 <br />
                 <p><b>Choose your method of payment.</b></p>
@@ -105,17 +110,21 @@
                 <p>Your credit card information</p>
                 <q-input
                   outlined
-                  v-model="cc.number"
-                  type="number"
+                  v-model="cc.creditCardNumber"
+                  type="creditCardNumber"
                   label="Card Number"
                 />
                 <q-separator></q-separator>
-                <q-input outlined v-model="cc.name" label="Credit Card Name" />
+                <q-input
+                  outlined
+                  v-model="cc.creditCardName"
+                  label="Credit Card Name"
+                />
                 <q-separator></q-separator>
                 <q-input
                   outlined
                   v-model="cc.securityCode"
-                  type="number"
+                  type="creditCardNumber"
                   label="Credit Card Security Code"
                 />
                 <q-separator></q-separator>
@@ -125,21 +134,22 @@
                   label="Billing Address"
                 />
 
-                <q-radio
-                  v-model="creditcard"
-                  val="automatic"
-                  label="Automatic Withdrawal"
-                />
-                <q-radio
-                  v-model="creditcard"
-                  val="default"
-                  label="Default Payment"
-                />
+                <div class="q-gutter-sm">
+                  <q-checkbox
+                    v-model="cc.defaultPayment"
+                    label="Default Payment"
+                  />
+                  <q-checkbox
+                    v-model="cc.automaticWithdrawal"
+                    label="Automatic Withdrawal"
+                  />
+                </div>
+
                 <br />
                 <q-btn
                   color="white"
                   text-color="black"
-                  label="Set-Up Checking Account"
+                  :label="ccButtonLabel"
                 />
                 <br /><br />
 
@@ -153,21 +163,21 @@
                   label="Account Number"
                 />
 
-                <q-radio
-                  v-model="checkingacc"
-                  val="automatic"
-                  label="Automatic Withdrawal"
-                />
-                <q-radio
-                  v-model="checkingacc"
-                  val="default"
-                  label="Default Payment"
-                />
+                <div class="q-gutter-sm">
+                  <q-checkbox
+                    v-model="ca.defaultPayment"
+                    label="Default Payment"
+                  />
+                  <q-checkbox
+                    v-model="ca.automaticWithdrawal"
+                    label="Automatic Withdrawal"
+                  />
+                </div>
                 <br />
                 <q-btn
                   color="white"
                   text-color="black"
-                  label="Set-Up Checking Account"
+                  :label="caButtonLabel"
                 />
               </q-tab-panel>
 
@@ -266,18 +276,24 @@ export default {
     return {
     modifyProfileInfo: true,
     modifyUserCategory: true,
+    modifyCc: true,
+    modifyCa: true,
     justSaved:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
       cc:{
-          number:0,
-          name:'',
-          address:'',
-          securityCode:0
+          creditCardNumber:0,
+          creditCardName:'',
+          billingAddress:'',
+          securityCode:0,
+          defaultPayment:false,
+          automaticWithdrawal: false
       },ca:{
           bankNumber:0,
-          accountNumber:0
+          accountNumber:0,
+          defaultPayment:false,
+          automaticWithdrawal: false
       },
       tab: 'apps',
       accountType:'basic',
@@ -293,15 +309,38 @@ export default {
       amount:0
     }
   },
+  computed:{
+      ccButtonLabel(){
+        //   if (this.cc.creditCardNumber === 0){
+              return 'ADD CREDIT CARD'
+        //   } else 
+            //   return 'modify'
+        //   } else{
+        //     return 'SAVE'
+        //   }
+        
+      },
+      caButtonLabel(){
+        //  if (this.ca.accountNumber === 0) {
+             return 'ADD CHECKING ACCOUNT'
+            //  } else if (this.modifyCa){
+                //  return 'modify'
+            //  } else {
+                //  return 'save'
+            //  }
+      }
+  },
 
   mounted() {
     if (this.$store.getters.getUserId === '') {
       console.log("User id is indeed ''");
       this.$router.push('/');
     } else {
-      this.jobSeeker.email = this.$store.getters.getUserId;
+     this.jobSeeker.email = this.$store.getters.getUserId;
      this.getUserData()
      this.getAccountCategory()
+    //  this.getCheckingAccount()
+    //  this.getCreditCard()
     }
   },
 
@@ -351,6 +390,18 @@ export default {
             console.log('Saving User Plan')
             axios.put(this.baseUrl + 'user/updateJobSeekerCategory/'+this.jobSeeker.email +'/' +this.accountType).then(this.modifyUserCategory = true).catch(e => console.log(e))
         }
+    },
+    addCreditCard(){
+        axios.post(this.baseUrl + 'payment/newCreditCard/'+ this.jobSeeker.email, this.cc).catch(e => console.log(e))
+    },
+    addCheckingAccount(){
+        axios.post(this.baseUrl+ 'payment/newCheckingAccount/' + this.jobSeeker.email, this.ca).catch(e => console.log(e))
+    },
+    getCheckingAccount(){
+        axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.ca = res.data).catch(e => console.log(e))
+    }, 
+    getCreditCard(){
+axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.cc = res.data).catch(e => console.log(e))
     }
   },
 };
