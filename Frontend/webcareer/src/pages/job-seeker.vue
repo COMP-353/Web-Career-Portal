@@ -1,19 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Web Career Portal
-        </q-toolbar-title>
-        <q-btn flat rounded label="logout" @click="logOut()" />
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="js" label="Home" />
-        <q-route-tab to="js-postings" label="Job Postings" />
-        <q-route-tab to="js-profile" label="Profile" />
-      </q-tabs>
-    </q-header>
+    <JSHeader />
 
     <q-page-container style="height=100%">
       <router-view />
@@ -97,9 +84,12 @@
 
 <script>
 import axios from 'axios';
-
+import JSHeader from '../components/JSHeader.vue'
 
 export default {
+  components:{
+JSHeader
+  },
   data() {
     return {
       accountType:'basic',
@@ -114,8 +104,6 @@ export default {
       },
     }
   },
-
-
 
   mounted() {
     if (this.$store.getters.getUserId === '') {
@@ -152,11 +140,7 @@ export default {
         .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
         .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
-    },
-    // makeAPayment(){
-    //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
-    //   (this.getUserData()).catch(e => console.log(e))
-    // }
+    }
   },
 };
 </script>
