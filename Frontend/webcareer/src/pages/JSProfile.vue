@@ -62,13 +62,15 @@
               <q-tab-panel name="tabSetUpPay">
                 <AddCreditCard v-bind:email="jobSeeker.email" />
                 <q-btn label="Add new Credit Card" @click="addCreditCard()" />
-                <component
+                <!-- <component
+                  v-bind:is="creditcard"
+                > -->
+                <CreditCard
                   v-for="creditcard in ccs"
-                  v-bind:is="creditcard.id"
                   :key="creditcard.id"
-                >
-                  <CreditCard v-bind:cc="creditcard" />
-                </component>
+                  v-bind:cc="creditcard"
+                />
+                <!-- </component> -->
                 <br /><br />
                 <component
                   v-for="checkingaccount in cas"
@@ -231,7 +233,7 @@ components:{
      this.getUserData()
      this.getAccountCategory()
     //  this.getCheckingAccount()
-    //  this.getCreditCard()
+     this.getCreditCard()
     }
   },
 
@@ -290,7 +292,7 @@ components:{
         axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.ca = res.data).catch(e => console.log(e))
     }, 
     getCreditCard(){
-axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.cc = res.data).catch(e => console.log(e))
+axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.ccs = res.data).catch(e => console.log(e))
     }
   },
 };
