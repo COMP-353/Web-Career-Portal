@@ -9,10 +9,10 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
-@Setter
+
 @NoArgsConstructor
 @Setter
-@Getter
+
 @Data
 @Entity (name = "employer")
 public class Employer extends User{
