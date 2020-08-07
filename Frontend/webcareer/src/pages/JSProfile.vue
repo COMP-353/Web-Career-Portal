@@ -61,10 +61,12 @@
               <!-- To Set Up A Payment -->
               <q-tab-panel name="tabSetUpPay">
                 <AddCreditCard v-bind:email="jobSeeker.email" />
+                <AddCheckingAccount v-bind:email="jobSeeker.email" />
                 <q-btn label="Add new Credit Card" @click="addCreditCard()" />
-                <!-- <component
-                  v-bind:is="creditcard"
-                > -->
+                <q-btn
+                  label="Add new Checking Account"
+                  @click="addCheckingAccount()"
+                />
                 <CreditCard
                   v-for="creditcard in ccs"
                   :key="creditcard.id"
@@ -72,13 +74,11 @@
                 />
                 <!-- </component> -->
                 <br /><br />
-                <component
-                  v-for="checkingaccount in cas"
-                  v-bind:is="checkingaccount.id"
-                  :key="checkingaccount.id"
-                >
-                  <CheckingAccount v-bind:ca="ca" />
-                </component>
+                <CheckingAccount
+                  v-for="checkinga in cas"
+                  :key="checkinga.id"
+                  v-bind:ca="checkinga"
+                />
               </q-tab-panel>
 
               <!-- To Change User Category aka Plan -->
@@ -174,13 +174,15 @@ import CreditCard from 'components/CreditCard.vue';
 import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
 import AddCreditCard from 'components/AddCreditCard.vue';
+import AddCheckingAccount from 'components/AddCheckingAccount.vue';
 export default {
 components:{
   JSHeader,
   CreditCard,
   CheckingAccount,
   MakePayment,
-  AddCreditCard
+  AddCreditCard,
+  AddCheckingAccount
 },
   data() {
     return {
@@ -232,7 +234,7 @@ components:{
      this.jobSeeker.email = this.$store.getters.getUserId;
      this.getUserData()
      this.getAccountCategory()
-    //  this.getCheckingAccount()
+     this.getCheckingAccount()
      this.getCreditCard()
     }
   },
@@ -286,10 +288,10 @@ components:{
         this.$root.$emit('addcc')
     },
     addCheckingAccount(){
-        axios.post(this.baseUrl+ 'payment/newCheckingAccount/' + this.jobSeeker.email, this.ca).catch(e => console.log(e))
-    },
+      this.$root.$emit('addca')   
+},
     getCheckingAccount(){
-        axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.ca = res.data).catch(e => console.log(e))
+        axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.cas = res.data).catch(e => console.log(e))
     }, 
     getCreditCard(){
 axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.ccs = res.data).catch(e => console.log(e))
