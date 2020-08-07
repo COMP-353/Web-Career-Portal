@@ -295,7 +295,6 @@ export default {
           defaultPayment:false,
           automaticWithdrawal: false
       },
-      tab: 'apps',
       accountType:'basic',
       tab:'tabProfile',
       baseUrl: 'http://localhost:7070/',
