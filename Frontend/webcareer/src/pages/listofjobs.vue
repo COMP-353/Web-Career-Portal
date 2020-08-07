@@ -1,21 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Job Portal
-        </q-toolbar-title>
-        <q-btn flat rounded label="logout" @click="logOut()" />
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="employer" label="Home" />
-        <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job" />
-        <q-route-tab to="/listofjobs" label="List of Jobs" />
-        <q-route-tab to="issues" label="Issues" />
-      </q-tabs>
-    </q-header>
+    <EHeader />
 
     <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
@@ -202,7 +187,11 @@
 
 
 <script>
+import EHeader from 'components/EHeader.vue'
 export default {
+  components:{
+EHeader
+  },
   data () {
     return {
       current: 3,
