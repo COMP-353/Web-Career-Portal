@@ -38,8 +38,10 @@ public class JobService {
 	JobStatusDao jobStatusRepo;
 
 	
-	public boolean addNewJob(Job job) {
-		if (!userRepo.employerExistsWithEmail(job.getEmployer().getEmail())) return false;
+	public boolean addNewJob(Job job, String id) {
+		Employer e = userRepo.getEmployerWithEmail(id);
+		if (e == null) return false;
+		job.setEmployer(e);
 		jobRepo.save(job);
 		return true;
 	}
