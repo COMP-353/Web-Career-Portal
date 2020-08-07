@@ -5,7 +5,7 @@
     <q-input
       outlined
       v-model="cc.creditCardNumber"
-      type="creditCardNumber"
+      type="number"
       label="Card Number"
     />
     <q-separator></q-separator>
@@ -14,7 +14,7 @@
     <q-input
       outlined
       v-model="cc.securityCode"
-      type="creditCardNumber"
+      type="number"
       label="Credit Card Security Code"
     />
     <q-separator></q-separator>
@@ -40,13 +40,7 @@ export default Vue.extend({
   name: 'CreditCard',
   computed: {
     ccButtonLabel() {
-      //   if (this.cc.creditCardNumber === 0){
       return 'ADD CREDIT CARD';
-      //   } else
-      //   return 'modify'
-      //   } else{
-      //     return 'SAVE'
-      //   }
     },
   },
   props: ['cc'],
