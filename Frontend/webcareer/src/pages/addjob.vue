@@ -13,7 +13,7 @@
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input
               outlined
-              v-model="name"
+              v-model="job.jobCategory.category"
               label="Category name"
               hint="Job category"
               lazy-rules
@@ -24,7 +24,7 @@
 
             <div class="q-pa-md">
               <q-input
-                v-model="text"
+                v-model="job.description"
                 label="Description"
                 hint="Description of the position"
                 outlined
@@ -33,7 +33,7 @@
             </div>
             <q-input
               outlined
-              v-model="name"
+              v-model="job.title"
               label="Job title"
               hint="What is the position you would like to fulfill"
               :rules="[
@@ -42,8 +42,8 @@
             />
             <q-input
               outlined
-              v-model="name"
-              label="Job status"
+              v-model="job.jobStatus.status"
+              label="Job jobStatus"
               hint="Active/Inactive"
               lazy-rules
               :rules="[
@@ -51,10 +51,10 @@
               ]"
             />
 
-            <div class="q-pa-md">
+            <!-- <div class="q-pa-md">
               <q-input
                 outlined
-                v-model="date"
+                v-model="job.date"
                 mask="date"
                 :rules="['date']"
                 label="Date"
@@ -67,14 +67,14 @@
                       transition-hide="scale"
                     >
                       <q-date
-                        v-model="date"
+                        v-model="job.date"
                         @input="() => $refs.qDateProxy.hide()"
                       />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
               </q-input>
-            </div>
+            </div> -->
             <!-- <q-input
               filled
               v-model="name"
@@ -107,6 +107,7 @@
 
 <script>
 import EHeader from 'components/EHeader.vue'
+import axios from 'axios'
 export default {
   components:{
 EHeader
@@ -114,10 +115,39 @@ EHeader
   data () {
     return {
         accept: false,
-        date: ''
+         employer:{
+            email:'',
+            status:'',
+            accountBalance:'',
+            employerCategory:''
+          },
+        job:{
+          title:'',
+          jobStatus:{
+            status:'',
+            description:''
+          },
+          description:'',
+          jobCategory: {
+            category:'',
+            description:''
+          }
+        }
+    }
+  },
+  mounted(){
+      if (this.$store.getters.getUserId === '') {
+      console.log("User id is indeed ''");
+      this.$router.push('/');
+    } 
+    else {
+    this.employer.email = this.$store.getters.getUserId;
     }
   },
   methods: {
+    // getEmployer(){
+    //   axios.get('http://localhost:7070/user/employer/'+ this.employer.email).then(res => this.job.employer = res).catch(e => console.log(e))
+    // },
     onSubmit () {
       if (this.accept !== true) {
         this.$q.notify({
@@ -128,12 +158,15 @@ EHeader
         })
       }
       else {
-        this.$q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted'
-        })
+        // this.$q.notify({
+        //   color: 'green-4',
+        //   textColor: 'white',
+        //   icon: 'cloud_done',
+        //   message: 'Submitted'
+        // })
+        
+        axios.post('http://localhost:7070/job/newJob/' + this.employer.email, this.job).catch(e => console.log(e))
+        this.$q.reset()
       }
     },
 
@@ -143,9 +176,12 @@ logOut(){
     },
 
     onReset () {
-      this.name = null
-      this.age = null
+      this.job.title = ''
+      this.job.description = '' 
       this.accept = false
+      this.job.jobStatus.status = ''
+      // this.job.date = ''
+      this.job.jobCategory.category = ''
     }
   }
 }
