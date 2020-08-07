@@ -10,13 +10,14 @@
 
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
-        <q-route-tab to="/page2" label="Add payment" />
+        <q-route-tab to="/addpayment" label="Add payment" />
+
         <q-route-tab to="/addjob" label="Add job" />
         <q-route-tab to="/listofjobs" label="List of Jobs" />
       </q-tabs>
     </q-header>
 
-    <q-page-container style="height: 300px;">
+   <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
@@ -199,6 +200,7 @@
   </q-layout>
 </template>
 
+
 <script>
 export default {
   data () {
@@ -215,6 +217,12 @@ console.log('Mounted on employer page')
       console.log('id is indeed empty')
       this.$router.push('/')
     }
-  }
+  },
+	methods:{
+		logOut(){
+      			this.$store.commit('RESET_USER_ID');
+      			this.$router.back();
+    		},
+},
 }
 </script>
