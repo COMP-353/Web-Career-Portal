@@ -6,7 +6,7 @@
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal

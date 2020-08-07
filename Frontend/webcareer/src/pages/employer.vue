@@ -1,24 +1,7 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          Career Portal
-        </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="employer" label="Home" />
-
-        <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
-
-        <q-route-tab to="/listofjobs" label="List of Jobs" />
-      </q-tabs>
-    </q-header>
-
-     <q-page-container style="height: 300px;">
+    <EHeader />
+    <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
@@ -102,8 +85,11 @@
 
 <script>
 import axios from 'axios';
-
+import EHeader from 'components/EHeader.vue'
 export default {
+  components:{
+EHeader
+  },
   data () {
     return {
       baseUrl: 'http://localhost:7070/',
