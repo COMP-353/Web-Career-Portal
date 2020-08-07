@@ -29,6 +29,7 @@ const routes: RouteConfig[] = [
       },
       { path: 'js-profile', component: () => import('pages/JSProfile.vue') },
       { path: 'addjob', component: () => import('pages/addjob.vue') },
+      { path: 'issues', component: () => import('pages/EIssues.vue') },
       { path: 'addpayment', component: () => import('pages/addpayment.vue') },
       { path: 'listofjobs', component: () => import('pages/listofjobs.vue') },
       {

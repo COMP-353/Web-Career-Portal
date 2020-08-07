@@ -1,87 +1,120 @@
 <template>
-
   <q-layout view="hHh LpR fFf">
-      <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary fixed-top text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
           Job Portal
         </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
+        <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
         <q-route-tab to="/addpayment" label="Add payment" />
-        <q-route-tab to="/addjob" label="Add job"/>
+        <q-route-tab to="/addjob" label="Add job" />
         <q-route-tab to="/listofjobs" label="List of jobs" />
+        <q-route-tab to="issues" label="Issues" />
       </q-tabs>
-      </q-header>
-    <q-body>
-        <div class="window-height window-width row justify-center items-center">
+    </q-header>
 
-    <div>
-
-    </div>
-    <q-form 
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md"
-    >
-      <q-input
-        filled
-        v-model="name"
-        label="Category name"
-        hint="Job category"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
-
-      <div class="q-pa-md" style="max-width: 300px">
-        <q-input
-        v-model="text"
-        label= "Description"
-        hint = "Description of the position"
-        filled
-        type="textarea"
-        />
+    <q-page-container style="height: 100%;" class="relative-position">
+      <q-body>
+        <div class="text-h6">
+          Add a new job posting
         </div>
-      <q-input
-        filled
-        v-model="name"
-        label="Job title"
-        hint="What is the position you would like to fulfill"
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
-      <q-input
-        filled
-        v-model="name"
-        label="Job status"
-        hint= "Active/Inactive"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
-      <q-input
-        filled
-        v-model="name"
-        label="Date posted"
-        hint = "Must be of type DD-MM-YYYY"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
+        <div class="window-height window-width row justify-center items-center">
+          <!-- <div></div> -->
+          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+            <q-input
+              outlined
+              v-model="name"
+              label="Category name"
+              hint="Job category"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            />
 
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+            <div class="q-pa-md">
+              <q-input
+                v-model="text"
+                label="Description"
+                hint="Description of the position"
+                outlined
+                type="textarea"
+              />
+            </div>
+            <q-input
+              outlined
+              v-model="name"
+              label="Job title"
+              hint="What is the position you would like to fulfill"
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            />
+            <q-input
+              outlined
+              v-model="name"
+              label="Job status"
+              hint="Active/Inactive"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            />
 
-      <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-      </div>
-    </q-form>
+            <div class="q-pa-md">
+              <q-input
+                outlined
+                v-model="date"
+                mask="date"
+                :rules="['date']"
+                label="Date"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date
+                        v-model="date"
+                        @input="() => $refs.qDateProxy.hide()"
+                      />
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <!-- <q-input
+              filled
+              v-model="name"
+              label="Date posted"
+              hint="Must be of type DD-MM-YYYY"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            /> -->
 
-  </div>
-    </q-body>
+            <q-toggle v-model="accept" label="I accept the license and terms" />
 
+            <div>
+              <q-btn label="Submit" type="submit" color="primary" />
+              <q-btn
+                label="Reset"
+                type="reset"
+                color="primary"
+                flat
+                class="q-ml-sm"
+              />
+            </div>
+          </q-form>
+        </div>
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -89,7 +122,8 @@
 export default {
   data () {
     return {
-        accept: false
+        accept: false,
+        date: ''
     }
   },
   methods: {

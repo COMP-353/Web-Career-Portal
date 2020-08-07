@@ -21,7 +21,7 @@
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Here you can find your list of jobs!
+            Help these people
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
