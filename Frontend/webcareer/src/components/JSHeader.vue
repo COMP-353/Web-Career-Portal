@@ -2,7 +2,7 @@
   <q-header reveal class="bg-primary text-white" height-hint="98">
     <q-toolbar>
       <q-toolbar-title>
-        Web Career Portal
+        Career Portal
       </q-toolbar-title>
       <q-btn flat rounded label="logout" @click="logOut()" />
     </q-toolbar>
