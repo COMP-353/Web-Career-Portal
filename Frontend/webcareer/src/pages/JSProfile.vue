@@ -55,7 +55,7 @@
 
               <!-- To Make a Payment -->
               <q-tab-panel name="tabMakePayment">
-                <div class="text-h4 q-mb-md">Make a Payment</div>
+                <!--  <div class="text-h4 q-mb-md">Make a Payment</div>
                 <p>
                   If you have choosen automatic during set-up payment then you
                   don't need to visit this page. If else, continue to steps
@@ -88,84 +88,15 @@
                   label="pay"
                   @click="makeAPayment()"
                   :disabled="!(amount > 0)"
-                />
+                /> -->
+                <MakePayment v-bind:user="jobSeeker" />
               </q-tab-panel>
 
               <!-- To Set Up A Payment -->
               <q-tab-panel name="tabSetUpPay">
-                <div class="text-h4 q-mb-md">Credit Card</div>
-                <p>Your credit card information</p>
-                <q-input
-                  outlined
-                  v-model="cc.creditCardNumber"
-                  type="creditCardNumber"
-                  label="Card Number"
-                />
-                <q-separator></q-separator>
-                <q-input
-                  outlined
-                  v-model="cc.creditCardName"
-                  label="Credit Card Name"
-                />
-                <q-separator></q-separator>
-                <q-input
-                  outlined
-                  v-model="cc.securityCode"
-                  type="creditCardNumber"
-                  label="Credit Card Security Code"
-                />
-                <q-separator></q-separator>
-                <q-input
-                  outlined
-                  v-model="cc.address"
-                  label="Billing Address"
-                />
-
-                <div class="q-gutter-sm">
-                  <q-checkbox
-                    v-model="cc.defaultPayment"
-                    label="Default Payment"
-                  />
-                  <q-checkbox
-                    v-model="cc.automaticWithdrawal"
-                    label="Automatic Withdrawal"
-                  />
-                </div>
-
-                <br />
-                <q-btn
-                  color="white"
-                  text-color="black"
-                  :label="ccButtonLabel"
-                />
+                <CreditCard v-bind:cc="cc" />
                 <br /><br />
-
-                <div class="text-h4 q-mb-md">Checking Account</div>
-                <p>Your checking account information</p>
-                <q-input outlined v-model="ca.bankNumber" label="Bank Number" />
-                <q-separator></q-separator>
-                <q-input
-                  outlined
-                  v-model="ca.accountNumber"
-                  label="Account Number"
-                />
-
-                <div class="q-gutter-sm">
-                  <q-checkbox
-                    v-model="ca.defaultPayment"
-                    label="Default Payment"
-                  />
-                  <q-checkbox
-                    v-model="ca.automaticWithdrawal"
-                    label="Automatic Withdrawal"
-                  />
-                </div>
-                <br />
-                <q-btn
-                  color="white"
-                  text-color="black"
-                  :label="caButtonLabel"
-                />
+                <CheckingAccount v-bind:ca="ca" />
               </q-tab-panel>
 
               <!-- To Change User Category aka Plan -->
@@ -257,12 +188,16 @@
 <script>
 import axios from 'axios';
 import JSHeader from '../components/JSHeader.vue';
-
-
+import CreditCard from 'components/CreditCard.vue';
+import CheckingAccount from 'components/CheckingAccount.vue';
+import MakePayment from 'components/MakePayment.vue';
 
 export default {
 components:{
-  JSHeader  
+  JSHeader,
+  CreditCard,
+  CheckingAccount,
+  MakePayment
 },
   data() {
     return {
@@ -302,25 +237,7 @@ components:{
     }
   },
   computed:{
-      ccButtonLabel(){
-        //   if (this.cc.creditCardNumber === 0){
-              return 'ADD CREDIT CARD'
-        //   } else 
-            //   return 'modify'
-        //   } else{
-        //     return 'SAVE'
-        //   }
-        
-      },
-      caButtonLabel(){
-        //  if (this.ca.accountNumber === 0) {
-             return 'ADD CHECKING ACCOUNT'
-            //  } else if (this.modifyCa){
-                //  return 'modify'
-            //  } else {
-                //  return 'save'
-            //  }
-      }
+      
   },
 
   mounted() {
@@ -361,10 +278,7 @@ components:{
         .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
     },
-    makeAPayment(){
-      axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
-      (this.getUserData()).catch(e => console.log(e))
-    }, 
+   
     modifyInfo(){
         this.modifyProfileInfo = !this.modifyProfileInfo
         if(this.modifyProfileInfo){
