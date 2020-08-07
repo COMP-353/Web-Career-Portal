@@ -55,48 +55,28 @@
 
               <!-- To Make a Payment -->
               <q-tab-panel name="tabMakePayment">
-                <!--  <div class="text-h4 q-mb-md">Make a Payment</div>
-                <p>
-                  If you have choosen automatic during set-up payment then you
-                  don't need to visit this page. If else, continue to steps
-                  below.
-                </p>
-                <p><b>Choose the amount of money you're going to pay.</b></p>
-                <q-input
-                  outlined
-                  v-model="amount"
-                  type="creditCardNumber"
-                  prefix="$"
-                />
-                <q-separator></q-separator>
-                <br />
-                <p><b>Choose your method of payment.</b></p>
-
-                <div>
-                  <q-radio
-                    v-model="paymentmethod"
-                    val="creditcard"
-                    label="Credit Card"
-                  />
-                  <q-radio
-                    v-model="paymentmethod"
-                    val="checkingaccount"
-                    label="Checking Account"
-                  />
-                </div>
-                <q-btn
-                  label="pay"
-                  @click="makeAPayment()"
-                  :disabled="!(amount > 0)"
-                /> -->
                 <MakePayment v-bind:user="jobSeeker" />
               </q-tab-panel>
 
               <!-- To Set Up A Payment -->
               <q-tab-panel name="tabSetUpPay">
-                <CreditCard v-bind:cc="cc" />
+                <AddCreditCard v-bind:email="jobSeeker.email" />
+                <q-btn label="Add new Credit Card" @click="addCreditCard()" />
+                <component
+                  v-for="creditcard in ccs"
+                  v-bind:is="creditcard.id"
+                  :key="creditcard.id"
+                >
+                  <CreditCard v-bind:cc="creditcard" />
+                </component>
                 <br /><br />
-                <CheckingAccount v-bind:ca="ca" />
+                <component
+                  v-for="checkingaccount in cas"
+                  v-bind:is="checkingaccount.id"
+                  :key="checkingaccount.id"
+                >
+                  <CheckingAccount v-bind:ca="ca" />
+                </component>
               </q-tab-panel>
 
               <!-- To Change User Category aka Plan -->
@@ -191,20 +171,20 @@ import JSHeader from '../components/JSHeader.vue';
 import CreditCard from 'components/CreditCard.vue';
 import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
-
+import AddCreditCard from 'components/AddCreditCard.vue';
 export default {
 components:{
   JSHeader,
   CreditCard,
   CheckingAccount,
-  MakePayment
+  MakePayment,
+  AddCreditCard
 },
   data() {
     return {
     modifyProfileInfo: true,
     modifyUserCategory: true,
-    modifyCc: true,
-    modifyCa: true,
+    addcc:false,
     justSaved:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
@@ -233,7 +213,9 @@ components:{
         email:'',
       },
       amount:0,
-      splitterModel:20
+      splitterModel:20,
+      ccs:[],
+      cas:[]
     }
   },
   computed:{
@@ -298,7 +280,8 @@ components:{
         }
     },
     addCreditCard(){
-        axios.post(this.baseUrl + 'payment/newCreditCard/'+ this.jobSeeker.email, this.cc).catch(e => console.log(e))
+        // a
+        this.$root.$emit('addcc')
     },
     addCheckingAccount(){
         axios.post(this.baseUrl+ 'payment/newCheckingAccount/' + this.jobSeeker.email, this.ca).catch(e => console.log(e))
