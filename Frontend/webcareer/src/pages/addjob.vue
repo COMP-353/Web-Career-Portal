@@ -13,7 +13,7 @@
       </q-toolbar>
       <q-tabs align="left">
         <q-route-tab to="employer" label="Home" />
-        <q-route-tab to="/page2" label="Add payment" />
+        <q-route-tab to="/addpayment" label="Add payment" />
         <q-route-tab to="/addjob" label="Add job"/>
         <q-route-tab to="/listofjobs" label="List of jobs" />
       </q-tabs>
@@ -110,6 +110,11 @@ export default {
           message: 'Submitted'
         })
       }
+    },
+
+logOut(){
+      this.$store.commit('RESET_USER_ID');
+      this.$router.back();
     },
 
     onReset () {
