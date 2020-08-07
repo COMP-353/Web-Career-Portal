@@ -20,7 +20,7 @@
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Welcome back {{ this.jobSeeker.firstName }}!
+            Welcome back {{ getGreetingField() }}!
           </div>
           <div class="text-subtitle2">
             The job opportunity list has been updated!
@@ -38,21 +38,21 @@
             <q-markup-table>
               <thead>
                 <tr>
-                  <th class="text-left">Company</th>
+                  <th class="text-left">Job ID</th>
+                  <th class="text-left">Employer Email</th>
+                  <th class="text-left">Date posted</th>
                   <th class="text-left">Job position</th>
-                  <th class="text-right">ID</th>
-                  <th class="text-right">Email</th>
-                  <th class="text-right">Date of posting</th>
+                  <th class="text-left">Description</th>
                   <th class="text-right">Apply!</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="text-left">Google</td>
-                  <td class="text-left">Software developer</td>
-                  <td class="text-right">1</td>
-                  <td class="text-right">mia@gmail.com</td>
-                  <td class="text-right">2020-08-02</td>
+                <tr v-for='application in applicationList' v-bind:key='application.applicationId'>
+                  <td class="text-left">{{application.job.jobId}}</td>
+                  <td class="text-left">{{application.job.employer.email}}</td>
+                  <td class="text-left">{{convertDate(application.applicationDate)}}</td>
+                  <td class="text-left">{{application.job.title}}</td>
+                  <td class="text-left">{{application.job.description}}</td>
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
@@ -105,6 +105,7 @@ export default {
       accountType:'basic',
       innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
+      applicationList: [],
       jobSeeker:{
       firstName:'',
         lastName:'',
@@ -115,15 +116,15 @@ export default {
     }
   },
 
-
-
   mounted() {
     if (this.$store.getters.getUserId === '') {
       console.log("User id is indeed ''");
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
-     this.getUserData()
+      this.getUserData(this.jobSeeker.email);
+     this.getJobList(this.jobSeeker.email);
+     //console.log(this.jobList);
     //  this.getAccountCategory()
     }
   },
@@ -146,13 +147,28 @@ export default {
     //     .then((res) => this.accountType = res.data)
     //     .catch((e) => console.log(e));
     // },
-    getUserData(){
+    getUserData(user_email){
       this.amount = 0
       axios
-        .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
+        .get(this.baseUrl + 'user/jobseeker/' + user_email)
         .then((res) => this.assignJsObject(res.data))
         .catch((e) => console.log(e));
     },
+
+    getJobList(user_email){
+      axios
+        .get(this.baseUrl + 'application/jobseeker/'+ user_email)
+        .then(res => this.applicationList = res.data);
+    },
+
+    convertDate(date_str){
+      const date = new Date(date_str)
+      return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date); 
+    }
+    ,
+    getGreetingField(){
+      return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
+    }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
     //   (this.getUserData()).catch(e => console.log(e))

@@ -24,8 +24,8 @@
     <q-page-container style="height: 100%;">
       <q-card flat bordered class="my-card">
         <q-card-section>
-          <div class="text-h6">
-            Welcome back {{ this.jobSeeker.firstName }}!
+          <div class="text-h6 ">
+            Welcome back {{ getGreetingField()}}!
           </div>
         </q-card-section>
       </q-card>
@@ -36,21 +36,23 @@
             <q-markup-table>
               <thead>
                 <tr>
-                  <th class="text-left">Company</th>
+                  <th class="text-left">Job ID</th>
                   <th class="text-left">Job position</th>
-                  <th class="text-right">ID</th>
-                  <th class="text-right">Email</th>
-                  <th class="text-right">Date of posting</th>
+                  <th class="text-left">Employer email</th>
+                  <th class="text-left">Description</th>
+                  <th class="text-left">Category</th>
+                  <th class="text-left">Status</th>
                   <th class="text-right">Apply!</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="text-left">Google</td>
-                  <td class="text-left">Software developer</td>
-                  <td class="text-right">1</td>
-                  <td class="text-right">mia@gmail.com</td>
-                  <td class="text-right">2020-08-02</td>
+                <tr v-for='job in jobList' v-bind:key='job.jobId'>
+                  <td class="text-left width:10">{{job.jobId}}</td>
+                  <td class="text-left">{{job.title}}</td>
+                  <td class="text-left">{{job.employer.email}}</td>
+                  <td class="text-left">{{job.description}}</td>
+                  <td class="text-left">{{job.jobCategory.category}}</td>
+                  <td class="text-left">{{job.jobStatus.status}}</td>
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
@@ -87,6 +89,7 @@ export default {
       accountType:'basic',
       innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
+      jobList:[], 
       jobSeeker:{
       firstName:'',
         lastName:'',
@@ -106,8 +109,9 @@ export default {
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
-     this.getUserData()
-     this.getAccountCategory()
+     this.getUserData();
+     this.getJobList(this.jobSeeker.email);
+     this.getAccountCategory();
     }
   },
 
@@ -139,6 +143,16 @@ export default {
     makeAPayment(){
       axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
       (this.getUserData()).catch(e => console.log(e))
+    },
+
+    getJobList(user_email){
+      axios
+        .get(this.baseUrl + 'job/notapplied/jobseeker/'+ user_email)
+        .then(res => this.jobList = res.data);
+    },
+
+    getGreetingField(){
+      return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
     }
   },
 };
