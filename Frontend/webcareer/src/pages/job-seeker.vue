@@ -40,17 +40,19 @@
                 <tr>
                   <th class="text-left">Job ID</th>
                   <th class="text-left">Employer Email</th>
+                  <th class="text-left">Date posted</th>
                   <th class="text-left">Job position</th>
                   <th class="text-left">Description</th>
                   <th class="text-right">Apply!</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for='job in jobList' v-bind:key='job.jobId'>
-                  <td class="text-left">{{job.jobId}}</td>
-                  <td class="text-left">{{job.employer.email}}</td>
-                  <td class="text-left">{{job.title}}</td>
-                  <td class="text-left">{{job.description}}</td>
+                <tr v-for='application in applicationList' v-bind:key='application.applicationId'>
+                  <td class="text-left">{{application.job.jobId}}</td>
+                  <td class="text-left">{{application.job.employer.email}}</td>
+                  <td class="text-left">{{convertDate(application.applicationDate)}}</td>
+                  <td class="text-left">{{application.job.title}}</td>
+                  <td class="text-left">{{application.job.description}}</td>
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
@@ -103,7 +105,7 @@ export default {
       accountType:'basic',
       innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
-      jobList: [],
+      applicationList: [],
       jobSeeker:{
       firstName:'',
         lastName:'',
@@ -155,8 +157,13 @@ export default {
 
     getJobList(user_email){
       axios
-        .get(this.baseUrl + 'job/applied/jobseeker/'+ user_email)
-        .then(res => this.jobList = res.data);
+        .get(this.baseUrl + 'application/jobseeker/'+ user_email)
+        .then(res => this.applicationList = res.data);
+    },
+
+    convertDate(date_str){
+      const date = new Date(date_str)
+      return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date); 
     }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
