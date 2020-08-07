@@ -9,7 +9,7 @@
         <q-toolbar-title>
           Job Portal
         </q-toolbar-title>
-        <q-btn label="logout" @click="logOut()" />
+        <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
 
       <q-tabs align="left">
@@ -19,6 +19,7 @@
         <q-route-tab to="/addjob" label="Add job" />
 
         <q-route-tab to="/listofjobs" label="List of Jobs" />
+        <q-route-tab to="issues" label="Issues" />
       </q-tabs>
     </q-header>
 
