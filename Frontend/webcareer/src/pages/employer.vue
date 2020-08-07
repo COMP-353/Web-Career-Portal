@@ -83,14 +83,15 @@
               readonly
               show-value
               font-size="20px"
-              v-model="value"
+              v-model="employer.accountBalance"
               size="250px"
               :thickness="0.1"
               color="teal"
               track-color="grey-3"
               class="q-ma-md"
+              max="2000"
             >
-              Balance ${{ value }}
+              Balance ${{ employer.accountBalance }}
             </q-knob>
           </div>
         </div>
@@ -107,6 +108,7 @@ export default {
     return {
       baseUrl: 'http://localhost:7070/',
       current: 3,
+      employer: [],
       value: 71,
       applicationList: []
     }
@@ -120,6 +122,7 @@ export default {
       this.$router.push('/');
     }
     this.getApplicationList(this.$store.getters.getUserId);
+    this.getEmployer(this.$store.getters.getUserId);
   },
 
 methods: {
@@ -134,10 +137,16 @@ methods: {
         .get(this.baseUrl + 'application/employer/'+ user_email)
         .then(res => this.applicationList = res.data);
     },
-    
+
     convertDate(date_str){
       const date = new Date(date_str)
       return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date); 
+    },
+
+    getEmployer(user_email){
+        axios
+        .get(this.baseUrl + 'user/employer/'+ user_email)
+        .then(res => this.employer = res.data);
     }
     },
  };
