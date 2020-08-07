@@ -30,7 +30,7 @@ export default Vue.extend({
   methods: {
     logOut() {
       this.$store.commit('RESET_USER_ID');
-      this.$router.push('');
+      this.$router.push('/');
     },
   },
 });

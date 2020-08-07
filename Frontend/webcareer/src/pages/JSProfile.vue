@@ -14,7 +14,7 @@
       <q-body>
         <q-splitter v-model="splitterModel" style="height: 75%;">
           <template v-slot:before>
-            <q-tabs v-model="tab" vertical class="text-teal">
+            <q-tabs v-model="tab" vertical class="text-primary">
               <q-tab name="tabProfile" icon="person" label="Profile" />
               <q-tab name="tabMakePayment" icon="payment" label="Payment" />
               <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
@@ -297,7 +297,8 @@ components:{
         status:'',
         email:'',
       },
-      amount:0
+      amount:0,
+      splitterModel:20
     }
   },
   computed:{
