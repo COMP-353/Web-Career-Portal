@@ -64,13 +64,16 @@
                   v-bind:email="jobSeeker.email"
                   @updatecc="getCreditCard()"
                 />
-                <AddCheckingAccount v-bind:email="jobSeeker.email" />
+                <AddCheckingAccount
+                  v-bind:email="jobSeeker.email"
+                  @updateca="getCheckingAccount()"
+                />
                 <q-btn label="Add new Credit Card" @click="addCreditCard()" />
                 <q-btn
                   label="Add new Checking Account"
                   @click="addCheckingAccount()"
                 />
-                <q-btn label="Reload" flat rounded="getAllPayments()" />
+                <q-btn label="Reload" flat rounded @click="getAllPayments()" />
                 <CreditCard
                   v-for="creditcard in ccs"
                   :key="creditcard.id"
@@ -83,6 +86,7 @@
                   v-for="checkinga in cas"
                   :key="checkinga.id"
                   v-bind:ca="checkinga"
+                  @updateca="getCheckingAccount()"
                 />
               </q-tab-panel>
 
