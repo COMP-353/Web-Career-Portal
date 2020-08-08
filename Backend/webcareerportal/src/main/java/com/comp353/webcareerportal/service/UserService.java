@@ -139,7 +139,7 @@ public class UserService {
     }
 
     public boolean updateEmployerCategory(String id, String category) {
-        if (userRepo.employerExistsWithEmail(id)) return false;
+        if (!userRepo.employerExistsWithEmail(id)) return false;
         userRepo.updateEmployerCategoryWithEmail(id, getEmployerCategoryFrom(category));
         activityDao.save(new Activity(id, CHANGED_CATEGORY));
         return false;
