@@ -1,4 +1,5 @@
 <template>
+
   <q-layout view="hHh LpR fFf">
     <EHeader />
 
@@ -10,84 +11,34 @@
         </div>
         <div class="window-width row justify-center items-center">
           <!-- <div></div> -->
-          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-            <q-input
-              outlined
-              v-model="job.jobCategory.category"
-              label="Category name"
-              hint="Job category"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
-            />
+          <q-form @submit="onSubmit" class="q-gutter-md">
+                 <q-select  filled  v-model="job.jobCategory.categoryId" :options="options" label="CATEGORY" emit-value map-options></q-select>
+                 <q-select  filled  v-model="job.jobStatus.statusId" :options="jobstatusoptions" label="STATUS" emit-value map-options></q-select>
 
-            <div class="q-pa-md">
               <q-input
                 v-model="job.description"
                 label="Description"
-                hint="Description of the position"
                 outlined
                 type="textarea"
+                :rules="[
+                (val) => (val && val.length > 0 || this.accept ==false) || 'Please provide a description of the job',
+              ]"
               />
-            </div>
+      
             <q-input
               outlined
               v-model="job.title"
               label="Job title"
-              hint="What is the position you would like to fulfill"
               :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
+                (val) => (val && val.length > 0 || this.accept ==false) || 'Please provide a title for the job',
               ]"
             />
-            <q-input
-              outlined
-              v-model="job.jobStatus.status"
-              label="Job jobStatus"
-              hint="Active/Inactive"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
-            />
-
-            <!-- <div class="q-pa-md">
-              <q-input
-                outlined
-                v-model="job.date"
-                mask="date"
-                :rules="['date']"
-                label="Date"
-              >
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      ref="qDateProxy"
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date
-                        v-model="job.date"
-                        @input="() => $refs.qDateProxy.hide()"
-                      />
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div> -->
-            <!-- <q-input
-              filled
-              v-model="name"
-              label="Date posted"
-              hint="Must be of type DD-MM-YYYY"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
-            /> -->
 
             <q-toggle v-model="accept" label="I accept the license and terms" />
 
+            <q-input disable readonly :rules="[
+                   (val) => (this.accept == true) || 'Please accept the trems and conditions',
+                ]"/>
             <div>
               <q-btn label="Submit" type="submit" color="primary" />
               <q-btn
@@ -106,6 +57,7 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
 import EHeader from 'components/EHeader.vue'
 import axios from 'axios'
 export default {
@@ -115,24 +67,22 @@ EHeader
   data () {
     return {
         accept: false,
-         employer:{
-            email:'',
-            status:'',
-            accountBalance:'',
-            employerCategory:''
-          },
+        baseUrl: 'http://localhost:7070/',
+        options: [],
+        jobstatusoptions: [],
         job:{
           title:'',
-          jobStatus:{
-            status:'',
-            description:''
-          },
           description:'',
+          jobStatus:{
+            statusId: ''
+          },
           jobCategory: {
-            category:'',
-            description:''
-          }
-        }
+            categoryId: ''
+          },
+          employer: {
+            email:''
+          } 
+      }
     }
   },
   mounted(){
@@ -141,47 +91,72 @@ EHeader
       this.$router.push('/');
     } 
     else {
-    this.employer.email = this.$store.getters.getUserId;
+    this.fetchCategoriesSelectionList();
+    this.fetchJobStatussSelectionList();
     }
   },
   methods: {
-    // getEmployer(){
-    //   axios.get('http://localhost:7070/user/employer/'+ this.employer.email).then(res => this.job.employer = res).catch(e => console.log(e))
-    // },
     onSubmit () {
-      if (this.accept !== true) {
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'You need to accept the license and terms first'
-        })
-      }
-      else {
-        // this.$q.notify({
-        //   color: 'green-4',
-        //   textColor: 'white',
-        //   icon: 'cloud_done',
-        //   message: 'Submitted'
-        // })
-        
-        axios.post('http://localhost:7070/job/newJob/' + this.employer.email, this.job).catch(e => console.log(e))
-        this.$q.reset()
+      if (this.accept == true) {
+       
+        this.job.employer.email = this.$store.getters.getUserId;
+        var config = {
+            method: 'post',
+            url: 'http://localhost:7070/job/newJob',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+           data : JSON.stringify(this.job)  
+        };
+
+        axios(config)
+          .then(function (response) {
+           console.log(JSON.stringify(response.data));
+           return response;
+        });
+        this.resetFormData();
       }
     },
 
-logOut(){
+    logOut(){
       this.$store.commit('RESET_USER_ID');
       this.$router.back();
     },
 
-    onReset () {
+    fetchCategoriesSelectionList(){
+      axios
+        .get(this.baseUrl + 'jobCategory/all')
+        .then(res => {for(var i in res.data){
+         let item = {
+           value: res.data[i].categoryId,
+           label:res.data[i].category
+         }
+          this.options.push(item);
+          if(i == 0){
+            this.job.jobCategory.categoryId = item.value;
+          }
+        }});
+    },
+
+    fetchJobStatussSelectionList(){
+      axios
+        .get(this.baseUrl + 'jobStatus/all')
+        .then(res => {for(var i in res.data){
+         let item = {
+           value: res.data[i].statusId,
+           label:res.data[i].status
+         }
+          this.jobstatusoptions.push(item);
+           if(i == 0){
+            this.job.jobStatus.statusId = item.value;
+          }
+        }});
+    },
+
+    resetFormData () {
+      this.accept = false
       this.job.title = ''
       this.job.description = '' 
-      this.accept = false
-      this.job.jobStatus.status = ''
-      // this.job.date = ''
-      this.job.jobCategory.category = ''
     }
   }
 }
