@@ -36,19 +36,23 @@
           <div>
             <q-table
               title="Your Jobs"
+              @row-click="clickedRow"
               :data="rowsForEmployers"
-              :columns="columnsForEmployers"
-              row-key= this.$store.getters.getUserId
-            />
+              :columns="columnsForEmployers"           
+              row-key= "jobId"
+            >
+             <template v-slot:body-cell-actions="props">
+              <q-td :props="props">
+                <q-btn dense round flat color="grey" @click="deleteJob(JobRow.jobId)" icon="delete"></q-btn>
+              </q-td>          
+            </template>  
+            </q-table>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
     </q-body>
-
   </q-layout>
 </template>
 
@@ -65,6 +69,10 @@ EHeader
       current: 3,
       value: 71,
       baseUrl: 'http://localhost:7070/',
+      JobRow:
+        {
+          jobId: ''
+        },
       columnsForEmployers: [
               {
                 name: 'jobId',
@@ -83,6 +91,7 @@ EHeader
               { name: 'title', label: 'Title', field: 'title', sortable: true},
               { name: 'employer_email', label: 'Employer Email', field: row => row.employer.email, sortable: true},
               { name: 'jobStatus', label: 'Job Status', field: row => row.jobStatus.status, sortable: true},
+              { name: 'actions', label: "Actions", field: ''}
               // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
             ],
             rowsForEmployers: [],
@@ -93,10 +102,7 @@ EHeader
             rowsPerPage: 10
             // rowsNumber: xx if getting data from a server
         },
-        Employer:
-        {
-          
-        }
+        
     }
   },
 
@@ -123,10 +129,20 @@ methods: {
       .then(res=>this.rowsForEmployers = res.data)
       .catch(e=>console.log(e));
     },
-   },
+    deleteJob(id){
+      axios
+      .get(this.baseUrl + 'job/deleteJob/' + id)
+    } ,
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
       			this.$router.back();
-    		},
+        },
+    clickedRow(evt, row){
+      this.fixedclickedRow = true
+      console.log('row job ID' + row.jobId)
+      this.JobRow.jobId  = row.jobId
+    }
+        
   }
+};
 </script>
