@@ -6,6 +6,7 @@ import com.comp353.webcareerportal.service.JobService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "job/")
 public class JobController {
 	
@@ -51,9 +53,9 @@ public class JobController {
 			return jobService.getAllJobsForJobStatusWithId(id);
 	}
 	
-    @PostMapping(path = "newJob/{id}")
-    public String addNewJob(@RequestBody Job job, @PathVariable(name = "id") String eId) {
-        return jobService.addNewJob(job, eId) ? "Job added successfully" : "Job not added. Invalid employer email.";
+    @PostMapping(path = "newJob")
+    public String addNewJob(@RequestBody Job job) {
+        return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";
     }
     
     @GetMapping(path = "updateJobStatus/{id}/{statusId}")

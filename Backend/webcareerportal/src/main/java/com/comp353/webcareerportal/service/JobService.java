@@ -38,10 +38,10 @@ public class JobService {
 	JobStatusDao jobStatusRepo;
 
 	
-	public boolean addNewJob(Job job, String id) {
-		Employer e = userRepo.getEmployerWithEmail(id);
-		if (e == null) return false;
-		job.setEmployer(e);
+	public boolean addNewJob(Job job) {
+//		Employer e = userRepo.getEmployerWithEmail(id);
+//		if (e == null) return false;
+//		job.setEmployer(e);
 		jobRepo.save(job);
 		return true;
 	}
@@ -82,7 +82,7 @@ public class JobService {
 		
 		List<Application> applications = applicationRepo.getApplicationsWithJobSeeker(jobSeeker);
 		
-		if(applications == null) return null;
+		if(applications.size() == 0) return null;
 
 		List<Job> jobs = new ArrayList<>();
 		
@@ -96,7 +96,7 @@ public class JobService {
 		
 		List<Job> jobs = getAllJobsForJobSeekerWithId(id);
 		
-		if(jobs == null) return null;
+		if(jobs == null) return jobRepo.getAllJobs();
 		
 		List<Integer> ids = new ArrayList<>();
 		for(Job job : jobs) {

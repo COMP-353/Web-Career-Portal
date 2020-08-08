@@ -10,8 +10,8 @@
 
     <q-page-container>
       <template>
-        <div class="q-pa-md">
-          <div class="q-gutter-y-md" style="max-width: 60%;">
+        <div class="q-pa-md" style="padding-left: 35%; padding-top: 15%;">
+          <div class="q-gutter-y-md" style="max-width: 40%;">
             <q-card>
               <!-- All the tabs -->
               <q-tabs
@@ -26,17 +26,22 @@
               </q-tabs>
 
               <q-separator></q-separator>
-
+              <!-- Job seeker sign in -->
               <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="seeker">
                   <div>
-                    <q-input outlined v-model="jsEmail" label="Email Address" />
-                    <q-separator></q-separator>
+                    <q-input
+                      outlined
+                      v-model="jsEmail"
+                      label="Email Address"
+                      class="loginInputs"
+                    />
                     <q-input
                       outlined
                       v-model="jsPw"
                       label="Password"
                       :type="jsIsPw ? 'password' : 'text'"
+                      class="loginInputs"
                     >
                       <template v-slot:append>
                         <q-icon
@@ -47,29 +52,38 @@
                     </q-input>
 
                     <q-separator></q-separator>
-                    <q-btn
-                      color="white"
-                      text-color="black"
-                      label="Log in"
-                      @click="loginJs()"
-                    />
-                    <q-btn
-                      to="sign-up-jobSeeker"
-                      color="white"
-                      text-color="black"
-                      label="Sign-Up"
-                    />
-                    <q-btn
-                      to="forgotPassword"
-                      rounded
-                      flat
-                      color="white"
-                      text-color="black"
-                      label="Forgot Password"
-                    />
+                    <div class="row justify-between">
+                      <div class="buttons">
+                        <q-btn
+                          rounded
+                          color="primary"
+                          outline
+                          label="Log in"
+                          @click="loginJs()"
+                        />
+                      </div>
+                      <div class="buttons">
+                        <q-btn
+                          to="sign-up-jobSeeker"
+                          color="white"
+                          rounded
+                          outline
+                          text-color="primary"
+                          label="Sign-Up"
+                        />
+                      </div>
+                    </div>
+                    <div class="buttons">
+                      <q-btn
+                        to="forgotPassword"
+                        flat
+                        text-color="black"
+                        label="Forgot Password"
+                      />
+                    </div>
                   </div>
                 </q-tab-panel>
-
+                <!-- Employer sign in -->
                 <q-tab-panel name="employer">
                   <div>
                     <div class="q-mtb-lg">
@@ -77,16 +91,17 @@
                         outlined
                         v-model="eEmail"
                         label="Email Address"
+                        class="loginInputs"
                       />
                     </div>
-                    <q-separator></q-separator>
-                    <!-- <q-input outlined v-model="ePassword" label="Password" /> -->
+
                     <div class="q-mtb-lg">
                       <q-input
                         v-model="ePassword"
                         outlined
                         :type="eIsPw ? 'password' : 'text'"
                         label="Password"
+                        class="loginInputs"
                       >
                         <template v-slot:append>
                           <q-icon
@@ -98,37 +113,55 @@
                       </q-input>
                     </div>
                     <q-separator></q-separator>
-                    <q-btn
-                      color="white"
-                      text-color="black"
-                      label="Log in"
-                      @click="loginEmployer()"
-                    />
-                    <q-btn
-                      to="sign-up-employer"
-                      color="white"
-                      text-color="black"
-                      label="Sign-Up"
-                    />
-                    <q-btn
-                      to="forgotPassword"
-                      color="white"
-                      rounded
-                      flat
-                      text-color="black"
-                      label="Forgot Password"
-                    />
+                    <div class="row justify-between">
+                      <div class="buttons">
+                        <q-btn
+                          color="white"
+                          text-color="primary"
+                          rounded
+                          outline
+                          label="Log in"
+                          @click="loginEmployer()"
+                        />
+                      </div>
+                      <div class="buttons">
+                        <q-btn
+                          to="sign-up-employer"
+                          color="white"
+                          text-color="primary"
+                          outline
+                          rounded
+                          label="Sign-Up"
+                        />
+                      </div>
+                    </div>
+                    <div class="buttons">
+                      <q-btn
+                        to="forgotPassword"
+                        color="white"
+                        outlined
+                        flat
+                        text-color="black"
+                        label="Forgot Password"
+                      />
+                    </div>
                   </div>
                 </q-tab-panel>
 
+                <!-- Admin log in -->
                 <q-tab-panel name="admin">
                   <div>
-                    <q-input outlined v-model="aEmail" label="Email Address" />
-                    <q-separator></q-separator>
-                    <!-- <q-input outlined v-model="aPw" label="Password" /> -->
+                    <q-input
+                      outlined
+                      v-model="aEmail"
+                      label="Email Address"
+                      class="loginInputs"
+                    />
+
                     <q-input
                       v-model="aPw"
                       outlined
+                      class="loginInputs"
                       :type="aIsPw ? 'password' : 'text'"
                       label="Password"
                     >
@@ -141,12 +174,16 @@
                       </template>
                     </q-input>
                     <q-separator></q-separator>
-                    <q-btn
-                      color="white"
-                      text-color="black"
-                      label="Log in"
-                      @click="loginA()"
-                    />
+                    <div class="buttons">
+                      <q-btn
+                        color="white"
+                        rounded
+                        outline
+                        text-color="primary"
+                        label="Log in"
+                        @click="loginA()"
+                      />
+                    </div>
                   </div>
                 </q-tab-panel>
               </q-tab-panels>
@@ -239,3 +276,10 @@ export default class Index extends Vue {
 }
 </script>
 
+<style lang="sass">
+.loginInputs
+  padding: 1% 1% 2% 1%
+
+.buttons
+  padding: 2% 1% 1% 1%
+</style>

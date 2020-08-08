@@ -11,7 +11,7 @@
     <br />
     <p><b>Choose your method of payment.</b></p>
 
-    <div>
+    <div style="padding-bottom: 1%;">
       <q-radio v-model="paymentmethod" val="creditcard" label="Credit Card" />
       <q-radio
         v-model="paymentmethod"
@@ -19,7 +19,14 @@
         label="Checking Account"
       />
     </div>
-    <q-btn label="pay" @click="makeAPayment()" :disabled="!(amount > 0)" />
+    <q-btn
+      outline
+      color="primary"
+      rounded
+      label="pay"
+      @click="makeAPayment()"
+      :disabled="!(amount > 0)"
+    />
   </div>
 </template>
 

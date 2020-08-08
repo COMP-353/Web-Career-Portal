@@ -1,22 +1,24 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <EHeader />
-    <q-page-container style="height: 300px;">
+    <q-page-container
+      style="
+        height: 300px;
+        padding-right: 1%;
+        padding-left: 1%;
+        padding-top: 6%;
+      "
+    >
       <q-card flat bordered class="my-card">
-        <br><br>
         <q-card-section>
           <div class="text-h6">
             Here you can find your personal list of jobs!
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
-        </q-card-section>
       </q-card>
       <router-view />
-    </q-page-container>
+
 
     <q-body>
 

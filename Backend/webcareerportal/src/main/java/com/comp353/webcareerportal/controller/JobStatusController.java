@@ -3,6 +3,7 @@ package com.comp353.webcareerportal.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.comp353.webcareerportal.models.JobStatus;
 import com.comp353.webcareerportal.service.JobStatusService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "jobStatus/")
 public class JobStatusController {
 	

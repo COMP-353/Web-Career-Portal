@@ -1,47 +1,58 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <EHeader />
-    <q-page-container style="height: 300px;">
+    <q-page-container style="height: 300px; padding: 6% 1% 0% 1%;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
             Welcome back! {{ this.$store.getters.getUserId }}
           </div>
           <div class="text-subtitle2">
-            The job-seeker list has been updated!
+            The application list has been updated!
           </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
         </q-card-section>
       </q-card>
       <router-view />
-    </q-page-container>
 
-    <q-body>
-      <div class="row">
-        <div class="col">
-          <div class="q-px-xl">
-            <q-markup-table>
-              <thead>
-                <tr>
-                  <th class="text-left">Job ID</th>
-                  <th class="text-left">Poster</th>
-                  <th class="text-left">Job title</th>
-                  <th class="text-left">Job description</th>
-                  <th class="text-left">Date of application</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- //<div v-for='applications in applicationList' v-bind:key='applications'>  -->
-                    <tr v-for='application in applicationList' v-bind:key='application.applicationId'>
-                      <td class="text-left">{{application.job.jobId}}</td>
-                      <td class="text-left">{{application.jobseeker.email}}</td>
-                      <td class="text-left">{{application.job.title}}</td>
-                      <td class="text-left">{{application.job.description}}</td>
-                      <td class="text-left">{{convertDate(application.applicationDate)}}</td>
-                    </tr>
+      <q-body>
+        <div class="row">
+          <div class="col">
+            <div class="q-pa-xl">
+              <q-markup-table>
+                <thead>
+                  <tr>
+                    <th class="text-left">Job ID</th>
+                    <th class="text-left">Poster</th>
+                    <th class="text-left">Job title</th>
+                    <th class="text-left">Job description</th>
+                    <th class="text-left">Date of application</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- //<div v-for='applications in applicationList' v-bind:key='applications'>  -->
+                  <tr
+                    v-for="application in applicationList"
+                    v-bind:key="application.applicationId"
+                  >
+                    <td class="text-left">{{ application.job.jobId }}</td>
+                    <td class="text-left">{{ application.jobseeker.email }}</td>
+                    <td class="text-left">{{ application.job.title }}</td>
+                    <td class="text-left">{{ application.job.description }}</td>
+                    <td class="text-left">
+                      {{ convertDate(application.applicationDate) }}
+                    </td>
+                    <td class="text-right">
+                      <div class="">
+                        <q-btn
+                          color="red"
+                          icon="delete"
+                          label=" Delete application"
+                          size="sm"
+                          @click="deleteApplication(application.applicationId)"
+                        />
+                      </div>
+                    </td>
+                  </tr>
                   <!-- //  </div> -->
                   <div class="q-pa-lg flex flex-center">
                     <q-pagination
@@ -56,30 +67,50 @@
                     >
                     </q-pagination>
                   </div>
-              </tbody>
-            </q-markup-table>
+                </tbody>
+              </q-markup-table>
+            </div>
+          </div>
+          <div class="col-3 row vertical-middle q-pl-xl">
+            <div class="q-pa-md flex flex-right">
+              <q-knob
+                readonly
+                show-value
+                font-size="20px"
+                v-model="employer.accountBalance"
+                size="250px"
+                :thickness="0.1"
+                color="teal"
+                track-color="grey-3"
+                class="q-ma-md"
+                max="2000"
+              >
+                <q-tooltip>
+                  A negative balance means you have extra credit while a
+                  positive balance shows how much you owe to the system.
+                </q-tooltip>
+                Balance ${{ employer.accountBalance }}
+              </q-knob>
+              <q-dialog v-model="showDialog">
+                <q-card>
+                  <q-card-section>
+                    <div class="text-h6">Application Deleted</div>
+                  </q-card-section>
+
+                  <q-card-section class="q-pt-none">
+                    Application has been successfully removed.
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+            </div>
           </div>
         </div>
-        <div class="col-3 row vertical-middle q-pl-xl">
-          <div class="q-pa-md flex flex-center">
-            <q-knob
-              readonly
-              show-value
-              font-size="20px"
-              v-model="employer.accountBalance"
-              size="250px"
-              :thickness="0.1"
-              color="teal"
-              track-color="grey-3"
-              class="q-ma-md"
-              max="2000"
-            >
-              Balance ${{ employer.accountBalance }}
-            </q-knob>
-          </div>
-        </div>
-      </div>
-    </q-body>
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -92,6 +123,7 @@ EHeader
   },
   data () {
     return {
+      showDialog:false,
       baseUrl: 'http://localhost:7070/',
       current: 3,
       employer: [],
@@ -133,6 +165,15 @@ methods: {
         axios
         .get(this.baseUrl + 'user/employer/'+ user_email)
         .then(res => this.employer = res.data);
+    },
+     deleteApplication(applicationId){
+      axios
+        .delete(this.baseUrl + 'application/deleteApplication/'+ applicationId)
+        .then(res => console.log(res.data));
+
+         let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
+        this.applicationList.splice(i, 1);
+        this.showDialog = true;
     }
     },
  };

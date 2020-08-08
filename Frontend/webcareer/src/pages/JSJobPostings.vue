@@ -1,25 +1,28 @@
 <style lang="sass" scoped>
 .my-card
-    width: 100%
-    max-width: 250px
 </style>
 
 <template>
   <q-layout view="hHh LpR fFf">
     <JSHeader />
+    <router-view />
 
-    <q-page-container style="height: 100%;">
-      <q-card flat bordered class="my-card">
-        <q-card-section>
-          <div class="text-h6 ">
-            Welcome back {{ getGreetingField()}}!
-          </div>
-        </q-card-section>
-      </q-card>
-
+    <q-page-container
+      style="height: 100%; padding-right: 1%; padding-left: 1%;"
+    >
+      <div style="padding-top: 1%; padding-bottom: 1%;">
+        <q-card flat bordered class="my-card">
+          <q-card-section>
+            <div class="text-h6">Welcome back {{ getGreetingField() }}!</div>
+          </q-card-section>
+          <q-card-section
+            ><p>These are the list of jobs you can apply to.</p></q-card-section
+          >
+        </q-card>
+      </div>
       <div class="row">
         <div class="col">
-          <div class="q-pl-xl">
+          <div class="q-pa-md">
             <q-markup-table>
               <thead>
                 <tr>
@@ -33,20 +36,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for='job in jobList' v-bind:key='job.jobId'>
-                  <td class="text-left width:10">{{job.jobId}}</td>
-                  <td class="text-left">{{job.title}}</td>
-                  <td class="text-left">{{job.employer.email}}</td>
-                  <td class="text-left">{{job.description}}</td>
-                  <td class="text-left">{{job.jobCategory.category}}</td>
-                  <td class="text-left">{{job.jobStatus.status}}</td>
+                <tr v-for="job in jobList" v-bind:key="job.jobId">
+                  <td class="text-left width:10">{{ job.jobId }}</td>
+                  <td class="text-left">{{ job.title }}</td>
+                  <td class="text-left">{{ job.employer.email }}</td>
+                  <td class="text-left">{{ job.description }}</td>
+                  <td class="text-left">{{ job.jobCategory.category }}</td>
+                  <td class="text-left">{{ job.jobStatus.status }}</td>
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
+                        @click="createApplication(job.jobId)"
                         color="blue"
-                        icon="mail"
-                        icon-right="send"
-                        label=" "
+                        icon="send"
+                        label="Apply "
                         size="sm"
                       />
                     </div>
@@ -54,6 +57,21 @@
                 </tr>
               </tbody>
             </q-markup-table>
+            <q-dialog v-model="showDialog">
+              <q-card>
+                <q-card-section>
+                  <div class="text-h6">Application Sent</div>
+                </q-card-section>
+
+                <q-card-section class="q-pt-none">
+                  Your application has been sent to the employer.
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -63,6 +81,8 @@
 </template>
 
 <script>
+import { Dialog } from 'quasar'
+
 import axios from 'axios';
 import JSHeader from '../components/JSHeader.vue'
 
@@ -72,6 +92,7 @@ export default {
     },
   data() {
     return {
+      showDialog:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
@@ -87,6 +108,18 @@ export default {
         status:'',
         email:'',
       },
+      application:{
+        applicationDate: '',
+        applicationStatus: {
+          statusId:1
+        },
+        jobseeker:{
+          email: ''
+        },
+        job:{
+          jobId:''
+        }
+      },
       amount:0
     }
   },
@@ -99,6 +132,8 @@ export default {
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
+      this.application.jobseeker.email = this.$store.getters.getUserId;
+
      this.getUserData();
      this.getJobList(this.jobSeeker.email);
      this.getAccountCategory();
@@ -143,6 +178,31 @@ export default {
 
     getGreetingField(){
       return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
+    },
+
+    createApplication(jobId){
+      this.application.job.jobId = jobId;
+      this.application.applicationDate = new Date();
+
+      var config = {
+            method: 'post',
+            url: 'http://localhost:7070/application/newApplication',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+           data : JSON.stringify(this.application)  
+        };
+
+        console.log(JSON.stringify(this.application));
+
+
+        axios(config)
+          .then(function (response) {
+          return response;
+        });
+        let i = this.jobList.map(job => job.jobId).indexOf(jobId); // find index of your object
+        this.jobList.splice(i, 1);
+        this.showDialog = true;
     }
   },
 };
