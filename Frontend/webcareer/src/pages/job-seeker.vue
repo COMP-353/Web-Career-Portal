@@ -162,7 +162,7 @@ JSHeader
 
     deleteApplication(applicationId){
       axios
-        .get(this.baseUrl + 'application/deleteApplication/'+ applicationId)
+        .delete(this.baseUrl + 'application/deleteApplication/'+ applicationId)
         .then(res => console.log(res.data));
     }
     // makeAPayment(){
