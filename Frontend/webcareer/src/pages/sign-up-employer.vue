@@ -5,97 +5,121 @@
 </style>
 
 <template>
-  <q-page padding>
-    <!-- content -->
+  <q-layout view="lHh Lpr lFf">
+    <q-header>
+      <q-toolbar>
+        <q-toolbar-title>
+          Web Career Portal
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
 
-    <div class="row justify-center full-height full-width text-center">
-      <div class="q-gutter-md" style="max-width: 300px;">
-        <div class="q-pa-md q-gutter-sm">
-          <q-banner rounded class="bg-primary text-white">
-            Employer Sign-up Form
-          </q-banner>
-        </div>
+    <q-page style="padding-top: 5%;">
+      <!-- content -->
 
-        <p><b>Please fill in this form to create an Employer account.</b></p>
-        <hr />
+      <div class="row justify-center full-height full-width text-center">
+        <div class="q-gutter-md" style="max-width: 300px;">
+          <div class="q-pa-md q-gutter-sm">
+            <q-banner rounded class="bg-primary text-white">
+              Employer Sign-up Form
+            </q-banner>
+          </div>
 
-        <q-input outlined v-model="employer.email" label="Email" />
+          <p><b>Please fill in this form to create an Employer account.</b></p>
+          <hr />
 
-        <q-input
-          outlined
-          v-model="employer.password"
-          label="Password"
-          :type="eIsPw ? 'password' : 'text'"
-        >
-          <template v-slot:append>
-            <q-icon
-              :name="eIsPw ? 'visibility_off' : 'visibility'"
-              @click="eIsPw = !eIsPw"
-            />
-          </template>
-        </q-input>
-      </div>
-    </div>
+          <q-input outlined v-model="employer.email" label="Email" />
 
-    <div class="row justify-center full-height full-width text-center">
-      <div class="q-gutter-sm">
-        <br />
-        <p style="font-size: 100%;"><b>Select type of account</b></p>
-
-        <div class="row">
-          <q-card flat bordered class="my-card">
-            <q-card-section>
-              <div class="text-h6">Prime Account</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              Employer can post up to five jobs. A monthly charge of $50 will be
-              applied
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-radio
-              v-model="account_type"
-              val="prime"
-              label="Prime (50$/month)"
-            />
-          </q-card>
-
-          <q-card flat bordered class="my-card">
-            <q-card-section>
-              <div class="text-h6">Gold Account</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              Employer can post as many jobs as he/she wants. A monthly charge
-              of $100 will be applied.
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-radio
-              v-model="account_type"
-              val="gold"
-              label="Gold (100$/month)"
-            />
-          </q-card>
+          <q-input
+            outlined
+            v-model="employer.password"
+            label="Password"
+            :type="eIsPw ? 'password' : 'text'"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="eIsPw ? 'visibility_off' : 'visibility'"
+                @click="eIsPw = !eIsPw"
+              />
+            </template>
+          </q-input>
         </div>
       </div>
-    </div>
 
-    <div class="row justify-center full-height full-width text-center">
-      <div class="clearfix">
-        <q-btn
-          color="white"
-          text-color="black"
-          label="Sign-Up"
-          @click="signUp()"
-        />
-        <q-btn to="login" color="white" text-color="black" label="Cancel" />
+      <div class="row justify-center full-height full-width text-center">
+        <div class="q-gutter-sm">
+          <br />
+          <p style="font-size: 100%;"><b>Select type of account</b></p>
+
+          <div class="row">
+            <q-card flat bordered class="my-card">
+              <q-card-section>
+                <div class="text-h6">Prime Account</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none">
+                Employer can post up to five jobs. A monthly charge of $50 will
+                be applied
+              </q-card-section>
+
+              <q-separator inset />
+
+              <q-radio
+                v-model="account_type"
+                val="prime"
+                label="Prime (50$/month)"
+              />
+            </q-card>
+
+            <q-card flat bordered class="my-card">
+              <q-card-section>
+                <div class="text-h6">Gold Account</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none">
+                Employer can post as many jobs as he/she wants. A monthly charge
+                of $100 will be applied.
+              </q-card-section>
+
+              <q-separator inset />
+
+              <q-radio
+                v-model="account_type"
+                val="gold"
+                label="Gold (100$/month)"
+              />
+            </q-card>
+          </div>
+        </div>
       </div>
-    </div>
-  </q-page>
+
+      <div
+        class="row justify-center full-height full-width text-center"
+        style="padding-top: 1%;"
+      >
+        <!-- <div class="clearfix"> -->
+        <div style="padding-right: 2%;">
+          <q-btn
+            to="login"
+            color="white"
+            text-color="black"
+            label="Cancel"
+            flat
+          />
+        </div>
+        <div style="padding-left: 2%;">
+          <q-btn
+            outline
+            rounded
+            text-color="primary"
+            label="Sign-Up"
+            @click="signUp()"
+          />
+        </div>
+      </div>
+      <!-- </div> -->
+    </q-page>
+  </q-layout>
 </template>
 
 <script>

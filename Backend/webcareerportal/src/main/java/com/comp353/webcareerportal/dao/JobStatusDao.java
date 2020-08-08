@@ -25,9 +25,9 @@ public interface JobStatusDao extends JpaRepository<JobStatus, Long> {
     @Query("delete from JobStatus j where j.statusId= :status_id")
     void deleteJobStatusWithStatusId(@Value("statusId") int status_id);
 	
-	@Query(nativeQuery = true, value = "select * from jobStatus j where j.statusId= :status_id")
+	@Query(nativeQuery = true, value = "select * from JobStatus j where j.statusId= :status_id")
 	JobStatus getJobStatusWithId(@Value("statusId") int status_id);
 	
-	@Query(nativeQuery = true, value = "select * from jobStatus")
+	@Query(nativeQuery = true, value = "select * from JobStatus")
 	List<JobStatus> getAllJobStatuses();
 }

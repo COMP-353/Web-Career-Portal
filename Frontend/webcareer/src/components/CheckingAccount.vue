@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div class="text-h4 q-mb-md">Checking Account</div>
+  <div style="padding-bottom: 5%;">
     <p>Your checking account information</p>
     <q-input
       outlined
@@ -34,9 +33,10 @@
       text-color="black"
       :label="caButtonLabel"
       @click="modifyCc()"
+      flat
     />
 
-    <q-btn label="Delete" @click="deleteCC()" />
+    <q-btn flat label="Delete" @click="deleteCC()" />
   </div>
 </template>
 

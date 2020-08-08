@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-top: 3%;">
     <p>Your credit card information</p>
     <q-input
       outlined
@@ -31,7 +31,7 @@
       :disable="modify"
     />
 
-    <div class="q-gutter-sm">
+    <div class="">
       <q-checkbox
         v-model="cc.defaultPayment"
         label="Default Payment"
@@ -47,12 +47,13 @@
     <br />
     <q-btn
       color="white"
+      flat
       text-color="black"
       :label="ccButtonLabel"
       @click="modifyCc()"
     />
 
-    <q-btn label="Delete" @click="deleteCC()" />
+    <q-btn flat label="Delete" @click="deleteCC()" />
   </div>
 </template>
 
