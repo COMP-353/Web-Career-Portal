@@ -7,7 +7,7 @@
 <template>
   <q-page padding>
     <div class="row justify-center full-height full-width text-center">
-      <div class="q-gutter-md" style="max-width: 300px">
+      <div class="q-gutter-md" style="max-width: 300px;">
         <div class="q-pa-md q-gutter-sm"></div>
 
         <p>
@@ -17,7 +17,7 @@
           >
         </p>
         <hr />
-        <q-input filled v-model="email" label="Email" />
+        <q-input outlined v-model="email" label="Email" />
       </div>
     </div>
 

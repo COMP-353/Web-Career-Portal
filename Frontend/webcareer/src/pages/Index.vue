@@ -225,7 +225,7 @@ export default class Index extends Vue {
     if (response) {
       this.$store.commit('SET_USER_ID', id);
       if (type === 'j') {
-        this.$router.push('job-seeker').catch((error) => console.log(error));
+        this.$router.push('js').catch((error) => console.log(error));
         // this.$store.commit('setUserId', id);
       } else if (type === 'e') {
         this.$router.push('employer').catch((error) => console.log(error));

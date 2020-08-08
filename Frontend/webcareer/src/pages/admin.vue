@@ -1,12 +1,12 @@
 <style lang="sass" scoped>
 .my-card
-    width: 100%
-    max-width: 250px
+  width: 100%
+  max-width: 250px
 </style>
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
+    <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           Web Career Portal
@@ -271,7 +271,7 @@ axios
          changeUserStatus(){
              if(this.temployer.status === 'Active'){
                  axios.put(this.baseUrl + 'user/deactivate/' + this.temployer.email)
-                 .then(t => this.reloadAllUsers()).catch(e => console.log(e))
+                 .then(this.reloadAllUsers()).catch(e => console.log(e))
              }else {
                  axios.put(this.baseUrl + 'user/activate/' + this.temployer.email)
                  .then(this.reloadAllUsers()).catch(e => console.log(e))

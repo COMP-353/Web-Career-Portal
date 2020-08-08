@@ -40,4 +40,14 @@ public class Job {
 
 //    @OneToOne //(mappedBy = "createdApplication")
 //    private Application application;
+
+//    public Job(String title, String description, String employer, String status, String category{
+//
+//    }
+
+//    private void setJobCategory(String status){
+//        if( status.contains("ctive")){
+//            this.jobStatus = JobStatus()
+//        }
+//    }
 }

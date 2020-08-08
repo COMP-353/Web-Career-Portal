@@ -1,10 +1,12 @@
 <template>
   <q-layout view="hHh LpR fFf">
+    <EHeader />
+
     <q-page-container style="height: 300px;">
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Here you can find your list of jobs!
+            Help these people
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
@@ -17,19 +19,6 @@
     </q-page-container>
 
     <q-body>
-
-      <div class="q-pl-xl">
-            <div class="q-pa-md">
-              <q-table
-                title="Employers"
-                :data="rowsForEmployers"
-                :columns="columnsForEmployers"
-                row-key="jobId"
-              />
-            </div>
-          </div>
-
-
       <div class="row">
         <div class="col">
           <div class="q-px-xl">
@@ -193,84 +182,31 @@
         </div>
       </div>
     </q-body>
-
   </q-layout>
 </template>
 
 
 <script>
-import axios from 'axios';
-
-
 import EHeader from 'components/EHeader.vue'
-
 export default {
   components:{
 EHeader
-  },  data () {
+  },
+  data () {
     return {
       current: 3,
-      value: 71,
-      baseUrl: 'http://localhost:7070/',
-      columnsForEmployers: [
-              {
-                name: 'jobId',
-                required: true,
-                label: 'JobID',
-                field: 'jobId',
-                align: 'left',
-              //   field: row => row.name,
-              //   format: val => `${val}`,
-                sortable: true
-              },
-              { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true },
-              { name: 'description', label: 'Description', field: 'description', sortable: true, style: 'width: 10px' },
-              { name: 'jobStatus', label: 'Job Status', field: 'jobStatus', sortable: true },
-              { name: 'application_applicationId', label: 'Application ID', field: 'application_applicationId', sortable: true },
-              { name: 'title', label: 'Title', field: 'title', sortable: true },
-              { name: 'employer_email', label: 'Employer Email', field: 'employer_email', sortable: true },
-              { name: 'job_category', label: 'Job Category', field: 'job_category', sortable: true },
-              { name: 'job_status', label: 'Job Status', field: 'job_status', sortable: true },
-              // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-            ]
+      value: 71
     }
   },
-
-  paginationForActivities: {
-        sortBy: 'desc',
-        descending: false,
-        page: 1,
-        rowsPerPage: 10
-        // rowsNumber: xx if getting data from a server
-      },
-  
-      rowsForEmployers: [],
-
-computed:{
-  pagesNumberForActivities () {
-        return Math.ceil(this.rowsForActivities.length / this.paginationForActivities.rowsPerPage)
-        },
   mounted(){
-      console.log('Mounted on employer page')
-    
-      console.log('getting store data:' + this.$store.getters.getUserId)
-      if(this.$store.getters.getUserId === ''){
-        console.log('id is indeed empty')
-        this.$router.push('/')
-      } else{
-        this.getAllJobsByID()
-      }
-  } 
-},
-
-methods: {
-     getAllJobsByID(){
-      axios
-      .get(this.baseUrl + 'job/employer/')
-      .then(res=>this.rowsForEmployers = res.data)
-      .catch(e=>console.log(e));
+console.log('Mounted on employer page')
+  
+    console.log('getting store data:' + this.$store.getters.getUserId)
+    if(this.$store.getters.getUserId === ''){
+      console.log('id is indeed empty')
+      this.$router.push('/')
     }
-   },
+  },
 	methods:{
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
