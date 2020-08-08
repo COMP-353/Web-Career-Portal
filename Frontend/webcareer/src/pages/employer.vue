@@ -131,7 +131,7 @@ EHeader
       applicationList: []
     }
   },
-  mounted(){
+  beforeMount(){
     console.log('Mounted on employer page');
   
     console.log('getting store data:' + this.$store.getters.getUserId);
