@@ -80,7 +80,7 @@
                   v-bind:cc="creditcard"
                   @updatecc="getCreditCard()"
                 />
-                <!-- </component> -->
+
                 <br /><br />
                 <CheckingAccount
                   v-for="checkinga in cas"

@@ -23,10 +23,12 @@
                 transition-prev="slide-down"
                 transition-next="slide-up"
               >
+                <!-- Make a payment -->
                 <q-tab-panel name="payment">
                   <MakePayment v-bind:user="employer" />
                 </q-tab-panel>
 
+                <!-- To add Payment options -->
                 <q-tab-panel name="setuppayment">
                   <AddCreditCard v-bind:email="employer.email" />
                   <AddCheckingAccount v-bind:email="employer.email" />
@@ -35,13 +37,18 @@
                     label="Add new Checking Account"
                     @click="addCheckingAccount()"
                   />
-
+                  <q-btn
+                    label="Reload"
+                    flat
+                    rounded
+                    @click="getAllPayments()"
+                  />
                   <CreditCard
                     v-for="creditcard in ccs"
                     :key="creditcard.id"
                     v-bind:cc="creditcard"
                   />
-                  <!-- </component> -->
+
                   <br /><br />
                   <CheckingAccount
                     v-for="checkinga in cas"
@@ -68,6 +75,8 @@ import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
 import AddCreditCard from 'components/AddCreditCard.vue';
 import AddCheckingAccount from 'components/AddCheckingAccount.vue';
+import axios from 'axios'
+
 export default {
 
   components:{
@@ -95,11 +104,17 @@ EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
       },
       employer:{
         email:'',
-      },ccs:[],cas:[]
+      },ccs:[],cas:[],
+      baseUrl:'http://localhost:7070/'
     }
   },
   mounted(){
+     if (this.$store.getters.getUserId === '') {
+      console.log("User id is indeed ''");
+      this.$router.push('/');
+    } else {
     this.employer.email = this.$store.getters.getUserId;
+    }
   },
 	methods:{
 		logOut(){
@@ -107,7 +122,7 @@ EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
       			this.$router.back();
     		},
 getUser(){
-      axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
+      axios.put(this.baseUrl +'user/pay/'+ this.employer.email +'/' +this.amount).then
       (this.getUserData()).catch(e => console.log(e))
     },
         addCreditCard(){
@@ -115,7 +130,16 @@ getUser(){
     },
     addCheckingAccount(){
       this.$root.$emit('addca')   
-},
+}, getCheckingAccount(){
+        axios.get(this.baseUrl + 'payment/checking/' + this.employer.email).then(res => this.cas = res.data).catch(e => console.log(e))
+    }, 
+    getCreditCard(){
+axios.get(this.baseUrl + 'payment/credit/' + this.employer.email).then(res => this.ccs = res.data).catch(e => console.log(e))
+    },
+    getAllPayments(){
+        this.getCreditCard()
+        this.getCheckingAccount()
+    }
 },
 }
 </script>
