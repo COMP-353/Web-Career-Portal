@@ -41,6 +41,17 @@
                       <td class="text-left">{{application.job.title}}</td>
                       <td class="text-left">{{application.job.description}}</td>
                       <td class="text-left">{{convertDate(application.applicationDate)}}</td>
+                      <td class="text-right">
+                    <div class="">
+                      <q-btn
+                        color="red"
+                        icon="delete"
+                        label=" Delete application"
+                        size="sm"
+                        @click="deleteApplication(application.applicationId)"
+                      />
+                    </div>
+                  </td>
                     </tr>
                   <!-- //  </div> -->
                   <div class="q-pa-lg flex flex-center">
@@ -61,7 +72,7 @@
           </div>
         </div>
         <div class="col-3 row vertical-middle q-pl-xl">
-          <div class="q-pa-md flex flex-center">
+          <div class="q-pa-md flex flex-right">
             <q-knob
               readonly
               show-value
@@ -76,6 +87,21 @@
             >
               Balance ${{ employer.accountBalance }}
             </q-knob>
+            <q-dialog v-model="showDialog">
+                  <q-card>
+                      <q-card-section>
+                        <div class="text-h6">Application Deleted</div>
+                      </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      Application has been successfully removed.
+                    </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+              </q-card>
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -92,6 +118,7 @@ EHeader
   },
   data () {
     return {
+      showDialog:false,
       baseUrl: 'http://localhost:7070/',
       current: 3,
       employer: [],
@@ -133,6 +160,15 @@ methods: {
         axios
         .get(this.baseUrl + 'user/employer/'+ user_email)
         .then(res => this.employer = res.data);
+    },
+     deleteApplication(applicationId){
+      axios
+        .delete(this.baseUrl + 'application/deleteApplication/'+ applicationId)
+        .then(res => console.log(res.data));
+
+         let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
+        this.applicationList.splice(i, 1);
+        this.showDialog = true;
     }
     },
  };
