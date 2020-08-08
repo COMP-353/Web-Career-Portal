@@ -8,7 +8,10 @@
   <q-layout view="hHh LpR fFf">
     <JSHeader />
 
-    <q-page-container style="height: 100%;" class="relative-position">
+    <q-page-container
+      style="height: 100%; padding-right: 1%; padding-left: 1%;"
+      class="relative-position"
+    >
       <router-view />
 
       <q-body>
@@ -34,22 +37,28 @@
               <q-tab-panel name="tabProfile">
                 <div class="text-h4 q-mb-md">Profile Info</div>
                 <p>Your profile information</p>
-                <q-input
-                  outlined
-                  v-model="jobSeeker.firstName"
-                  label="First Name"
-                  :disable="modifyProfileInfo"
-                />
+                <div style="padding-bottom: 1%;">
+                  <q-input
+                    outlined
+                    v-model="jobSeeker.firstName"
+                    label="First Name"
+                    :disable="modifyProfileInfo"
+                  />
+                </div>
                 <q-separator></q-separator>
-                <q-input
-                  outlined
-                  :disable="modifyProfileInfo"
-                  v-model="jobSeeker.lastName"
-                  label="Last Name"
-                />
-
+                <div style="padding-bottom: 1%;">
+                  <q-input
+                    outlined
+                    :disable="modifyProfileInfo"
+                    v-model="jobSeeker.lastName"
+                    label="Last Name"
+                  />
+                </div>
                 <q-btn
                   :label="modifyProfileInfo ? 'Modify' : 'Save'"
+                  outline
+                  rounded
+                  color="primary"
                   @click="modifyInfo()"
                 />
               </q-tab-panel>
@@ -69,12 +78,32 @@
                   v-bind:email="jobSeeker.email"
                   @updateca="getCheckingAccount()"
                 />
-                <q-btn label="Add new Credit Card" @click="addCreditCard()" />
-                <q-btn
-                  label="Add new Checking Account"
-                  @click="addCheckingAccount()"
-                />
-                <q-btn label="Reload" flat rounded @click="getAllPayments()" />
+                <div style="padding-top: 1%; padding-bottom: 1%;">
+                  <q-btn
+                    flat
+                    color="black"
+                    label="Add Credit Card"
+                    @click="addCreditCard()"
+                  />
+                  <q-btn
+                    flat
+                    color="black"
+                    label="Add Checking Account"
+                    @click="addCheckingAccount()"
+                  />
+                </div>
+                <div style="padding-bottom: 1%;">
+                  <q-btn
+                    label="Reload"
+                    color="primary"
+                    outline
+                    rounded
+                    @click="getAllPayments()"
+                  />
+                </div>
+
+                <div class="text-h4">Your Credit Cards</div>
+
                 <CreditCard
                   v-for="creditcard in ccs"
                   :key="creditcard.id"
@@ -82,6 +111,9 @@
                   @updatecc="getCreditCard()"
                 />
 
+                <div class="text-h4" style="padding-top: 1%;">
+                  Your Checking Accounts
+                </div>
                 <br /><br />
                 <CheckingAccount
                   v-for="checkinga in cas"
@@ -95,7 +127,8 @@
               <q-tab-panel name="tabCategory">
                 <div class="text-h4 q-mb-md">Category</div>
                 <div
-                  class="row justify-center full-height full-width text-center"
+                  class="row justify-left full-height full-width text-center"
+                  style="padding-top: 1%; padding-bottom: 1%;"
                 >
                   <div class="q-gutter-sm">
                     <p style="font-size: 100%;">
@@ -166,6 +199,9 @@
                 </div>
                 <q-btn
                   :label="modifyUserCategory ? 'Modify' : 'Save'"
+                  color="primary"
+                  outline
+                  rounded
                   @click="saveUserCategory()"
                 />
               </q-tab-panel>
