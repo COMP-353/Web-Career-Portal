@@ -19,6 +19,7 @@
               <q-tab name="tabMakePayment" icon="payment" label="Payment" />
               <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
               <q-tab name="tabCategory" icon="category" label="category" />
+              <q-tab name="pw" icon="secure" label="Password" />
             </q-tabs>
           </template>
 
@@ -168,6 +169,10 @@
                   @click="saveUserCategory()"
                 />
               </q-tab-panel>
+
+              <q-tab-panel name="pw">
+                <ChangePassword v-bind:email="jobSeeker.email" />
+              </q-tab-panel>
             </q-tab-panels>
           </template>
         </q-splitter>
@@ -184,6 +189,8 @@ import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
 import AddCreditCard from 'components/AddCreditCard.vue';
 import AddCheckingAccount from 'components/AddCheckingAccount.vue';
+import ChangePassword from 'components/ChangePassword.vue'
+
 export default {
 components:{
   JSHeader,
@@ -191,7 +198,8 @@ components:{
   CheckingAccount,
   MakePayment,
   AddCreditCard,
-  AddCheckingAccount
+  AddCheckingAccount,
+  ChangePassword
 },
   data() {
     return {

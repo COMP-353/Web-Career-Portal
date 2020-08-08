@@ -13,6 +13,7 @@
                   icon="payment"
                   label="Set-Up payment"
                 />
+                <q-tab name="pw" icon="password" label="Password" />
               </q-tabs>
             </template>
 
@@ -56,6 +57,11 @@
                     v-bind:ca="checkinga"
                   />
                 </q-tab-panel>
+
+                <!-- Change Password -->
+                <q-tab-panel name="pw">
+                  <ChangePassword v-bind:email="employer.email" />
+                </q-tab-panel>
               </q-tab-panels>
             </template>
           </q-splitter>
@@ -75,13 +81,14 @@ import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
 import AddCreditCard from 'components/AddCreditCard.vue';
 import AddCheckingAccount from 'components/AddCheckingAccount.vue';
+import ChangePassword from 'components/ChangePassword.vue';
 import axios from 'axios'
 
 export default {
 
   components:{
 EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
-  AddCheckingAccount
+  AddCheckingAccount, ChangePassword
   },
 
  data () {

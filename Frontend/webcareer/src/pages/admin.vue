@@ -17,7 +17,7 @@
       <q-tabs v-model="tab" align="left">
         <q-tab name="users" label="Users" />
         <q-tab name="activities" label="System Logs" />
-        <!-- <q-tab name="page3" label="Profile" /> -->
+        <q-tab name="pw" label="Password" />
       </q-tabs>
     </q-header>
 
@@ -132,15 +132,20 @@
           </div>
         </q-page-container>
       </q-tab-panel>
+      <ChangePassword v-bind="admin.email" />
+      <q-tab-panel> </q-tab-panel>
     </q-tab-panels>
   </q-layout>
 </template>
 
 <script>
 import axios from 'axios';
-
+import ChangePassword from 'components/ChangePassword.vue'
 
 export default {
+  components:{
+    ChangePassword
+  },
   data() {
     return {
       tab: 'users',
