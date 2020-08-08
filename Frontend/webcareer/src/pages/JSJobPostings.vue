@@ -55,6 +55,21 @@
                 </tr>
               </tbody>
             </q-markup-table>
+            <q-dialog v-model="showDialog">
+                  <q-card>
+                      <q-card-section>
+                        <div class="text-h6">Application Deleted</div>
+                      </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      Your application has been successfully removed.
+                    </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+              </q-card>
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -64,6 +79,8 @@
 </template>
 
 <script>
+import { Dialog } from 'quasar'
+
 import axios from 'axios';
 import JSHeader from '../components/JSHeader.vue'
 
@@ -73,6 +90,7 @@ export default {
     },
   data() {
     return {
+      showDialog:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
@@ -181,8 +199,9 @@ export default {
            console.log("Fdfddgfdgrfg");
           return response;
         });
-        let i = this.jobList.map(job => job.jobId).indexOf(jobId) // find index of your object
-        this.jobList.splice(i, 1) 
+        let i = this.jobList.map(job => job.jobId).indexOf(jobId); // find index of your object
+        this.jobList.splice(i, 1);
+        this.showDialog = true;
     }
   },
 };
