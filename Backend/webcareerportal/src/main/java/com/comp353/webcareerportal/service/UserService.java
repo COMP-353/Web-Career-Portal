@@ -123,7 +123,7 @@ public class UserService {
             activityDao.save(new Activity(id, CHANGED_PASSWORD));
             updatedPassword = true;
         } else if (userRepo.adminExistsWithEmail(id)) {
-            userRepo.updateAdminEmail(id, newPassword);
+            userRepo.updateAdminPasswordWithEmail(id, newPassword);
             activityDao.save(new Activity(id, CHANGED_PASSWORD));
             updatedPassword = true;
         }
