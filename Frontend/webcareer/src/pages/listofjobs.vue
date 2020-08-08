@@ -131,7 +131,8 @@ methods: {
     },
     deleteJob(id){
       axios
-      .get(this.baseUrl + 'job/deleteJob/' + id)
+      .delete(this.baseUrl + 'job/deleteJob/' + id)
+      .then(res => console.log(res.data));
     } ,
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
