@@ -19,7 +19,7 @@
               <q-tab name="tabMakePayment" icon="payment" label="Payment" />
               <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
               <q-tab name="tabCategory" icon="category" label="category" />
-              <q-tab name="pw" icon="secure" label="Password" />
+              <q-tab name="pw" icon="vpn_key" label="Password" />
             </q-tabs>
           </template>
 
