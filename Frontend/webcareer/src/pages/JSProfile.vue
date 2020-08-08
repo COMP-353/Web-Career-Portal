@@ -60,17 +60,22 @@
 
               <!-- To Set Up A Payment -->
               <q-tab-panel name="tabSetUpPay">
-                <AddCreditCard v-bind:email="jobSeeker.email" />
+                <AddCreditCard
+                  v-bind:email="jobSeeker.email"
+                  @updatecc="getCreditCard()"
+                />
                 <AddCheckingAccount v-bind:email="jobSeeker.email" />
                 <q-btn label="Add new Credit Card" @click="addCreditCard()" />
                 <q-btn
                   label="Add new Checking Account"
                   @click="addCheckingAccount()"
                 />
+                <q-btn label="Reload" flat rounded="getAllPayments()" />
                 <CreditCard
                   v-for="creditcard in ccs"
                   :key="creditcard.id"
                   v-bind:cc="creditcard"
+                  @updatecc="getCreditCard()"
                 />
                 <!-- </component> -->
                 <br /><br />
@@ -193,19 +198,6 @@ components:{
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
-      cc:{
-          creditCardNumber:0,
-          creditCardName:'',
-          billingAddress:'',
-          securityCode:0,
-          defaultPayment:false,
-          automaticWithdrawal: false
-      },ca:{
-          bankNumber:0,
-          accountNumber:0,
-          defaultPayment:false,
-          automaticWithdrawal: false
-      },
       accountType:'basic',
       tab:'tabProfile',
       baseUrl: 'http://localhost:7070/',
@@ -222,9 +214,6 @@ components:{
       cas:[]
     }
   },
-  computed:{
-      
-  },
 
   mounted() {
     if (this.$store.getters.getUserId === '') {
@@ -236,7 +225,9 @@ components:{
      this.getAccountCategory()
      this.getCheckingAccount()
      this.getCreditCard()
+     this.$root.$on('updatecc', this.getCreditCard())
     }
+    
   },
 
   methods: {
@@ -273,7 +264,6 @@ components:{
             .put(this.baseUrl + 'user/updateName', this.jobSeeker)
             .then(this.modifyProfileInfo = true)
             .catch(e => console.log(e))
-            // this.modifyProfileInfo = true
         }
     },
     saveUserCategory(){
@@ -284,7 +274,6 @@ components:{
         }
     },
     addCreditCard(){
-        // a
         this.$root.$emit('addcc')
     },
     addCheckingAccount(){
@@ -295,6 +284,10 @@ components:{
     }, 
     getCreditCard(){
 axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.ccs = res.data).catch(e => console.log(e))
+    },
+    getAllPayments(){
+        this.getCreditCard()
+        this.getCheckingAccount()
     }
   },
 };
