@@ -71,11 +71,11 @@ export default Vue.extend({
     saveNewCreditCard() {
       axios
         .post(
-          'http://localhost:7070/' + 'payment/newCreditCard/' + this.email,
+          'http://localhost:7070/payment/newCreditCard/' + this.email,
           this.cc
         )
         .catch((e) => console.log(e));
-      this.$root.$emit('addedcc');
+      this.$root.$emit('updatecc');
     },
     resetCcData() {
       this.cc.creditCardNumber = 0;
