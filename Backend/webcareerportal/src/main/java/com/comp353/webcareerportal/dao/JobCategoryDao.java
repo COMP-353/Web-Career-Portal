@@ -26,9 +26,9 @@ public interface JobCategoryDao extends JpaRepository<JobCategory, Long> {
     @Query("delete from JobCategory j where j.categoryId= :category_id")
     void deleteJobCategoryWithCategoryId(@Value("categoryId") int category_id);
 	
-	@Query(nativeQuery = true, value = "select * from jobCategory j where j.categoryId= :category_id")
+	@Query(nativeQuery = true, value = "select * from JobCategory j where j.categoryId= :category_id")
 	JobCategory getJobCategoryWithId(@Value("categoryId") int category_id);
 	
-	@Query(nativeQuery = true, value = "select * from jobCategory")
+	@Query(nativeQuery = true, value = "select * from JobCategory")
 	List<JobCategory> getAllJobCategories();
 }

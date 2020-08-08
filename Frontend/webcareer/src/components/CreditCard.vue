@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 5%;">
+  <div style="padding-top: 3%;">
     <p>Your credit card information</p>
     <q-input
       outlined

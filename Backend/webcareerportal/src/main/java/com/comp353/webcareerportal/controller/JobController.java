@@ -54,8 +54,8 @@ public class JobController {
 	}
 	
     @PostMapping(path = "newJob")
-    public String addNewJob(@RequestBody Job job, @PathVariable(name = "id") String eId) {
-        return jobService.addNewJob(job, eId) ? "Job added successfully" : "Job not added. Invalid employer email.";
+    public String addNewJob(@RequestBody Job job) {
+        return jobService.addNewJob(job) ? "Job added successfully" : "Job not added. Invalid employer email.";
     }
     
     @GetMapping(path = "updateJobStatus/{id}/{statusId}")
