@@ -1,5 +1,6 @@
 <template>
-  <q-card>
+  <!-- <q-card> -->
+  <div>
     <div class="text-h4 q-mb-md">Change Your Account Password</div>
     <div class="text-h6">Make Sure the passwords match</div>
     <q-input
@@ -29,10 +30,11 @@
         />
       </template>
     </q-input>
-    <q-card-actions>
-      <q-btn label="change password" @click="changePassword()" />
-    </q-card-actions>
-  </q-card>
+    <!-- <q-card-actions> -->
+    <q-btn label="change password" @click="changePassword()" />
+    <!-- </q-card-actions> -->
+    <!-- </q-card> -->
+  </div>
 </template>
 
 <script lang="ts">

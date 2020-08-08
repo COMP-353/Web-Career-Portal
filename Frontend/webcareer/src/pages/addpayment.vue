@@ -13,6 +13,7 @@
                   icon="payment"
                   label="Set-Up payment"
                 />
+                <q-tab name="plan" icon="category" label="Category" />
                 <q-tab name="pw" icon="password" label="Password" />
               </q-tabs>
             </template>
@@ -56,6 +57,67 @@
                     :key="checkinga.id"
                     v-bind:ca="checkinga"
                   />
+                </q-tab-panel>
+
+                <!-- Change employer plan -->
+                <q-tab-panel name="plan">
+                  <div
+                    class="row justify-center full-height full-width text-center"
+                    style="max-width=50%"
+                  >
+                    <div class="q-gutter-sm">
+                      <br />
+                      <p style="font-size: 100%;">
+                        <b>Select type of account</b>
+                      </p>
+
+                      <div class="row">
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Prime Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            Employer can post up to five jobs. A monthly charge
+                            of $50 will be applied
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="employer.category"
+                            val="Prime"
+                            label="Prime (50$/month)"
+                            :disable="modifyUserCategory"
+                          />
+                        </q-card>
+
+                        <q-card flat bordered class="my-card">
+                          <q-card-section>
+                            <div class="text-h6">Gold Account</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            Employer can post as many jobs as he/she wants. A
+                            monthly charge of $100 will be applied.
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-radio
+                            v-model="employer.category"
+                            val="Gold"
+                            label="Gold (100$/month)"
+                            :disable="modifyUserCategory"
+                          />
+                        </q-card>
+                      </div>
+                      <q-btn
+                        :label="modifyUserCategory ? 'Modify' : 'Save'"
+                        @click="saveUserCategory()"
+                      />
+                    </div>
+                  </div>
                 </q-tab-panel>
 
                 <!-- Change Password -->
@@ -111,8 +173,11 @@ EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
       },
       employer:{
         email:'',
+        category:''
       },ccs:[],cas:[],
       baseUrl:'http://localhost:7070/'
+    ,
+    modifyUserCategory:true
     }
   },
   mounted(){
@@ -121,6 +186,7 @@ EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
       this.$router.push('/');
     } else {
     this.employer.email = this.$store.getters.getUserId;
+    this.getAccountCategory()
     }
   },
 	methods:{
@@ -146,7 +212,25 @@ axios.get(this.baseUrl + 'payment/credit/' + this.employer.email).then(res => th
     getAllPayments(){
         this.getCreditCard()
         this.getCheckingAccount()
-    }
+    },
+     getAccountCategory(){
+       axios
+        .get(this.baseUrl + 'user/getCat/' + this.employer.email)
+        .then((res) => this.employer.category = res.data)
+        .catch((e) => console.log(e));
+    },
+     saveUserCategory(){
+        this.modifyUserCategory = !this.modifyUserCategory
+        if (this.modifyUserCategory){
+            console.log('Saving User Plan')
+            axios.put(this.baseUrl + 'user/updateEmployerCategory/'+this.employer.email +'/' +this.employer.category).then(this.modifyUserCategory = true).catch(e => console.log(e))
+        }
+    },
 },
 }
 </script>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>
