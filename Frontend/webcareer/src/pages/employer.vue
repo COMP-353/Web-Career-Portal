@@ -1,12 +1,10 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <EHeader />
-    <q-page-container style="height: 300px; padding: 6% 1% 0% 1%;">
+    <q-page-container style="height: 300px; padding: 7% 1% 0% 1%;">
       <q-card flat bordered class="my-card">
         <q-card-section>
-          <div class="text-h6">
-            Welcome back! {{ this.$store.getters.getUserId }}
-          </div>
+          <div class="text-h6">Welcome back! {{ this.email }}</div>
           <div class="text-subtitle2">
             The application list has been updated!
           </div>
@@ -15,6 +13,15 @@
       <router-view />
 
       <q-body>
+        <div style="padding-top: 1%;">
+          <q-btn
+            label="Reload"
+            outline
+            color="primary"
+            rounded
+            @click="reload()"
+          />
+        </div>
         <div class="row">
           <div class="col">
             <div class="q-pa-xl">
@@ -128,7 +135,8 @@ EHeader
       current: 3,
       employer: [],
       value: 71,
-      applicationList: []
+      applicationList: [],
+      email:''
     }
   },
   beforeMount(){
@@ -139,8 +147,9 @@ EHeader
       console.log('id is indeed empty');
       this.$router.push('/');
     }
+    this.email = this.$store.getters.getUserId;
     this.getApplicationList(this.$store.getters.getUserId);
-    this.getEmployer(this.$store.getters.getUserId);
+    this.getEmployer();
   },
 
 methods: {
@@ -150,9 +159,9 @@ methods: {
       this.$router.back();
     	},
 
-    getApplicationList(user_email){
+    getApplicationList(){
       axios
-        .get(this.baseUrl + 'application/employer/'+ user_email)
+        .get(this.baseUrl + 'application/employer/'+ this.email)
         .then(res => this.applicationList = res.data);
     },
 
@@ -161,9 +170,9 @@ methods: {
       return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date); 
     },
 
-    getEmployer(user_email){
+    getEmployer(){
         axios
-        .get(this.baseUrl + 'user/employer/'+ user_email)
+        .get(this.baseUrl + 'user/employer/'+ this.email)
         .then(res => this.employer = res.data);
     },
      deleteApplication(applicationId){
@@ -174,6 +183,10 @@ methods: {
          let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
         this.applicationList.splice(i, 1);
         this.showDialog = true;
+    },
+    reload(){
+      this.getEmployer();
+      this.getApplicationList();
     }
     },
  };

@@ -6,9 +6,9 @@
         height: 300px;
         padding-right: 1%;
         padding-left: 1%;
-        padding-top: 6%;
+        padding-top: 7%;
       "
-    ></q-page-container>
+    >
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
@@ -19,42 +19,48 @@
       </q-card>
       <router-view />
 
-
-    <q-body>
-
-    <div class="q-pa-xl">
-      <div class="column" style="height: 150px">
-          <div class="col">
-            <q-btn 
-              outline
-              rounded
-              color="primary"
-              label="Reload Personal Jobs"
-              @click="getAllJobsByID()"
-            />
-          </div>
-      <div class="col">
-        <div class="q-pl-xl">
-          <div>
-            <q-table
-              title="Your Jobs"
-              @row-click="clickedRow"
-              :data="rowsForEmployers"
-              :columns="columnsForEmployers"           
-              row-key= "jobId"
-            >
-             <template v-slot:body-cell-actions="props">
-              <q-td :props="props">
-                <q-btn dense round flat color="grey" @click="deleteJob(JobRow.jobId)" icon="delete"></q-btn>
-              </q-td>          
-            </template>  
-            </q-table>
+      <q-body>
+        <div class="q-pa-md">
+          <div class="column" style="height: 150px;">
+            <div class="col">
+              <q-btn
+                outline
+                rounded
+                color="primary"
+                label="Reload Personal Jobs"
+                @click="getAllJobsByID()"
+              />
+            </div>
+            <div class="col">
+              <div class="q-pl-xl">
+                <div>
+                  <q-table
+                    title="Your Jobs"
+                    @row-click="clickedRow"
+                    :data="rowsForEmployers"
+                    :columns="columnsForEmployers"
+                    row-key="jobId"
+                  >
+                    <template v-slot:body-cell-actions="props">
+                      <q-td :props="props">
+                        <q-btn
+                          dense
+                          round
+                          flat
+                          color="grey"
+                          @click="deleteJob(JobRow.jobId)"
+                          icon="delete"
+                        ></q-btn>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </q-body>
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -111,8 +117,9 @@ EHeader
 computed:{
   pagesNumberForActivities () {
         return Math.ceil(this.rowsForActivities.length / this.paginationForActivities.rowsPerPage)
+        }
         },
-  mounted(){
+  beforeMount(){
       console.log('Mounted on employer page')
       console.log('getting store data:' + this.$store.getters.getUserId)
       if(this.$store.getters.getUserId === ''){
@@ -121,7 +128,7 @@ computed:{
       } else{
         this.getAllJobsByID()
       }
-  } 
+  
 },
 
 methods: {
