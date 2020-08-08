@@ -34,24 +34,41 @@
                 <q-tab-panel name="setuppayment">
                   <AddCreditCard v-bind:email="employer.email" />
                   <AddCheckingAccount v-bind:email="employer.email" />
-                  <q-btn label="Add new Credit Card" @click="addCreditCard()" />
-                  <q-btn
-                    label="Add new Checking Account"
-                    @click="addCheckingAccount()"
-                  />
+                  <div style="padding-bottom: 1%;">
+                    <q-btn
+                      label="Add a Credit Card"
+                      flat
+                      @click="addCreditCard()"
+                    />
+                    <q-btn
+                      flat
+                      label="Add a Checking Account"
+                      @click="addCheckingAccount()"
+                    />
+                  </div>
                   <q-btn
                     label="Reload"
-                    flat
+                    outline
+                    color="primary"
                     rounded
                     @click="getAllPayments()"
                   />
+
+                  <div class="text-h4" style="padding-top: 2%;">
+                    Your Credit Cards
+                  </div>
                   <CreditCard
                     v-for="creditcard in ccs"
                     :key="creditcard.id"
                     v-bind:cc="creditcard"
                   />
 
-                  <br /><br />
+                  <div
+                    class="text-h4"
+                    style="padding-top: 2%; padding-bottom: 2%;"
+                  >
+                    Your Checking Accounts
+                  </div>
                   <CheckingAccount
                     v-for="checkinga in cas"
                     :key="checkinga.id"
@@ -62,7 +79,7 @@
                 <!-- Change employer plan -->
                 <q-tab-panel name="plan">
                   <div
-                    class="row justify-center full-height full-width text-center"
+                    class="row justify-left full-height full-width"
                     style="max-width=50%"
                   >
                     <div class="q-gutter-sm">
@@ -71,7 +88,7 @@
                         <b>Select type of account</b>
                       </p>
 
-                      <div class="row">
+                      <div class="row text-center" style="padding-bottom: 1%;">
                         <q-card flat bordered class="my-card">
                           <q-card-section>
                             <div class="text-h6">Prime Account</div>
@@ -114,6 +131,9 @@
                       </div>
                       <q-btn
                         :label="modifyUserCategory ? 'Modify' : 'Save'"
+                        color="primary"
+                        outline
+                        rounded
                         @click="saveUserCategory()"
                       />
                     </div>
@@ -187,6 +207,7 @@ EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
     } else {
     this.employer.email = this.$store.getters.getUserId;
     this.getAccountCategory()
+    this.getAllPayments()
     }
   },
 	methods:{

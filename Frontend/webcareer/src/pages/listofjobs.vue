@@ -1,54 +1,52 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <EHeader />
-    <q-page-container style="height: 300px;">
+    <q-page-container
+      style="
+        height: 300px;
+        padding-right: 1%;
+        padding-left: 1%;
+        padding-top: 6%;
+      "
+    >
       <q-card flat bordered class="my-card">
-        <br><br>
         <q-card-section>
           <div class="text-h6">
             Here you can find your personal list of jobs!
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
-        </q-card-section>
       </q-card>
       <router-view />
-    </q-page-container>
 
-    <q-body>
-
-    <div class="q-pa-xl">
-      <div class="column" style="height: 150px">
-          <div class="col">
-            <q-btn 
-              outline
-              rounded
-              color="primary"
-              label="Reload Personal Jobs"
-              @click="getAllJobsByID()"
-            />
-          </div>
-      <div class="col">
-        <div class="q-pl-xl">
-          <div>
-            <q-table
-              title="Your Jobs"
-              :data="rowsForEmployers"
-              :columns="columnsForEmployers"
-              row-key= this.$store.getters.getUserId
-            />
+      <q-body>
+        <div class="q-pa-md">
+          <div class="column" style="height: 150px;">
+            <div class="col">
+              <q-btn
+                outline
+                rounded
+                color="primary"
+                label="Reload Personal Jobs"
+                @click="getAllJobsByID()"
+              />
+            </div>
+            <div class="col">
+              <div class="q-pl-md">
+                <div>
+                  <q-table
+                    title="Your Jobs"
+                    :data="rowsForEmployers"
+                    :columns="columnsForEmployers"
+                    row-key="this.$store.getters.getUserId"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-
-    </q-body>
-
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
