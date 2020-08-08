@@ -28,10 +28,26 @@
                 </q-tab-panel>
 
                 <q-tab-panel name="setuppayment">
-                  <CreditCard v-bind:cc="cc" />
-                  <br /><br />
+                  <AddCreditCard v-bind:email="employer.email" />
+                  <AddCheckingAccount v-bind:email="employer.email" />
+                  <q-btn label="Add new Credit Card" @click="addCreditCard()" />
+                  <q-btn
+                    label="Add new Checking Account"
+                    @click="addCheckingAccount()"
+                  />
 
-                  <CheckingAccount v-bind:ca="ca" />
+                  <CreditCard
+                    v-for="creditcard in ccs"
+                    :key="creditcard.id"
+                    v-bind:cc="creditcard"
+                  />
+                  <!-- </component> -->
+                  <br /><br />
+                  <CheckingAccount
+                    v-for="checkinga in cas"
+                    :key="checkinga.id"
+                    v-bind:ca="checkinga"
+                  />
                 </q-tab-panel>
               </q-tab-panels>
             </template>
@@ -50,10 +66,13 @@ import EHeader from 'components/EHeader.vue'
 import CreditCard from 'components/CreditCard.vue';
 import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
+import AddCreditCard from 'components/AddCreditCard.vue';
+import AddCheckingAccount from 'components/AddCheckingAccount.vue';
 export default {
-  // name: 'PageName',
+
   components:{
-EHeader,CheckingAccount, CreditCard, MakePayment
+EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
+  AddCheckingAccount
   },
 
  data () {
@@ -76,7 +95,7 @@ EHeader,CheckingAccount, CreditCard, MakePayment
       },
       employer:{
         email:'',
-      }
+      },ccs:[],cas:[]
     }
   },
   mounted(){
@@ -90,7 +109,13 @@ EHeader,CheckingAccount, CreditCard, MakePayment
 getUser(){
       axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
       (this.getUserData()).catch(e => console.log(e))
-    }
+    },
+        addCreditCard(){
+        this.$root.$emit('addcc')
+    },
+    addCheckingAccount(){
+      this.$root.$emit('addca')   
+},
 },
 }
 </script>
