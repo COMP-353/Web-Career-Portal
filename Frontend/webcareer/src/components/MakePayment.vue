@@ -6,7 +6,7 @@
       visit this page. If else, continue to steps below.
     </p>
     <p><b>Choose the amount of money you're going to pay.</b></p>
-    <q-input outlined v-model="amount" type="creditCardNumber" prefix="$" />
+    <q-input outlined v-model="amount" type="number" prefix="$" />
     <q-separator></q-separator>
     <br />
     <p><b>Choose your method of payment.</b></p>
