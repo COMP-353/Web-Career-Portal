@@ -30,7 +30,7 @@
                   <th class="text-left">Date posted</th>
                   <th class="text-left">Job position</th>
                   <th class="text-left">Description</th>
-                  <th class="text-right">Apply!</th>
+                  <th class="text-right"></th>
                 </tr>
               </thead>
               <tbody>
@@ -41,12 +41,11 @@
                   <td class="text-left">{{application.job.title}}</td>
                   <td class="text-left">{{application.job.description}}</td>
                   <td class="text-right">
-                    <div class="q-pa-md q-gutter-sm">
+                    <div class="">
                       <q-btn
-                        color="blue"
-                        icon="mail"
-                        icon-right="send"
-                        label=" "
+                        color="red"
+                        icon="delete"
+                        label=" Delete application"
                         size="sm"
                       />
                     </div>
