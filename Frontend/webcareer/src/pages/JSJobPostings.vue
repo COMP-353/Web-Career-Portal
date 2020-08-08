@@ -7,6 +7,7 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <JSHeader />
+      <router-view />
 
     <q-page-container style="height: 100%;">
       <q-card flat bordered class="my-card">
@@ -43,6 +44,7 @@
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
+                        @click="createApplication(job.jobId)"
                         color="blue"
                         icon="send"
                         label="Apply "
@@ -86,6 +88,18 @@ export default {
         status:'',
         email:'',
       },
+      application:{
+        applicationDate: '',
+        applicationStatus: {
+          statusId:1
+        },
+        jobseeker:{
+          email: ''
+        },
+        job:{
+          jobId:''
+        }
+      },
       amount:0
     }
   },
@@ -98,6 +112,8 @@ export default {
       this.$router.push('/');
     } else {
       this.jobSeeker.email = this.$store.getters.getUserId;
+      this.application.jobseeker.email = this.$store.getters.getUserId;
+
      this.getUserData();
      this.getJobList(this.jobSeeker.email);
      this.getAccountCategory();
@@ -142,6 +158,31 @@ export default {
 
     getGreetingField(){
       return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
+    },
+
+    createApplication(jobId){
+      this.application.job.jobId = jobId;
+      this.application.applicationDate = new Date();
+
+      var config = {
+            method: 'post',
+            url: 'http://localhost:7070/application/newApplication',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+           data : JSON.stringify(this.application)  
+        };
+
+        console.log(JSON.stringify(this.application));
+
+
+        axios(config)
+          .then(function (response) {
+           console.log("Fdfddgfdgrfg");
+          return response;
+        });
+        let i = this.jobList.map(job => job.jobId).indexOf(jobId) // find index of your object
+        this.jobList.splice(i, 1) 
     }
   },
 };
