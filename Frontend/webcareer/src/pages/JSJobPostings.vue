@@ -58,11 +58,11 @@
             <q-dialog v-model="showDialog">
                   <q-card>
                       <q-card-section>
-                        <div class="text-h6">Application Deleted</div>
+                        <div class="text-h6">Application Sent</div>
                       </q-card-section>
 
                     <q-card-section class="q-pt-none">
-                      Your application has been successfully removed.
+                      Your application has been sent to the employer.
                     </q-card-section>
 
                   <q-card-actions align="right">
@@ -196,7 +196,6 @@ export default {
 
         axios(config)
           .then(function (response) {
-           console.log("Fdfddgfdgrfg");
           return response;
         });
         let i = this.jobList.map(job => job.jobId).indexOf(jobId); // find index of your object
