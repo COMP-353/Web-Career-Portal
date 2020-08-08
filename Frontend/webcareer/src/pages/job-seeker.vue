@@ -47,6 +47,7 @@
                         icon="delete"
                         label=" Delete application"
                         size="sm"
+                        @click="deleteApplication(application.applicationId)"
                       />
                     </div>
                   </td>
@@ -157,6 +158,12 @@ JSHeader
     ,
     getGreetingField(){
       return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
+    },
+
+    deleteApplication(applicationId){
+      axios
+        .get(this.baseUrl + 'application/deleteApplication/'+ applicationId)
+        .then(res => console.log(res.data));
     }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
