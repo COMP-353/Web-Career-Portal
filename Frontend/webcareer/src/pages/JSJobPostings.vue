@@ -44,9 +44,8 @@
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
                         color="blue"
-                        icon="mail"
-                        icon-right="send"
-                        label=" "
+                        icon="send"
+                        label="Apply "
                         size="sm"
                       />
                     </div>
