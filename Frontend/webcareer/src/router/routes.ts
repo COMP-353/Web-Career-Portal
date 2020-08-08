@@ -35,6 +35,14 @@ const routes: RouteConfig[] = [
       {
         path: 'forgotPassword',
         component: () => import('pages/forgotPassword.vue')
+      },
+      {
+        path: 'js-reports',
+        component: () => import('pages/JSReports.vue')
+      },
+      {
+        path: 'e-reports',
+        component: () => import('pages/EReports.vue')
       }
     ]
   },
