@@ -14,7 +14,7 @@
                   label="Set-Up payment"
                 />
                 <q-tab name="plan" icon="category" label="Category" />
-                <q-tab name="pw" icon="password" label="Password" />
+                <q-tab name="pw" icon="vpn_key" label="Password" />
               </q-tabs>
             </template>
 
