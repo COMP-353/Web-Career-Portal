@@ -30,7 +30,7 @@
                   <th class="text-left">Date posted</th>
                   <th class="text-left">Job position</th>
                   <th class="text-left">Description</th>
-                  <th class="text-right">Apply!</th>
+                  <th class="text-right"></th>
                 </tr>
               </thead>
               <tbody>
@@ -41,13 +41,13 @@
                   <td class="text-left">{{application.job.title}}</td>
                   <td class="text-left">{{application.job.description}}</td>
                   <td class="text-right">
-                    <div class="q-pa-md q-gutter-sm">
+                    <div class="">
                       <q-btn
-                        color="blue"
-                        icon="mail"
-                        icon-right="send"
-                        label=" "
+                        color="red"
+                        icon="delete"
+                        label=" Delete application"
                         size="sm"
+                        @click="deleteApplication(application.applicationId)"
                       />
                     </div>
                   </td>
@@ -75,6 +75,21 @@
               </q-tooltip>
               Balance {{ this.jobSeeker.accountBalance }}$
             </q-knob>
+            <q-dialog v-model="showDialog">
+                  <q-card>
+                      <q-card-section>
+                        <div class="text-h6">Application Deleted</div>
+                      </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      Your application has been successfully removed.
+                    </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+              </q-card>
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -92,6 +107,7 @@ JSHeader
   },
   data() {
     return {
+      showDialog:false,
       accountType:'basic',
       innerProfileTab:'innerprofile',
       baseUrl: 'http://localhost:7070/',
@@ -158,6 +174,16 @@ JSHeader
     ,
     getGreetingField(){
       return this.jobSeeker.firstName != null ? this.jobSeeker.firstName : this.jobSeeker.email;
+    },
+
+    deleteApplication(applicationId){
+      axios
+        .delete(this.baseUrl + 'application/deleteApplication/'+ applicationId)
+        .then(res => console.log(res.data));
+
+         let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
+        this.applicationList.splice(i, 1);
+        this.showDialog = true;
     }
     // makeAPayment(){
     //   axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then

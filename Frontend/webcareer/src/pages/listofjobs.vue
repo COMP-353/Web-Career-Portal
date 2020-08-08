@@ -35,7 +35,7 @@
         <div class="q-pl-xl">
           <div>
             <q-table
-              title="Employers"
+              title="Your Jobs"
               :data="rowsForEmployers"
               :columns="columnsForEmployers"
               row-key= this.$store.getters.getUserId
@@ -69,19 +69,20 @@ EHeader
               {
                 name: 'jobId',
                 required: true,
-                label: 'JobID',
+                label: 'Job ID',
                 field: 'jobId',
                 align: 'left',
+                style: 'width: 50px',
               //   field: row => row.name,
               //   format: val => `${val}`,
                 sortable: true
               },
-              { name: 'category', align: 'center', label: 'Category', field: row => row.jobCategory.categoryId, sortable: true },
-              { name: 'description', label: 'Description', field: 'description', sortable: true, style: 'width: 10px' },
-              { name: 'title', label: 'Title', field: 'title', sortable: true },
-              { name: 'employer_email', label: 'Employer Email', field: row => row.employer.email, sortable: true },
-              { name: 'job_category', label: 'Job Category', field: row => row.jobCategory.category, sortable: true },
-              { name: 'jobStatus', label: 'Job Status', field: row => row.jobStatus.status, sortable: true },
+              { name: 'category', align: 'center', label: 'Category ID', field: row => row.jobCategory.categoryId, sortable: true},
+              { name: 'job_category', label: 'Category Name', field: row => row.jobCategory.category, sortable: true},
+              { name: 'description', label: 'Description', field: 'description', sortable: true},
+              { name: 'title', label: 'Title', field: 'title', sortable: true},
+              { name: 'employer_email', label: 'Employer Email', field: row => row.employer.email, sortable: true},
+              { name: 'jobStatus', label: 'Job Status', field: row => row.jobStatus.status, sortable: true},
               // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
             ],
             rowsForEmployers: [],

@@ -50,6 +50,22 @@
               />
             </div>
           </q-form>
+
+          <q-dialog v-model="showDialog">
+                  <q-card>
+                      <q-card-section>
+                        <div class="text-h6">Job Added</div>
+                      </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      Job has been added to the job bank.
+                    </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+              </q-card>
+            </q-dialog>
         </div>
       </q-body>
     </q-page-container>
@@ -66,6 +82,7 @@ EHeader
   },
   data () {
     return {
+        showDialog: false,
         accept: false,
         baseUrl: 'http://localhost:7070/',
         options: [],
@@ -115,6 +132,7 @@ EHeader
            return response;
         });
         this.resetFormData();
+        this.showDialog = true;
       }
     },
 
