@@ -9,8 +9,13 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
-@Setter
+
 @NoArgsConstructor
+<<<<<<< HEAD
+@Setter
+
+=======
+>>>>>>> e9a43443db1d58eb0d8febf99bd428be8ea7491a
 @Data
 @Entity (name = "employer")
 public class Employer extends User{
