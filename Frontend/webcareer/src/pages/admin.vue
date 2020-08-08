@@ -1,7 +1,6 @@
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 250px
 </style>
 
 <template>
@@ -9,7 +8,7 @@
     <q-header reveal class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
-          Web Career Portal
+          Admin Portal
         </q-toolbar-title>
         <q-btn flat rounded label="logout" @click="logOut()" />
       </q-toolbar>
@@ -21,6 +20,7 @@
       </q-tabs>
     </q-header>
 
+    <!-- The Dialog -->
     <q-dialog v-model="fixed">
       <q-card>
         <q-card-section>
@@ -53,31 +53,27 @@
       </q-card>
     </q-dialog>
 
-    <!-- <q-page-container style="height: 250px;"> -->
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="users">
-        <q-page-container>
-          <q-card flat bordered class="my-card">
-            <q-card-section>
-              <div class="text-h6">Welcome back {{ this.admin.email }}!</div>
-              <div class="text-subtitle2">
-                Admin
-              </div>
-            </q-card-section>
+    <!-- Start of the pages -->
+    <div class="column" style="padding-right: 2%; padding-left: 2%;">
+      <q-tab-panels v-model="tab" animated>
+        <!-- Page for the Users -->
+        <q-tab-panel name="users">
+          <q-page-container>
+            <q-card flat bordered class="my-card">
+              <q-card-section>
+                <div class="text-h6">Welcome back {{ this.admin.email }}!</div>
+              </q-card-section>
+            </q-card>
+            <div style="padding-top: 1%;">
+              <q-btn
+                outline
+                rounded
+                color="primary"
+                label="Reload"
+                @click="reloadAllUsers()"
+              />
+            </div>
 
-            <!-- <q-card-section class="q-pt-none">
-              {{ this.jobSeeker.firstName }}
-            </q-card-section> -->
-          </q-card>
-          <q-btn
-            outline
-            rounded
-            color="primary"
-            label="Reload"
-            @click="reloadAllUsers()"
-          />
-
-          <div class="q-pl-xl">
             <div class="q-pa-md">
               <q-table
                 title="Employers"
@@ -87,8 +83,7 @@
                 row-key="id"
               />
             </div>
-          </div>
-          <div class="q-pl-xl">
+
             <div class="q-pa-md">
               <q-table
                 title="Job Seekers"
@@ -98,47 +93,50 @@
                 row-key="id"
               />
             </div>
-          </div>
-        </q-page-container>
-      </q-tab-panel>
+          </q-page-container>
+        </q-tab-panel>
 
-      <q-tab-panel name="activities"
-        ><q-page-container>
-          <div class="q-pa-md">
-            <q-btn
-              outline
-              rounded
-              color="primary"
-              label="Reload"
-              @click="getAllActivities()"
-            />
-            <q-table
-              title="Activities In The System"
-              :data="rowsForActivities"
-              :columns="columnsForActivities"
-              row-key="name"
-              :pagination.sync="paginationForActivities"
-              hide-pagination
-            />
-
-            <div class="row justify-center q-mt-md">
-              <q-pagination
-                v-model="paginationForActivities.page"
-                color="grey-8"
-                :max="pagesNumberForActivities"
-                size="sm"
+        <!-- Page for all Logs -->
+        <q-tab-panel name="activities"
+          ><q-page-container>
+            <div class="q-pa-md">
+              <div style="padding-bottom: 1%;">
+                <q-btn
+                  outline
+                  rounded
+                  color="primary"
+                  label="Reload"
+                  @click="getAllActivities()"
+                />
+              </div>
+              <q-table
+                title="Activities In The System"
+                :data="rowsForActivities"
+                :columns="columnsForActivities"
+                row-key="name"
+                :pagination.sync="paginationForActivities"
+                hide-pagination
               />
-            </div>
-          </div>
-        </q-page-container>
-      </q-tab-panel>
 
-      <q-tab-panel name="pw">
-        <q-page-container>
-          <ChangePassword v-bind:email="admin.email" />
-        </q-page-container>
-      </q-tab-panel>
-    </q-tab-panels>
+              <div class="row justify-center q-mt-md">
+                <q-pagination
+                  v-model="paginationForActivities.page"
+                  color="grey-8"
+                  :max="pagesNumberForActivities"
+                  size="sm"
+                />
+              </div>
+            </div>
+          </q-page-container>
+        </q-tab-panel>
+
+        <q-tab-panel name="pw">
+          <q-page-container>
+            <ChangePassword v-bind:email="admin.email" />
+          </q-page-container>
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
   </q-layout>
 </template>
 
@@ -174,8 +172,6 @@ export default {
           required: true,
           label: 'Date',
           align: 'left',
-        //   field: row => row.name,
-        //   format: val => `${val}`,
           sortable: true
         },
         { name: 'userId', align: 'left', label: 'User', field: 'userId', sortable: true },
@@ -195,13 +191,10 @@ export default {
           label: 'Email',
           field: 'email',
           align: 'left',
-        //   field: row => row.name,
-        //   format: val => `${val}`,
           sortable: true
         },
         { name: 'status', align: 'center', label: 'Status', field: 'status', sortable: true },
         { name: 'accountBalance', label: 'accountBalance', field: 'accountBalance', sortable: true, style: 'width: 10px' },
-        // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
       rowsForEmployers: [],
       rowsForJs:[]
