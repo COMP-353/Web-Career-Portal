@@ -89,7 +89,7 @@ public class UserController {
      * @return true if user exists and password matches, false otherwise
      */
     //TODO use more secure way of handling password
-    @PutMapping(path = "updateEmployerCategory/{id}/{pw}")
+    @PutMapping(path = "updateUserPassword/{id}/{pw}")
     public boolean updateUserPassword(@PathVariable(name = "id") String id, @PathVariable(name = "pw") String newPassword) {
         return userService.updateUserPassword(id, newPassword);
     }
