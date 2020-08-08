@@ -1,5 +1,6 @@
 package com.comp353.webcareerportal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,10 +17,12 @@ public abstract class Payment {
     private boolean automaticWithdrawal;
     private boolean defaultPayment;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="employer")
     private Employer employer;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="jobseeker")
     private JobSeeker jobSeeker;
