@@ -124,7 +124,7 @@ JSHeader
     }
   },
 
-  mounted() {
+  beforeMount() {
     if (this.$store.getters.getUserId === '') {
       console.log("User id is indeed ''");
       this.$router.push('/');

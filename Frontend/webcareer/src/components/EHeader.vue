@@ -17,6 +17,7 @@
       <q-route-tab to="/listofjobs" label="List of Jobs" />
       <q-route-tab to="issues" label="Issues" />
       <q-route-tab to="/addpayment" label="Account" />
+      <q-route-tab to="/e-reports" label="Reports" />
     </q-tabs>
   </q-header>
 </template>

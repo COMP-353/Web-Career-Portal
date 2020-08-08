@@ -11,6 +11,7 @@
       <q-route-tab to="js" label="Home" />
       <q-route-tab to="js-postings" label="Job Postings" />
       <q-route-tab to="js-profile" label="Account" />
+      <q-route-tab to="js-reports" label="Reports" />
     </q-tabs>
   </q-header>
 </template>
