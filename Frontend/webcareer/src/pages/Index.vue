@@ -52,7 +52,7 @@
                     </q-input>
 
                     <q-separator></q-separator>
-                    <div class="row">
+                    <div class="row justify-between">
                       <div class="buttons">
                         <q-btn
                           rounded
@@ -76,10 +76,8 @@
                     <div class="buttons">
                       <q-btn
                         to="forgotPassword"
-                        rounded
                         flat
-                        color="white"
-                        text-color="primary"
+                        text-color="black"
                         label="Forgot Password"
                       />
                     </div>
@@ -115,7 +113,7 @@
                       </q-input>
                     </div>
                     <q-separator></q-separator>
-                    <div class="row">
+                    <div class="row justify-between">
                       <div class="buttons">
                         <q-btn
                           color="white"
@@ -141,7 +139,6 @@
                       <q-btn
                         to="forgotPassword"
                         color="white"
-                        rounded
                         outlined
                         flat
                         text-color="black"
