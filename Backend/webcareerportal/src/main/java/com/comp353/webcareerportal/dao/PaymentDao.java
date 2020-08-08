@@ -50,4 +50,14 @@ public interface PaymentDao extends JpaRepository<Payment, Long> {
     @Modifying
     @Query("delete from CheckingAccount ca where ca.employer = :id or ca.jobSeeker = :id")
     void deleteAllCheckingAccountsForUserWithId(@Value("id") String id);
+
+    @Transactional
+    @Modifying
+    @Query("update CreditCard cc set cc.billingAddress = :add, cc.creditCardName = :name, cc.defaultPayment = :def, cc.automaticWithdrawal = :auto, cc.securityCode = :sec where cc.id = :id")
+    void updateCreditCard(@Value("id") int id, @Value("auto") boolean auto,@Value("add") String add,@Value("name") String name, @Value("sec") int sec ,@Value("def") boolean def);
+
+    @Transactional
+    @Modifying
+    @Query("update CheckingAccount cc set cc.accountNumber = :acc, cc.bankNumber = :name, cc.defaultPayment = :def, cc.automaticWithdrawal = :auto where cc.id = :id")
+    void updateCheckingAccount(@Value("id") int id, @Value("auto") boolean auto,@Value("acc") String acc,@Value("name") String name ,@Value("def") boolean def);
 }

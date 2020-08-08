@@ -1,56 +1,102 @@
 <template>
   <div>
-    <div class="text-h4 q-mb-md">Credit Card</div>
     <p>Your credit card information</p>
     <q-input
       outlined
       v-model="cc.creditCardNumber"
-      type="creditCardNumber"
+      type="number"
       label="Card Number"
+      :disable="modify"
     />
     <q-separator></q-separator>
-    <q-input outlined v-model="cc.creditCardName" label="Credit Card Name" />
+    <q-input
+      outlined
+      v-model="cc.creditCardName"
+      label="Credit Card Name"
+      :disable="modify"
+    />
     <q-separator></q-separator>
     <q-input
       outlined
       v-model="cc.securityCode"
-      type="creditCardNumber"
+      type="number"
       label="Credit Card Security Code"
+      :disable="modify"
     />
     <q-separator></q-separator>
-    <q-input outlined v-model="cc.address" label="Billing Address" />
+    <q-input
+      outlined
+      v-model="cc.billingAddress"
+      label="Billing Address"
+      :disable="modify"
+    />
 
     <div class="q-gutter-sm">
-      <q-checkbox v-model="cc.defaultPayment" label="Default Payment" />
+      <q-checkbox
+        v-model="cc.defaultPayment"
+        label="Default Payment"
+        :disable="modify"
+      />
       <q-checkbox
         v-model="cc.automaticWithdrawal"
         label="Automatic Withdrawal"
+        :disable="modify"
       />
     </div>
 
     <br />
-    <q-btn color="white" text-color="black" :label="ccButtonLabel" />
+    <q-btn
+      color="white"
+      text-color="black"
+      :label="ccButtonLabel"
+      @click="modifyCc()"
+    />
+
+    <q-btn label="Delete" @click="deleteCC()" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
 
 export default Vue.extend({
   name: 'CreditCard',
   computed: {
     ccButtonLabel() {
-      //   if (this.cc.creditCardNumber === 0){
-      return 'ADD CREDIT CARD';
-      //   } else
-      //   return 'modify'
-      //   } else{
-      //     return 'SAVE'
-      //   }
+      if (this.modify === true) {
+        return 'Modify';
+      } else {
+        return 'Save';
+      }
     },
   },
   props: ['cc'],
 
-  methods: {},
+  data() {
+    return {
+      modify: true,
+    };
+  },
+  methods: {
+    modifyCc() {
+      this.modify = !this.modify;
+      if (this.modify) {
+        console.log('Saving Credit card');
+        axios
+          .put('http://localhost:7070/payment/updateCC', this.cc)
+          .then()
+          .catch((e) => console.log(e));
+        this.$root.$emit('updatecc');
+      }
+    },
+    deleteCC() {
+      axios
+        .delete('http://localhost:7070/payment/credit/' + this.cc.id)
+        .then()
+        .catch((e) => console.log(e));
+      this.$root.$emit('updatecc');
+    },
+  },
 });
 </script>

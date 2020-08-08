@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "payment/")
 public class PaymentController {
     @Autowired
@@ -44,5 +45,15 @@ public class PaymentController {
     @DeleteMapping(path = "credit/{id}")
     void deleteCreditCard(@PathVariable(name = "id") int id) {
         paymentService.deleteCreditCardWithId(id);
+    }
+
+    @PutMapping(path = "updateCC")
+    void updateCreditCard(@RequestBody CreditCard cc){
+        paymentService.updateCreditCardInfo(cc);
+    }
+
+    @PutMapping(path = "updateCA")
+    void updateCa(@RequestBody CheckingAccount ca){
+        paymentService.updateCheckingAccountInfo(ca);
     }
 }
