@@ -28,7 +28,7 @@
           label="Credit Card Security Code"
         />
         <!-- <q-separator></q-separator> -->
-        <q-input outlined v-model="cc.address" label="Billing Address" />
+        <q-input outlined v-model="cc.billingAddress" label="Billing Address" />
 
         <div class="q-gutter-sm">
           <q-checkbox v-model="cc.defaultPayment" label="Default Payment" />
