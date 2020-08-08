@@ -132,8 +132,12 @@
           </div>
         </q-page-container>
       </q-tab-panel>
-      <ChangePassword v-bind="admin.email" />
-      <q-tab-panel> </q-tab-panel>
+
+      <q-tab-panel name="pw">
+        <q-page-container>
+          <ChangePassword v-bind:email="admin.email" />
+        </q-page-container>
+      </q-tab-panel>
     </q-tab-panels>
   </q-layout>
 </template>

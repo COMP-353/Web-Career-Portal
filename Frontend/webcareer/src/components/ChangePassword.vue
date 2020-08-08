@@ -18,7 +18,7 @@
 
     <q-input
       outlined
-      v-model="pw1"
+      v-model="pw2"
       label="Confirm New Password"
       :type="isPw2 ? 'password' : 'text'"
     >
@@ -30,7 +30,7 @@
       </template>
     </q-input>
     <q-card-actions>
-      <q-btn label="change password" />
+      <q-btn label="change password" @click="changePassword()" />
     </q-card-actions>
   </q-card>
 </template>
@@ -60,8 +60,13 @@ export default Vue.extend({
               '/' +
               this.pw1
           )
+          .then(this.reset())
           .catch((e) => console.log(e));
       }
+    },
+    reset() {
+      this.pw1 = '';
+      this.pw2 = '';
     },
   },
 });
