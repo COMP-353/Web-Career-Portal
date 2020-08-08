@@ -3,10 +3,7 @@ package com.comp353.webcareerportal.controller;
 import com.comp353.webcareerportal.dao.ActivityDao;
 import com.comp353.webcareerportal.models.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,10 @@ public class ActivityController {
     @DeleteMapping(path = "/")
     public void deleteAllRecords(){
         activityDao.deleteAll();
+    }
+
+    @GetMapping(path = "/{id}")
+    public List<Activity> getAllActivitiesForUser(@PathVariable(value = "id") String id){
+        return activityDao.getActivitiesForUserWithId(id);
     }
 }
