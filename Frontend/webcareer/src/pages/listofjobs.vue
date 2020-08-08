@@ -8,7 +8,7 @@
         padding-left: 1%;
         padding-top: 6%;
       "
-    >
+    ></q-page-container>
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
