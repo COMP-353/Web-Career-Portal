@@ -2,6 +2,8 @@ package com.comp353.webcareerportal.service;
 
 import com.comp353.webcareerportal.dao.ActivityDao;
 import com.comp353.webcareerportal.models.Activity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +91,23 @@ public class ApplicationService {
 		if(applicationStatus == null) return false;
 		applicationRepo.updateApplicationStatus(applicationId, applicationStatus);
 		return true;
+	}
+	
+	public List<Application> getAllApplicationsForEmployerWithId(String id){
+		if(!userRepo.employerExistsWithEmail(id)) return null;
+		List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(userRepo.getEmployerWithEmail(id));
+		
+		List<Application> applications = new ArrayList<>();
+		
+		for(int jobId : jobIds) {
+			Job job = jobRepo.getJobWithJobId(jobId);
+			List<Application> applicationsForJob = applicationRepo.getApplicationsWithJob(job);
+			
+			for(Application application : applicationsForJob ) {
+				applications.add(application);
+			}
+		}
+		
+		return applications;
 	}
 }
