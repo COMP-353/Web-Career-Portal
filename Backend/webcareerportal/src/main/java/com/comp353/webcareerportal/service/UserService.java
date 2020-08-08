@@ -123,7 +123,7 @@ public class UserService {
             activityDao.save(new Activity(id, CHANGED_PASSWORD));
             updatedPassword = true;
         } else if (userRepo.adminExistsWithEmail(id)) {
-            userRepo.authenticateAdminWithEmail(id, newPassword);
+            userRepo.updateAdminPasswordWithEmail(id, newPassword);
             activityDao.save(new Activity(id, CHANGED_PASSWORD));
             updatedPassword = true;
         }
@@ -132,7 +132,7 @@ public class UserService {
     }
 
     public boolean updateJobSeekerCategory(String id, String category) {
-        if (userRepo.jobSeekerExistsWithEmail(id)) return false;
+        if (!userRepo.jobSeekerExistsWithEmail(id)) return false;
         userRepo.updateJobSeekerCategoryWithEmail(id, getJobSeekerCategoryFrom(category));
         activityDao.save(new Activity(id, CHANGED_CATEGORY));
         return true;

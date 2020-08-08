@@ -13,6 +13,7 @@
                   icon="payment"
                   label="Set-Up payment"
                 />
+                <q-tab name="pw" icon="password" label="Password" />
               </q-tabs>
             </template>
 
@@ -23,15 +24,43 @@
                 transition-prev="slide-down"
                 transition-next="slide-up"
               >
+                <!-- Make a payment -->
                 <q-tab-panel name="payment">
                   <MakePayment v-bind:user="employer" />
                 </q-tab-panel>
 
+                <!-- To add Payment options -->
                 <q-tab-panel name="setuppayment">
-                  <CreditCard v-bind:cc="cc" />
-                  <br /><br />
+                  <AddCreditCard v-bind:email="employer.email" />
+                  <AddCheckingAccount v-bind:email="employer.email" />
+                  <q-btn label="Add new Credit Card" @click="addCreditCard()" />
+                  <q-btn
+                    label="Add new Checking Account"
+                    @click="addCheckingAccount()"
+                  />
+                  <q-btn
+                    label="Reload"
+                    flat
+                    rounded
+                    @click="getAllPayments()"
+                  />
+                  <CreditCard
+                    v-for="creditcard in ccs"
+                    :key="creditcard.id"
+                    v-bind:cc="creditcard"
+                  />
 
-                  <CheckingAccount v-bind:ca="ca" />
+                  <br /><br />
+                  <CheckingAccount
+                    v-for="checkinga in cas"
+                    :key="checkinga.id"
+                    v-bind:ca="checkinga"
+                  />
+                </q-tab-panel>
+
+                <!-- Change Password -->
+                <q-tab-panel name="pw">
+                  <ChangePassword v-bind:email="employer.email" />
                 </q-tab-panel>
               </q-tab-panels>
             </template>
@@ -50,10 +79,16 @@ import EHeader from 'components/EHeader.vue'
 import CreditCard from 'components/CreditCard.vue';
 import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
+import AddCreditCard from 'components/AddCreditCard.vue';
+import AddCheckingAccount from 'components/AddCheckingAccount.vue';
+import ChangePassword from 'components/ChangePassword.vue';
+import axios from 'axios'
+
 export default {
-  // name: 'PageName',
+
   components:{
-EHeader,CheckingAccount, CreditCard, MakePayment
+EHeader,CheckingAccount, CreditCard, MakePayment, AddCreditCard,
+  AddCheckingAccount, ChangePassword
   },
 
  data () {
@@ -76,11 +111,17 @@ EHeader,CheckingAccount, CreditCard, MakePayment
       },
       employer:{
         email:'',
-      }
+      },ccs:[],cas:[],
+      baseUrl:'http://localhost:7070/'
     }
   },
   mounted(){
+     if (this.$store.getters.getUserId === '') {
+      console.log("User id is indeed ''");
+      this.$router.push('/');
+    } else {
     this.employer.email = this.$store.getters.getUserId;
+    }
   },
 	methods:{
 		logOut(){
@@ -88,8 +129,23 @@ EHeader,CheckingAccount, CreditCard, MakePayment
       			this.$router.back();
     		},
 getUser(){
-      axios.put(this.baseUrl +'user/pay/'+ this.jobSeeker.email +'/' +this.amount).then
+      axios.put(this.baseUrl +'user/pay/'+ this.employer.email +'/' +this.amount).then
       (this.getUserData()).catch(e => console.log(e))
+    },
+        addCreditCard(){
+        this.$root.$emit('addcc')
+    },
+    addCheckingAccount(){
+      this.$root.$emit('addca')   
+}, getCheckingAccount(){
+        axios.get(this.baseUrl + 'payment/checking/' + this.employer.email).then(res => this.cas = res.data).catch(e => console.log(e))
+    }, 
+    getCreditCard(){
+axios.get(this.baseUrl + 'payment/credit/' + this.employer.email).then(res => this.ccs = res.data).catch(e => console.log(e))
+    },
+    getAllPayments(){
+        this.getCreditCard()
+        this.getCheckingAccount()
     }
 },
 }

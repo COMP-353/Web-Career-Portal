@@ -67,7 +67,7 @@ public class PaymentService {
     }
 
     public void deleteCreditCardWithId(int id) {
-        paymentRepo.deleteCheckingAccountWithId(id);
+        paymentRepo.deleteCreditCardWithId(id);
     }
 
     public void deleteAllPaymentsForUser(String id) {
@@ -94,5 +94,13 @@ public class PaymentService {
         js.addAll(paymentRepo.getJobSeekersWithAutomaticPaymentsAndCreditCardsAsDefault());
         userRepo.chargeAllJobSeekersWithoutAutomaticPayments(js);
         js.forEach(j -> activityDao.save(new Activity(j, CHARGED)));
+    }
+
+    public void updateCreditCardInfo(CreditCard cc){
+        paymentRepo.updateCreditCard(cc.getId(),cc.isAutomaticWithdrawal(),cc.getBillingAddress(), cc.getCreditCardName(),cc.getSecurityCode(),cc.isDefaultPayment());
+    }
+
+    public void updateCheckingAccountInfo(CheckingAccount ca){
+        paymentRepo.updateCheckingAccount(ca.getId(),ca.isAutomaticWithdrawal(),ca.getAccountNumber(),ca.getBankNumber(),ca.isDefaultPayment());
     }
 }

@@ -13,12 +13,10 @@
 
     <q-tabs align="left">
       <q-route-tab to="employer" label="Home" />
-
-      <q-route-tab to="/addpayment" label="Add payment" />
       <q-route-tab to="/addjob" label="Add job" />
-
       <q-route-tab to="/listofjobs" label="List of Jobs" />
       <q-route-tab to="issues" label="Issues" />
+      <q-route-tab to="/addpayment" label="Account" />
     </q-tabs>
   </q-header>
 </template>

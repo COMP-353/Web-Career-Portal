@@ -19,6 +19,7 @@
               <q-tab name="tabMakePayment" icon="payment" label="Payment" />
               <q-tab name="tabSetUpPay" icon="payment" label="Set-up Payment" />
               <q-tab name="tabCategory" icon="category" label="category" />
+              <q-tab name="pw" icon="secure" label="Password" />
             </q-tabs>
           </template>
 
@@ -55,48 +56,39 @@
 
               <!-- To Make a Payment -->
               <q-tab-panel name="tabMakePayment">
-                <!--  <div class="text-h4 q-mb-md">Make a Payment</div>
-                <p>
-                  If you have choosen automatic during set-up payment then you
-                  don't need to visit this page. If else, continue to steps
-                  below.
-                </p>
-                <p><b>Choose the amount of money you're going to pay.</b></p>
-                <q-input
-                  outlined
-                  v-model="amount"
-                  type="creditCardNumber"
-                  prefix="$"
-                />
-                <q-separator></q-separator>
-                <br />
-                <p><b>Choose your method of payment.</b></p>
-
-                <div>
-                  <q-radio
-                    v-model="paymentmethod"
-                    val="creditcard"
-                    label="Credit Card"
-                  />
-                  <q-radio
-                    v-model="paymentmethod"
-                    val="checkingaccount"
-                    label="Checking Account"
-                  />
-                </div>
-                <q-btn
-                  label="pay"
-                  @click="makeAPayment()"
-                  :disabled="!(amount > 0)"
-                /> -->
                 <MakePayment v-bind:user="jobSeeker" />
               </q-tab-panel>
 
               <!-- To Set Up A Payment -->
               <q-tab-panel name="tabSetUpPay">
-                <CreditCard v-bind:cc="cc" />
+                <AddCreditCard
+                  v-bind:email="jobSeeker.email"
+                  @updatecc="getCreditCard()"
+                />
+                <AddCheckingAccount
+                  v-bind:email="jobSeeker.email"
+                  @updateca="getCheckingAccount()"
+                />
+                <q-btn label="Add new Credit Card" @click="addCreditCard()" />
+                <q-btn
+                  label="Add new Checking Account"
+                  @click="addCheckingAccount()"
+                />
+                <q-btn label="Reload" flat rounded @click="getAllPayments()" />
+                <CreditCard
+                  v-for="creditcard in ccs"
+                  :key="creditcard.id"
+                  v-bind:cc="creditcard"
+                  @updatecc="getCreditCard()"
+                />
+
                 <br /><br />
-                <CheckingAccount v-bind:ca="ca" />
+                <CheckingAccount
+                  v-for="checkinga in cas"
+                  :key="checkinga.id"
+                  v-bind:ca="checkinga"
+                  @updateca="getCheckingAccount()"
+                />
               </q-tab-panel>
 
               <!-- To Change User Category aka Plan -->
@@ -177,6 +169,10 @@
                   @click="saveUserCategory()"
                 />
               </q-tab-panel>
+
+              <q-tab-panel name="pw">
+                <ChangePassword v-bind:email="jobSeeker.email" />
+              </q-tab-panel>
             </q-tab-panels>
           </template>
         </q-splitter>
@@ -191,37 +187,29 @@ import JSHeader from '../components/JSHeader.vue';
 import CreditCard from 'components/CreditCard.vue';
 import CheckingAccount from 'components/CheckingAccount.vue';
 import MakePayment from 'components/MakePayment.vue';
+import AddCreditCard from 'components/AddCreditCard.vue';
+import AddCheckingAccount from 'components/AddCheckingAccount.vue';
+import ChangePassword from 'components/ChangePassword.vue'
 
 export default {
 components:{
   JSHeader,
   CreditCard,
   CheckingAccount,
-  MakePayment
+  MakePayment,
+  AddCreditCard,
+  AddCheckingAccount,
+  ChangePassword
 },
   data() {
     return {
     modifyProfileInfo: true,
     modifyUserCategory: true,
-    modifyCc: true,
-    modifyCa: true,
+    addcc:false,
     justSaved:false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
-      cc:{
-          creditCardNumber:0,
-          creditCardName:'',
-          billingAddress:'',
-          securityCode:0,
-          defaultPayment:false,
-          automaticWithdrawal: false
-      },ca:{
-          bankNumber:0,
-          accountNumber:0,
-          defaultPayment:false,
-          automaticWithdrawal: false
-      },
       accountType:'basic',
       tab:'tabProfile',
       baseUrl: 'http://localhost:7070/',
@@ -233,11 +221,10 @@ components:{
         email:'',
       },
       amount:0,
-      splitterModel:20
+      splitterModel:20,
+      ccs:[],
+      cas:[]
     }
-  },
-  computed:{
-      
   },
 
   mounted() {
@@ -248,9 +235,11 @@ components:{
      this.jobSeeker.email = this.$store.getters.getUserId;
      this.getUserData()
      this.getAccountCategory()
-    //  this.getCheckingAccount()
-    //  this.getCreditCard()
+     this.getCheckingAccount()
+     this.getCreditCard()
+     this.$root.$on('updatecc', this.getCreditCard())
     }
+    
   },
 
   methods: {
@@ -287,7 +276,6 @@ components:{
             .put(this.baseUrl + 'user/updateName', this.jobSeeker)
             .then(this.modifyProfileInfo = true)
             .catch(e => console.log(e))
-            // this.modifyProfileInfo = true
         }
     },
     saveUserCategory(){
@@ -298,16 +286,20 @@ components:{
         }
     },
     addCreditCard(){
-        axios.post(this.baseUrl + 'payment/newCreditCard/'+ this.jobSeeker.email, this.cc).catch(e => console.log(e))
+        this.$root.$emit('addcc')
     },
     addCheckingAccount(){
-        axios.post(this.baseUrl+ 'payment/newCheckingAccount/' + this.jobSeeker.email, this.ca).catch(e => console.log(e))
-    },
+      this.$root.$emit('addca')   
+},
     getCheckingAccount(){
-        axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.ca = res.data).catch(e => console.log(e))
+        axios.get(this.baseUrl + 'payment/checking/' + this.jobSeeker.email).then(res => this.cas = res.data).catch(e => console.log(e))
     }, 
     getCreditCard(){
-axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.cc = res.data).catch(e => console.log(e))
+axios.get(this.baseUrl + 'payment/credit/' + this.jobSeeker.email).then(res => this.ccs = res.data).catch(e => console.log(e))
+    },
+    getAllPayments(){
+        this.getCreditCard()
+        this.getCheckingAccount()
     }
   },
 };

@@ -10,7 +10,7 @@
     <q-tabs align="left">
       <q-route-tab to="js" label="Home" />
       <q-route-tab to="js-postings" label="Job Postings" />
-      <q-route-tab to="js-profile" label="Profile" />
+      <q-route-tab to="js-profile" label="Account" />
     </q-tabs>
   </q-header>
 </template>
