@@ -26,7 +26,7 @@ public class HelpService {
         Long idL = new Long(id);
         Optional<Help> help = helpRepo.findById(idL);
         if (help.isPresent()) {
-            helpRepo.closeHelpWithId(id);
+            helpRepo.closeHelpWithId(idL);
             activityRepo.save(new Activity(help.get().getEmployerId(), "CLOSED A HELP TICKET"));
         }
     }

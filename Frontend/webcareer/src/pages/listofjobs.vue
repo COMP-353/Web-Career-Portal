@@ -151,6 +151,7 @@ methods: {
       this.fixedclickedRow = true
       console.log('row job ID' + row.jobId)
       this.JobRow.jobId  = row.jobId
+      getAllJobsByID()
     }
         
   }

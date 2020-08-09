@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "help")
 public class HelpController {
     @Autowired

@@ -18,14 +18,14 @@ import javax.persistence.Id;
 public class Help {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     private String jobSeekerId;
     private String employerId;
-    private int applicationId;
+    private Long applicationId;
     private String status;
     private String info;
 
-    public Help(String jobSeekerId, String employerId, int applicationId, String status, String info){
+    public Help(String jobSeekerId, String employerId, Long applicationId, String status, String info){
         this.jobSeekerId = jobSeekerId;
         this.employerId = employerId;
         this.applicationId = applicationId;
