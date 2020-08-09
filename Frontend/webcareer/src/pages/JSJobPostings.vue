@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       showDialog:false,
-      disableApplyJobBtn: false,
+      // disableApplyJobBtn: false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
@@ -127,7 +127,15 @@ export default {
     }
   },
 
-
+computed:{
+disableApplyJobBtn(){
+   if(this.accountType === 'Basic'){
+       return true;
+      }else {
+        return false;
+      }
+}
+},
 
   mounted() {
     if (this.$store.getters.getUserId === '') {
@@ -176,7 +184,7 @@ export default {
     },
 
     getJobList(user_email){
-      axios
+     void axios
         .get(this.baseUrl + 'job/notapplied/jobseeker/'+ user_email)
         .then(res => this.jobList = res.data);
     },
@@ -201,7 +209,7 @@ export default {
         console.log(JSON.stringify(this.application));
 
 
-        axios(config)
+        void axios(config)
           .then(function (response) {
           return response;
         });
@@ -210,11 +218,7 @@ export default {
         this.showDialog = true;
     },
 
-    setApplyJobButtonStatus(){
-      if(this.jobSeeker.category === 'Basic'){
-        this.disableApplyJobBtn = true;
-      }
-    }
+  
   },
 };
 </script>

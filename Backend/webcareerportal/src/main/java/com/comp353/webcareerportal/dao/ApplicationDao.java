@@ -50,4 +50,7 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
 	 @Modifying
 	 @Query("update application a set a.applicationStatus= :applicationStatus where a.applicationId= :application_id")
 	 void updateApplicationStatus(@Value("applicationId") int application_id, @Value("application_status") ApplicationStatus applicationStatus);
+
+	 @Query("select count(application.applicationId) from application a where a.jobseeker = :js and a.applicationStatus = :s")
+	 int getNumberOfApplicationForAJobSeeker(@Value("js") JobSeeker js, @Value("s") ApplicationStatus s);
 }

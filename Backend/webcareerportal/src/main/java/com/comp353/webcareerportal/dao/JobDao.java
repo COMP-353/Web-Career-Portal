@@ -51,4 +51,7 @@ public interface JobDao extends JpaRepository<Job, Long> {
     @Query("update job j set j.jobStatus= :jobStatus where j.jobId= :job_id")
     void updateJobStatus(@Value("jobId") int job_id, @Value("job_status") JobStatus jobStatus);
 
+    @Query("select count(j.jobId) from job j where j.employer = :id and j.jobStatus = :status")
+    int getJobCountByUser(@Value("id") Employer id, @Value("status") JobStatus status);
+
 }
