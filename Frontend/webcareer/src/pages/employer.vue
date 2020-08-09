@@ -11,7 +11,7 @@
         </q-card-section>
       </q-card>
       <router-view />
-
+      
       <q-body>
         <div style="padding-top: 1%;">
           <q-btn
@@ -22,9 +22,25 @@
             @click="reload()"
           />
         </div>
+        <div style="padding-top: 1%;">
+          <q-btn
+            label="Pending"
+            color="orange"
+            rounded
+            @click="reload()"
+          />
+
+          <q-btn
+            label="Accepted"
+            color="green"
+            rounded
+            @click="getAcceptedApplications()"
+          />
+        </div>
+        
         <div class="row">
           <div class="col">
-            <div class="q-pa-xl">
+            <div class="q-pr-xs">
               <q-markup-table>
                 <thead>
                   <tr>
@@ -35,6 +51,7 @@
                     <th class="text-left">Date of application</th>
                   </tr>
                 </thead>
+                
                 <tbody>
                   <!-- //<div v-for='applications in applicationList' v-bind:key='applications'>  -->
                   <tr
@@ -50,10 +67,22 @@
                     </td>
                     <td class="text-right">
                       <div class="">
+                          <q-btn
+                          :disable="acceptBtnDisabled"
+                            color="green"
+                            icon="check"
+                            label="Accept"
+                            size="sm"
+                            @click="updateApplication(application.applicationId, acceptedApplicationStatusId)"
+                          />
+                        </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="">
                         <q-btn
                           color="red"
                           icon="delete"
-                          label=" Delete application"
+                          label=" Remove"
                           size="sm"
                           @click="deleteApplication(application.applicationId)"
                         />
@@ -113,6 +142,22 @@
                   </q-card-actions>
                 </q-card>
               </q-dialog>
+
+                <q-dialog v-model="showAcceptDialog">
+                <q-card>
+                  <q-card-section>
+                    <div class="text-h6">Application Accepted</div>
+                  </q-card-section>
+
+                  <q-card-section class="q-pt-none">
+                    Application added to accepted list.
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="green" v-close-popup></q-btn>
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </div>
           </div>
         </div>
@@ -130,7 +175,11 @@ EHeader
   },
   data () {
     return {
+      acceptBtnDisabled: false,
       showDialog:false,
+      showAcceptDialog:false,
+      acceptedApplicationStatusId: 2,
+      pendingApplicationStatusId: 1,
       baseUrl: 'http://localhost:7070/',
       current: 3,
       employer: [],
@@ -160,8 +209,16 @@ methods: {
     	},
 
     getApplicationList(){
+      this.acceptBtnDisabled = false;
       axios
-        .get(this.baseUrl + 'application/employer/'+ this.email)
+        .get(this.baseUrl + 'application/employer/'+ this.email+"/"+this.pendingApplicationStatusId)
+        .then(res => this.applicationList = res.data);
+    },
+
+    getAcceptedApplications(){
+      this.acceptBtnDisabled = true;
+      axios
+        .get(this.baseUrl + 'application/employer/'+ this.email+"/"+this.acceptedApplicationStatusId)
         .then(res => this.applicationList = res.data);
     },
 
@@ -178,12 +235,22 @@ methods: {
      deleteApplication(applicationId){
       axios
         .delete(this.baseUrl + 'application/deleteApplication/'+ applicationId)
-        .then(res => console.log(res.data));
+        .then(res => {if(res.status == 200) {        this.showDialog = true;
+      }});
+
+        let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
+        this.applicationList.splice(i, 1);
+    },
+     updateApplication(applicationId, statusId){
+      axios
+        .get(this.baseUrl + 'application/updateApplicationStatus/'+ applicationId+"/"+statusId)
+        .then(res => {if(res.status == 200) {        this.showAcceptDialog = true;
+      }});
 
          let i = this.applicationList.map(application => application.applicationId).indexOf(applicationId); // find index of your object
         this.applicationList.splice(i, 1);
-        this.showDialog = true;
     },
+
     reload(){
       this.getEmployer();
       this.getApplicationList();
