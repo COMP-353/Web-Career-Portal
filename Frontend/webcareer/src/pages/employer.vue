@@ -24,7 +24,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <div class="q-pa-xl">
+            <div class="q-pr-xs">
               <q-markup-table>
                 <thead>
                   <tr>
@@ -50,10 +50,21 @@
                     </td>
                     <td class="text-right">
                       <div class="">
+                          <q-btn
+                            color="green"
+                            icon="check"
+                            label="Accept"
+                            size="sm"
+                            @click="deleteApplication(application.applicationId)"
+                          />
+                        </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="">
                         <q-btn
                           color="red"
                           icon="delete"
-                          label=" Delete application"
+                          label=" Remove"
                           size="sm"
                           @click="deleteApplication(application.applicationId)"
                         />
