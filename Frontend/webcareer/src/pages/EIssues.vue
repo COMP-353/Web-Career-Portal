@@ -2,7 +2,13 @@
   <q-layout view="hHh LpR fFf">
     <EHeader />
 
-    <q-page-container style="height: 300px;">
+    <q-page-containerstyle="
+        height: 300px;
+        padding-right: 1%;
+        padding-left: 1%;
+        padding-top: 7%;
+      "
+    >
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
@@ -10,18 +16,13 @@
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
-        </q-card-section>
       </q-card>
       <router-view />
-    </q-page-container>
+   
 
 
 <q-body>
-	
-	<div class="q-pa-xl">
+<div class="q-pa-xl">
       <div class="column" style="height: 150px">
           <div class="col">
             <q-btn 
@@ -33,40 +34,45 @@
             />
           </div>
 
-
-
-      <div class="q-pa-md">
+<div class="col">
+<div class="q-pa-md">
+<div>
     <q-table
       title="Issues"
+      @row-click="clickedRow"
       :data="rowdata"
       :columns="columns"
-      row-key=this.$store.getters.getUserId
+      row-key="id"
       :selected-rows-label="getSelectedString"
       selection="multiple"
       :selected.sync="selected"
-    />
+    >
+<template v-slot:body-cell-actions="props">
+                      <q-td :props="props">
+                        <q-btn
+                          dense
+                          round
+                          flat
+                          color="grey"
+                          @click="deleteIssue()"
+                          icon="delete"
+                        ></q-btn>
 
-
-
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
-  </div>
-        
-	
-     
-            </q-markup-table>
+</q-td>
+    </template>
+                  </q-table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </q-body>
+      </q-body>
+    </q-page-container>
   </q-layout>
 </template>
 
 
 <script>
-import { Dialog } from 'quasar'
-
 import axios from 'axios';
 import EHeader from 'components/EHeader.vue'
 
@@ -80,7 +86,6 @@ EHeader
 current: 3,
       value: 71,
       baseUrl: 'http://localhost:7070/',
-      selected: [],
       columns: [
         {
           name: 'Help_Id',
@@ -113,8 +118,8 @@ current: 3,
 computed:{
   pagesNumberForActivities () {
         return Math.ceil(this.rowsForActivities.length / this.paginationForActivities.rowsPerPage)
-        },
-  mounted(){
+        }},
+  beforeMount(){
       console.log('Mounted on employer page')
       console.log('getting store data:' + this.$store.getters.getUserId)
       if(this.$store.getters.getUserId === ''){
@@ -123,7 +128,6 @@ computed:{
       } else{
         this.getIssues()
       }
-  } 
 },
 
 
@@ -139,11 +143,8 @@ computed:{
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
       			this.$router.back();
-    		},
+    		}
 
-
-    		getSelectedString () { return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     }
-},
-}
+};
 </script>
