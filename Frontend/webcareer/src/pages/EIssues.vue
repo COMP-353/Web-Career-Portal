@@ -1,12 +1,18 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <EHeader />
-
-    <q-page-container style="height: 300px; padding: 6% 1% 1% 1%;">
+    <q-page-container
+      style="
+        height: 300px;
+        padding-right: 1%;
+        padding-left: 1%;
+        padding-top: 7%;
+      "
+    >
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Help these people
+            Here you can find the list of messages from your applicants!
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
@@ -14,165 +20,42 @@
       <router-view />
 
       <q-body>
-        <div class="row">
-          <div class="col">
-            <div class="q-pa-md">
-              <q-markup-table>
-                <thead>
-                  <tr>
-                    <th class="text-left">ID</th>
-                    <th class="text-right">Title</th>
-                    <th class="text-right">Category</th>
-                    <th class="text-right">Description</th>
-                    <th class="text-right">Job status</th>
-                    <th class="text-right">Date posted</th>
-                    <th class="text-right">Delete posting!</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-left">Description</td>
-                    <td class="text-right">1</td>
-                    <td class="text-right">mia@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Joanna Smith</td>
-                    <td class="text-right">2</td>
-                    <td class="text-right">joanna@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Leonie Green</td>
-                    <td class="text-right">3</td>
-                    <td class="text-right">leonie@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Ashley Miller</td>
-                    <td class="text-right">4</td>
-                    <td class="text-right">ashley@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Peter White</td>
-                    <td class="text-right">5</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Peter White</td>
-                    <td class="text-right">6</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Peter White</td>
-                    <td class="text-right">7</td>
-                    <td class="text-right">peter@gmail.com</td>
-                    <td class="text-right">2020-08-02</td>
-                    <td class="text-right">Job status</td>
-                    <td class="text-right">Date posted</td>
-                    <td class="text-right">
-                      <q-btn color="deep-orange" push>
-                        <div class="row items-center no-wrap">
-                          <q-icon left name="map" />
-                          <div class="text-center">
-                            Delete
-                          </div>
-                        </div>
-                      </q-btn>
-                    </td>
-                  </tr>
-                  <tr>
-                    <div class="q-pa-lg flex flex-center">
-                      <q-pagination
-                        v-model="current"
-                        :max="5"
-                        :direction-links="true"
-                        :boundary-links="true"
-                        icon-first="skip_previous"
-                        icon-last="skip_next"
-                        icon-prev="fast_rewind"
-                        icon-next="fast_forward"
-                      >
-                      </q-pagination>
-                    </div>
-                  </tr>
-                </tbody>
-              </q-markup-table>
+        <div class="q-pa-md">
+          <div class="column" style="height: 150px;">
+            <div class="col">
+              <q-btn
+                outline
+                rounded
+                color="primary"
+                label="Reload Contact information from Applicants"
+                @click="getAllInfo()"
+              />
+            </div>
+            <div class="col">
+              <div class="q-pl-xl">
+                <div>
+                  <q-table
+                    title="Your Contacts"
+                    @row-click="clickedRow"
+                    :data="rowsForEmployers"
+                    :columns="columnsForEmployers"
+                    row-key="id"
+                  >
+                  <template v-slot:body-cell-actions="props">
+                      <q-td :props="props">
+                        <q-btn
+                          dense
+                          round
+                          flat
+                          color="grey"
+                          @click="closeJob(JobRow.id)"
+                          icon="delete"
+                        ></q-btn>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -183,31 +66,93 @@
 
 
 <script>
+import axios from 'axios';
 import EHeader from 'components/EHeader.vue'
+
 export default {
   components:{
 EHeader
-  },
-  data () {
+  },  data () {
     return {
       current: 3,
-      value: 71
+      value: 71,
+      baseUrl: 'http://localhost:7070/',
+      JobRow:
+        {
+          id: ''
+        },
+      columnsForEmployers: [
+              {
+                name: 'id',
+                required: true,
+                label: 'ID',
+                field: 'id',
+                align: 'left',
+                style: 'width: 50px',
+              //   field: row => row.name,
+              //   format: val => `${val}`,
+                sortable: true
+              },
+              { name: 'applicationId', align: 'center', label: 'Application ID', field: "applicationId", sortable: true},
+              { name: 'employerId', label: 'Employer ID', field: "employerId", sortable: true},
+              { name: 'info', label: 'Info', field: 'info', sortable: true},
+              { name: 'jobSeekerId', label: 'Job Seeker ID', field: 'jobSeekerId', sortable: true},
+              { name: 'status', label: 'Status', field: "status", sortable: true},
+              { name: 'actions', label: "Actions", field: ''}
+              // { name: 'category', label: 'Category', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+            ],
+            rowsForEmployers: [],
+            paginationForActivities: {
+            sortBy: 'desc',
+            descending: false,
+            page: 1,
+            rowsPerPage: 10
+            // rowsNumber: xx if getting data from a server
+        },
+        
     }
   },
-  mounted(){
-console.log('Mounted on employer page')
+
+computed:{
+  pagesNumberForActivities () {
+        return Math.ceil(this.rowsForActivities.length / this.paginationForActivities.rowsPerPage)
+        }
+        },
+  beforeMount(){
+      console.log('Mounted on employer page')
+      console.log('getting store data:' + this.$store.getters.getUserId)
+      if(this.$store.getters.getUserId === ''){
+        console.log('id is indeed empty')
+        this.$router.push('/')
+      } else{
+        this.getAllJobsByID()
+      }
   
-    console.log('getting store data:' + this.$store.getters.getUserId)
-    if(this.$store.getters.getUserId === ''){
-      console.log('id is indeed empty')
-      this.$router.push('/')
-    }
-  },
-	methods:{
+},
+
+methods: {
+     getAllInfo(){
+      axios
+      .get(this.baseUrl + 'help/' + this.$store.getters.getUserId)
+      .then(res=>this.rowsForEmployers = res.data)
+      .catch(e=>console.log(e));
+    },
+    closeJob(id){
+      axios
+      .put(this.baseUrl + 'help/close/' + id)
+      .then(res => console.log(res.data))
+      .catch(e=>console.log(e));
+    } ,
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
       			this.$router.back();
-    		},
-},
-}
+        },
+    clickedRow(evt, row){
+      this.fixedclickedRow = true
+      console.log('row application Id' + row.id)
+      this.JobRow.id  = row.id
+    }   
+  }
+};
 </script>
+
