@@ -12,7 +12,7 @@
       <q-card flat bordered class="my-card">
         <q-card-section>
           <div class="text-h6">
-            Here you can find your personal list of jobs!
+            Here you can find the list of messages from your applicants!
           </div>
           <div class="text-subtitle2"></div>
         </q-card-section>
