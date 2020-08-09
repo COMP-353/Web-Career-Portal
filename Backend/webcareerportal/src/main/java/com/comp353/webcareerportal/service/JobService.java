@@ -27,7 +27,7 @@ public class JobService {
 
 
     public boolean addNewJob(Job job) {
-        Employer e = (job.getEmployer());
+        Employer e = userRepo.getEmployerWithEmail(job.getEmployer().getEmail());
         if (e == null) return false;
         String employerCategory = e.getEmployerCategory();
         if (employerCategory.equals("Prime")) {
