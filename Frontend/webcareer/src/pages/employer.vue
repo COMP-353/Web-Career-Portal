@@ -55,7 +55,7 @@
                             icon="check"
                             label="Accept"
                             size="sm"
-                            @click="deleteApplication(application.applicationId)"
+                            @click="updateApplication(application.applicationId, acceptedApplicationStatusId)"
                           />
                         </div>
                     </td>
@@ -142,6 +142,7 @@ EHeader
   data () {
     return {
       showDialog:false,
+      acceptedApplicationStatusId: 2,
       baseUrl: 'http://localhost:7070/',
       current: 3,
       employer: [],
@@ -195,6 +196,12 @@ methods: {
         this.applicationList.splice(i, 1);
         this.showDialog = true;
     },
+     updateApplication(applicationId, statusId){
+      axios
+        .get(this.baseUrl + 'application/updateApplicationStatus/'+ applicationId+"/"+statusId)
+        .then(res => console.log(res.data));
+    },
+
     reload(){
       this.getEmployer();
       this.getApplicationList();
