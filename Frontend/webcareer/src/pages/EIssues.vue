@@ -48,7 +48,7 @@
                           round
                           flat
                           color="grey"
-                          @click="closeJob(JobRow.applicationId)"
+                          @click="closeJob(JobRow.id)"
                           icon="delete"
                         ></q-btn>
                       </q-td>
@@ -79,7 +79,7 @@ EHeader
       baseUrl: 'http://localhost:7070/',
       JobRow:
         {
-          applicationId: ''
+          id: ''
         },
       columnsForEmployers: [
               {
@@ -140,7 +140,8 @@ methods: {
     closeJob(id){
       axios
       .put(this.baseUrl + 'help/close/' + id)
-      .then(res => console.log(res.data));
+      .then(res => console.log(res.data))
+      .catch(e=>console.log(e));
     } ,
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
@@ -148,8 +149,8 @@ methods: {
         },
     clickedRow(evt, row){
       this.fixedclickedRow = true
-      console.log('row application Id' + row.applicationId)
-      this.JobRow.jobId  = row.applicationId
+      console.log('row application Id' + row.id)
+      this.JobRow.id  = row.id
     }   
   }
 };
