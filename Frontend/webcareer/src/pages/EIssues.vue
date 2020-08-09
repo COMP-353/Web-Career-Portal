@@ -38,9 +38,9 @@
       <div class="q-pa-md">
     <q-table
       title="Issues"
-      :data="data"
+      :data="rowdata"
       :columns="columns"
-      row-key="name"
+      row-key=this.$store.getters.getUserId
       :selected-rows-label="getSelectedString"
       selection="multiple"
       :selected.sync="selected"
@@ -77,6 +77,8 @@ EHeader
   },
   data () {
      return {
+current: 3,
+      value: 71,
       baseUrl: 'http://localhost:7070/',
       selected: [],
       columns: [
@@ -95,8 +97,8 @@ EHeader
         { name: 'status_', label: 'Status', field: row => row.Application.status, sortable: true },
         { name: 'info_', label: 'Info', field:'info', sortable: true },
       ],
-      data: [],
-	paginationForActivities: {
+      rowdata: [],
+	    paginationForActivities: {
             sortBy: 'desc',
             descending: false,
             page: 1,
@@ -129,8 +131,8 @@ computed:{
 
 		getIssues() {
 			axios
-        		.get(this.baseUrl +'help/get/'+123) // is id of my issue 
-        		.then(res => this.data = res.data).catch(e=>console.log(e));;
+        		.get(this.baseUrl +'help/'+ this.$store.getters.getUserId) 
+        		.then(res => this.rowdata = res.data).catch(e=>console.log(e));
 		},
 
 
