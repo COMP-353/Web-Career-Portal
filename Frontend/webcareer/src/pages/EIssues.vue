@@ -139,7 +139,7 @@ methods: {
     },
     closeJob(id){
       axios
-      .post(this.baseUrl + 'help/close/' + id)
+      .put(this.baseUrl + 'help/close/' + id)
       .then(res => console.log(res.data));
     } ,
 		logOut(){
