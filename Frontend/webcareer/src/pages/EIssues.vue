@@ -18,47 +18,41 @@
       <router-view />
     </q-page-container>
 
-    <q-body>
-      <div class="row">
-        <div class="col">
-          <div class="q-px-xl">
-            <q-markup-table>
-              <thead>
-                <tr>
-                  <th class="text-left">ID</th>
-                  <th class="text-right">Job Seeker Id</th>
-                  <th class="text-right">Employer Id</th>
-                  <th class="text-right">Application Id</th>
-                  <th class="text-right">Status</th>
-                  <th class="text-right">Info</th>
-                  <th class="text-right">Resolved!</th>
-                </tr>
-              </thead>
 
-		<tbody>
-                <tr v-for='Help in issuesList' v-bind:key='Help.id'>
-                  <td class="text-left width:10">{{Help.id}}</td>
-                  <td class="text-left">{{Help.jobSeekerId}}</td>
-                  <td class="text-left">{{Help.employerId}}</td>
-                  <td class="text-left">{{Help.applicationId}}</td>
-                  <td class="text-left">{{Help.status}}</td>
-                  <td class="text-left">{{Help.info}}</td>
-                  <td class="text-right">
-                 
-                  </td>
-		    <td class="text-right">
-                    <div class="q-pa-md q-gutter-sm">
-                      <q-btn
-                        label="Resolved "
-                        size="sm"
-			color="orange"
-                        icon="send"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-         
+<q-body>
+	
+	<div class="q-pa-xl">
+      <div class="column" style="height: 150px">
+          <div class="col">
+            <q-btn 
+              outline
+              rounded
+              color="primary"
+              label="Reload Issues"
+              @click="getIssues()"
+            />
+          </div>
+
+
+
+      <div class="q-pa-md">
+    <q-table
+      title="Issues"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
+      :selected.sync="selected"
+    />
+
+
+
+    <div class="q-mt-md">
+      Selected: {{ JSON.stringify(selected) }}
+    </div>
+  </div>
+        
 	
      
             </q-markup-table>
@@ -75,45 +69,79 @@ import { Dialog } from 'quasar'
 
 import axios from 'axios';
 import EHeader from 'components/EHeader.vue'
+
+
 export default {
   components:{
 EHeader
   },
   data () {
-    return {
-      issuesList:[],
-      current: 3,
-      value: 71,
-      
+     return {
+      baseUrl: 'http://localhost:7070/',
+      selected: [],
+      columns: [
+        {
+          name: 'Help_Id',
+          required: true,
+          label: 'Help_Id',
+          align: 'left',
+          field: 'id',
+          //format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'Job_Seeker_id', align: 'center', label: 'Job Seeker email', field: row => row.jobseeker.email, sortable: true },
+        { name: 'Employer_id', label: 'Employer email', field: row => row.employer.email, sortable: true },
+        { name: 'application_id', label: 'Application id', field: row => row.Application.applicationId, sortable: true },
+        { name: 'status_', label: 'Status', field: row => row.Application.status, sortable: true },
+        { name: 'info_', label: 'Info', field:'info', sortable: true },
+      ],
+      data: [],
+	paginationForActivities: {
+            sortBy: 'desc',
+            descending: false,
+            page: 1,
+            rowsPerPage: 10
+            
+        },
+
     }
   },
+
+
+computed:{
+  pagesNumberForActivities () {
+        return Math.ceil(this.rowsForActivities.length / this.paginationForActivities.rowsPerPage)
+        },
   mounted(){
-
-this.getIssues();
-
-console.log('Mounted on employer page')
-  
-    console.log('getting store data:' + this.$store.getters.getUserId)
-    if(this.$store.getters.getUserId === ''){
-      console.log('id is indeed empty')
-      this.$router.push('/')
-    }
-  },
+      console.log('Mounted on employer page')
+      console.log('getting store data:' + this.$store.getters.getUserId)
+      if(this.$store.getters.getUserId === ''){
+        console.log('id is indeed empty')
+        this.$router.push('/')
+      } else{
+        this.getIssues()
+      }
+  } 
+},
 
 
 	methods:{
-<!--
+
 		getIssues() {
 			axios
-        		.get(this.baseUrl + 'help/'+ 123)  //123 is id of my issue; will later replace id with email of employer
-        		.then(res => this.issuesList = res.data);
+        		.get(this.baseUrl +'help/get/'+123) // is id of my issue 
+        		.then(res => this.data = res.data).catch(e=>console.log(e));;
 		},
--->
+
 
 		logOut(){
       			this.$store.commit('RESET_USER_ID');
       			this.$router.back();
     		},
+
+
+    		getSelectedString () { return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
+    }
 },
 }
 </script>
