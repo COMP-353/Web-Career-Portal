@@ -15,6 +15,6 @@ public interface HelpDao extends JpaRepository<Help, Long> {
     @Query("update Help h set h.status = 'Closed' where h.id = :id")
     void closeHelpWithId(@Value("id") int id);
 
-    @Query(nativeQuery = true, value = "select * from Help h where h.employerId = :id")
+    @Query(nativeQuery = true, value = "select * from Help h where h.employerId = :id and h.status != 'Closed'")
     List<Help> getAllOpenHelpForEmployerWithId(@Value("id") String id);
 }
