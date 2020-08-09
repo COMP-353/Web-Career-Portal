@@ -29,7 +29,7 @@ public class ApplicationService {
         if (!userRepo.jobSeekerExistsWithEmail(application.getJobseeker().getEmail())
                 || !jobRepo.jobExistsWithId(application.getJob().getJobId())) return false;
 
-        JobSeeker js = application.getJobseeker();
+        JobSeeker js = userRepo.getJobSeekerWithEmail(application.getJobseeker().getEmail());
 
         if (js.getJobSeekerCategory().equals("Prime")) {
             if (applicationRepo.getNumberOfApplicationForAJobSeeker(js, application.getApplicationStatus()) < 5) {
