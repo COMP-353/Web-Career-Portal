@@ -93,7 +93,7 @@ public class ApplicationService {
 		return true;
 	}
 	
-	public List<Application> getAllApplicationsForEmployerWithId(String id){
+	public List<Application> getAllApplicationsForEmployerWithId(String id, int statusId){
 		if(!userRepo.employerExistsWithEmail(id)) return null;
 		List<Integer> jobIds = jobRepo.getJobIdsWithEmployer(userRepo.getEmployerWithEmail(id));
 		
@@ -104,7 +104,9 @@ public class ApplicationService {
 			List<Application> applicationsForJob = applicationRepo.getApplicationsWithJob(job);
 			
 			for(Application application : applicationsForJob ) {
-				applications.add(application);
+				if(application.getApplicationStatus().getStatusId() == statusId) {
+					applications.add(application);
+				}
 			}
 		}
 		

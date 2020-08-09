@@ -46,6 +46,7 @@
                   <td class="text-right">
                     <div class="q-pa-md q-gutter-sm">
                       <q-btn
+                        :disable="disableApplyJobBtn"
                         @click="createApplication(job.jobId)"
                         color="blue"
                         icon="send"
@@ -93,6 +94,7 @@ export default {
   data() {
     return {
       showDialog:false,
+      disableApplyJobBtn: false,
       creditcard: 'automatic',
       checkingacc: 'automatic',
       paymentmethod: 'creditcard',
@@ -107,6 +109,7 @@ export default {
         accountBalance: 0,
         status:'',
         email:'',
+        category: ''
       },
       application:{
         applicationDate: '',
@@ -147,6 +150,7 @@ export default {
       this.jobSeeker.lastName = res.lastName;
       this.jobSeeker.accountBalance = res.accountBalance;
       this.jobSeeker.status = res.status;
+      this.jobSeeker.category = res.jobSeekerCategory;
     },
     logOut(){
       this.$store.commit('RESET_USER_ID');
@@ -163,6 +167,7 @@ export default {
       axios
         .get(this.baseUrl + 'user/jobseeker/' + this.jobSeeker.email)
         .then((res) => this.assignJsObject(res.data))
+        .then(res => this.setApplyJobButtonStatus())
         .catch((e) => console.log(e));
     },
     makeAPayment(){
@@ -203,6 +208,12 @@ export default {
         let i = this.jobList.map(job => job.jobId).indexOf(jobId); // find index of your object
         this.jobList.splice(i, 1);
         this.showDialog = true;
+    },
+
+    setApplyJobButtonStatus(){
+      if(this.jobSeeker.category === 'Basic'){
+        this.disableApplyJobBtn = true;
+      }
     }
   },
 };

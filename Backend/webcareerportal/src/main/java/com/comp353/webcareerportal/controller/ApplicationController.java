@@ -34,9 +34,9 @@ public class ApplicationController {
 		return applicationService.getAllApplicationsForJobSeekerWithId(id);
 	}
 	
-	@GetMapping(path = "employer/{id}")
-	public List<Application> getAllApplicationsByEmployerId(@PathVariable(name = "id") String id){
-		return applicationService.getAllApplicationsForEmployerWithId(id);
+	@GetMapping(path = "employer/{id}/{statusId}")
+	public List<Application> getAllApplicationsByEmployerId(@PathVariable(name = "id") String id, @PathVariable(name = "statusId") int statusId){
+		return applicationService.getAllApplicationsForEmployerWithId(id, statusId);
 	}
 	
 	@GetMapping(path = "applicationstatus/{id}")
